@@ -1,7 +1,7 @@
 // netlify/functions/saveData.js
 export async function handler(event, context) {
   const body = JSON.parse(event.body);
-  const response = await fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+  const response = await fetch('https://script.google.com/macros/s/AKfycbzqU9f5WBlb_u93SPP6BEGQvxOkpjHIOfUJwBzP_1hTjZOpd6ytCJWEmKd0uuFJwLUZ/exec', {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {'Content-Type': 'application/json'}
