@@ -3,11 +3,11 @@ let currentStep = 1;
 const totalSteps = 5;
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    // Add initial fields if empty
-    addWife();
-    addChild();
-});
+//document.addEventListener('DOMContentLoaded', () => {
+//    addWife();
+//    addChild();
+//});
+
 
 // Navigation functions
 function nextStep(step) {
@@ -268,9 +268,4 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
 document.querySelectorAll('.btn-next').forEach((btn, idx) => {
     btn.addEventListener('click', () => nextStep(idx + 2));
 });
-
-//document.addEventListener('DOMContentLoaded', () => {
-//    addWife();
-//    addChild();
-//});
 
