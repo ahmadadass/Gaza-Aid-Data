@@ -176,40 +176,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     e.preventDefault();
     if (!validateStep(5)) return;
 
-    // جمع البيانات كما عندك
-    const formData = new FormData(this);
-    const data = { ... }; // الكود نفسه كما لديك
-
-    // إرسال البيانات إلى Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbzTqYAA5zRbGnZMpmOwxddZpVUnQXzmjQ-5UVgU34U2PtIB1Tursq_p_iw4wUprX0eV/exec', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(resp => {
-        console.log('Google Sheets Response:', resp);
-        if(resp.status === 'success') {
-            alert('تم حفظ البيانات بنجاح في Google Sheets!');
-            document.getElementById('outputArea').classList.remove('hidden');
-            document.getElementById('jsonOutput').textContent = JSON.stringify(data, null, 4);
-        } else {
-            alert('حدث خطأ أثناء الحفظ: ' + resp.message);
-        }
-    })
-    .catch(err => alert('خطأ في الاتصال: ' + err));
-});
-
-
-// Form Submission
-/*
-document.getElementById('familyForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (!validateStep(5)) return;
-
-    // Collect Data
+// Collect Data
     const formData = new FormData(this);
     const data = {
         headOfFamily: {
@@ -269,14 +236,29 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     data.martyrs = Object.values(martyrsMap);
     data.prisoners = Object.values(prisonersMap);
 
-    // Output JSON
-    const jsonOutput = JSON.stringify(data, null, 4);
-    document.getElementById('jsonOutput').textContent = jsonOutput;
-    document.getElementById('outputArea').classList.remove('hidden');
-    
-    // Scroll to output
-    document.getElementById('outputArea').scrollIntoView({ behavior: 'smooth' });
-    
-    console.log('Final Data:', data);
-    alert('تم حفظ البيانات بنجاح! يمكنك مراجعة النتيجة في أسفل الصفحة.');
-});*/
+    // إرسال البيانات إلى Google Sheets
+    fetch('https://script.google.com/macros/s/AKfycbzTqYAA5zRbGnZMpmOwxddZpVUnQXzmjQ-5UVgU34U2PtIB1Tursq_p_iw4wUprX0eV/exec', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(resp => {
+        console.log('Google Sheets Response:', resp);
+        if(resp.status === 'success') {
+            alert('تم حفظ البيانات بنجاح في Google Sheets!');
+            document.getElementById('outputArea').classList.remove('hidden');
+            document.getElementById('jsonOutput').textContent = JSON.stringify(data, null, 4);
+        } else {
+            alert('حدث خطأ أثناء الحفظ: ' + resp.message);
+        }
+    })
+    .catch(err => alert('خطأ في الاتصال: ' + err));
+});
+
+document.querySelectorAll('.btn-next').forEach((btn, idx) => {
+    btn.addEventListener('click', () => nextStep(idx + 2));
+});
+
