@@ -244,25 +244,24 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     data.prisoners = Object.values(prisonersMap);
 
     // إرسال البيانات إلى Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbzCZFwYU2YMql4rbAvIn7u0QJsyqg68Qy26bAMst3h8bKMRQR2u66-OSvYeYELB8A4-/exec', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+    fetch('/.netlify/functions/saveData', {
+    	method: 'POST',
+    	body: JSON.stringify(data),
+    	headers: { 'Content-Type': 'application/json' }
     })
     .then(response => response.json())
     .then(resp => {
-        console.log('Google Sheets Response:', resp);
-        if(resp.status === 'success') {
-            alert('تم حفظ البيانات بنجاح في Google Sheets!');
-            document.getElementById('outputArea').classList.remove('hidden');
+    	console.log('Response:', resp);
+    	if(resp.status === 'success') {
+            alert('تم حفظ البيانات بنجاح!');
+        	    document.getElementById('outputArea').classList.remove('hidden');
             document.getElementById('jsonOutput').textContent = JSON.stringify(data, null, 4);
         } else {
-            alert('حدث خطأ أثناء الحفظ: ' + resp.message);
+            alert('حدث خطأ: ' + (resp.message || 'غير معروف'));
         }
     })
     .catch(err => alert('خطأ في الاتصال: ' + err));
+
 });
 
 document.querySelectorAll('.btn-next').forEach((btn, idx) => {
