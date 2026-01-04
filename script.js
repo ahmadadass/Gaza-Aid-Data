@@ -39,15 +39,14 @@ function validateStep(step) {
     let valid = true;
 
     inputs.forEach(input => {
-        // تجاهل العناصر المخفية
-        if (input.offsetParent === null) return;
-
-        if (!input.value.trim()) {
-            input.style.borderColor = 'red';
-            valid = false;
-        } else {
-            input.style.borderColor = '#ddd';
-        }
+       if (input.offsetParent === null) return; // ignore hidden
+	    if (input.type === 'file' && input.files.length === 0) return; // ignore empty files
+	    if (!input.value.trim()) {
+    	    input.style.borderColor = 'red';
+    	    valid = false;
+	} else {
+    	     input.style.borderColor = '#ddd';
+	}
     });
 
     if (!valid) {
@@ -240,7 +239,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     data.prisoners = Object.values(prisonersMap);
 
     // إرسال البيانات إلى Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbzTqYAA5zRbGnZMpmOwxddZpVUnQXzmjQ-5UVgU34U2PtIB1Tursq_p_iw4wUprX0eV/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzCZFwYU2YMql4rbAvIn7u0QJsyqg68Qy26bAMst3h8bKMRQR2u66-OSvYeYELB8A4-/exec', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
