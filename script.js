@@ -39,6 +39,9 @@ function validateStep(step) {
     let valid = true;
 
     inputs.forEach(input => {
+        // تجاهل العناصر المخفية
+        if (input.offsetParent === null) return;
+
         if (!input.value.trim()) {
             input.style.borderColor = 'red';
             valid = false;
@@ -260,5 +263,10 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
 
 document.querySelectorAll('.btn-next').forEach((btn, idx) => {
     btn.addEventListener('click', () => nextStep(idx + 2));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    addWife();
+    addChild();
 });
 
