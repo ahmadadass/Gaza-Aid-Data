@@ -39,18 +39,18 @@ function validateStep(step) {
     let valid = true;
 
     inputs.forEach(input => {
-       if (input.offsetParent === null) return; // ignore hidden
-	    if (input.type === 'file' && input.files.length === 0) return; // ignore empty files
-	    if (!input.value.trim()) {
-    	    input.style.borderColor = 'red';
-    	    valid = false;
-	} else {
-    	     input.style.borderColor = '#ddd';
-	}
+        // تحقق فقط من الحقول الموجودة في الخطوة الحالية
+        if (input.type === 'file' && input.files.length === 0) return; // تجاهل الملفات الفارغة
+        if (!input.value.trim()) {
+            input.style.borderColor = 'red';
+            valid = false;
+        } else {
+            input.style.borderColor = '#ddd';
+        }
     });
 
     if (!valid) {
-        alert('يرجى تعبئة جميع الحقول المطلوبة');
+        alert('يرجى تعبئة جميع الحقول المطلوبة في هذه الخطوة فقط');
     }
     return valid;
 }
