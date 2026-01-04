@@ -269,8 +269,8 @@ document.querySelectorAll('.btn-next').forEach((btn, idx) => {
     btn.addEventListener('click', () => nextStep(idx + 2));
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    addWife();
-    addChild();
-});
+//document.addEventListener('DOMContentLoaded', () => {
+//    addWife();
+//    addChild();
+//});
 
