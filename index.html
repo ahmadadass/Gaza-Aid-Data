@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نموذج جمع بيانات العائلات - غزة</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>نموذج جمع بيانات العائلات</h1>
+        <p>جمع بيانات العائلات المتضررة - قطاع غزة</p>
+      </header>
+
+      <div class="progress-bar">
+        <div class="step active" data-step="1">1. رب الأسرة</div>
+        <div class="step" data-step="2">2. الزوجات</div>
+        <div class="step" data-step="3">3. الأبناء</div>
+        <div class="step" data-step="4">4. تفاصيل أخرى</div>
+        <div class="step" data-step="5">5. السكن والمرفقات</div>
+      </div>
+
+      <form id="familyForm">
+        <!-- Step 1: Head of Family -->
+        <div class="form-step active" id="step1">
+          <h2>بيانات رب الأسرة</h2>
+          <div class="form-group">
+            <label>الاسم الرباعي</label>
+            <input type="text" name="headName" required placeholder="الاسم الأول - الأب - الجد - العائلة">
+          </div>
+          <div class="form-group">
+            <label>رقم الهوية</label>
+            <input type="number" name="headId" required placeholder="رقم الهوية المكون من 9 أرقام">
+          </div>
+          <div class="form-group">
+            <label>تاريخ الميلاد</label>
+            <input type="date" name="headDob" required>
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف / الجوال</label>
+            <input type="tel" name="headPhone" required placeholder="059xxxxxxx">
+          </div>
+          <div class="buttons">
+            <button type="button" class="btn-next" onclick="nextStep(2)">التالي</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Wives -->
+        <div class="form-step" id="step2">
+          <h2>بيانات الزوجات</h2>
+          <div id="wivesContainer">
+            <!-- Dynamic wives fields will be added here -->
+          </div>
+          <button type="button" class="btn-add" onclick="addWife()">+ إضافة زوجة</button>
+          <div class="buttons">
+            <button type="button" class="btn-prev" onclick="prevStep(1)">السابق</button>
+            <button type="button" class="btn-next" onclick="nextStep(3)">التالي</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Children -->
+        <div class="form-step" id="step3">
+          <h2>بيانات الأبناء</h2>
+          <div id="childrenContainer">
+            <!-- Dynamic children fields will be added here -->
+          </div>
+          <button type="button" class="btn-add" onclick="addChild()">+ إضافة ابن/ابنة</button>
+          <div class="buttons">
+            <button type="button" class="btn-prev" onclick="prevStep(2)">السابق</button>
+            <button type="button" class="btn-next" onclick="nextStep(4)">التالي</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Martyrs & Prisoners -->
+        <div class="form-step" id="step4">
+          <h2>شهداء وأسرى</h2>
+          
+          <h3>الشهداء</h3>
+          <div id="martyrsContainer"></div>
+          <button type="button" class="btn-add" onclick="addMartyr()">+ إضافة شهيد</button>
+
+          <hr>
+
+          <h3>الأسرى</h3>
+          <div id="prisonersContainer"></div>
+          <button type="button" class="btn-add" onclick="addPrisoner()">+ إضافة أسير</button>
+
+          <div class="buttons">
+            <button type="button" class="btn-prev" onclick="prevStep(3)">السابق</button>
+            <button type="button" class="btn-next" onclick="nextStep(5)">التالي</button>
+          </div>
+        </div>
+
+        <!-- Step 5: Housing & Attachments -->
+        <div class="form-step" id="step5">
+          <h2>بيانات السكن والمرفقات</h2>
+          
+          <div class="form-group">
+            <label>حالة السكن الحالية</label>
+            <select name="housingStatus" required>
+              <option value="">اختر الحالة...</option>
+              <option value="owner">ملك</option>
+              <option value="rent">إيجار</option>
+              <option value="displaced">نازح (مدرسة/خيام)</option>
+              <option value="relative">لدى أقارب</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>العنوان الحالي بالتفصيل</label>
+            <textarea name="address" rows="3" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>رفع الوثائق (صور الهويات، شهادات، تقارير)</label>
+            <input type="file" name="documents" multiple accept="image/*,.pdf">
+            <small>يمكن اختيار أكثر من ملف</small>
+          </div>
+
+          <div class="buttons">
+            <button type="button" class="btn-prev" onclick="prevStep(4)">السابق</button>
+            <button type="submit" class="btn-submit">حفظ واستخراج البيانات (JSON)</button>
+          </div>
+        </div>
+      </form>
+
+      <div id="outputArea" class="hidden">
+        <h3>تم استخراج البيانات بنجاح:</h3>
+        <pre id="jsonOutput"></pre>
+        <button type="button" onclick="window.print()" class="btn-add">طباعة</button>
+      </div>
+    </div>
+    <script src="/script.js"></script>
+  </body>
+</html>
