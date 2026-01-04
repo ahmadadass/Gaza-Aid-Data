@@ -35,12 +35,17 @@ function showStep(step) {
 
 function validateStep(step) {
     const stepEl = document.getElementById(`step${step}`);
-    const inputs = stepEl.querySelectorAll('input[required], select[required], textarea[required]');
     let valid = true;
 
+    // اختيار الحقول المطلوبة فقط
+    const inputs = stepEl.querySelectorAll('input[required], select[required], textarea[required]');
+
     inputs.forEach(input => {
-        // تحقق فقط من الحقول الموجودة في الخطوة الحالية
-        if (input.type === 'file' && input.files.length === 0) return; // تجاهل الملفات الفارغة
+        // تجاهل الحقول الفارغة إذا كانت ديناميكية ولم يتم إضافتها
+        const parentCard = input.closest('.dynamic-card');
+        if (parentCard && parentCard.style.display === 'none') return;
+
+        if (input.type === 'file' && input.files.length === 0) return; // ignore empty files
         if (!input.value.trim()) {
             input.style.borderColor = 'red';
             valid = false;
@@ -50,7 +55,7 @@ function validateStep(step) {
     });
 
     if (!valid) {
-        alert('يرجى تعبئة جميع الحقول المطلوبة في هذه الخطوة فقط');
+        alert('يرجى تعبئة الحقول المطلوبة الموجودة فقط في هذه الخطوة');
     }
     return valid;
 }
