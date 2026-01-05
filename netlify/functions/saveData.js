@@ -47,7 +47,7 @@ exports.handler = async (event) => {
     const childrenCount = (body.children || []).length;
     
     // تجهيز الصف (Array of values)
-    const row = [
+    const row1 = [
       body.submissionDate || new Date().toISOString(), // العمود 1: التاريخ
       head.fullName || "",                             // العمود 2: الاسم الرباعي
       head.id || "",                                   // العمود 3: الهوية
@@ -59,6 +59,40 @@ exports.handler = async (event) => {
       housing.whatsapp || "",                          // العمود 9: واتساب
       JSON.stringify(body)                             // العمود 10: كافة التفاصيل (JSON) كنسخة احتياطية
     ];
+
+    const row = [
+        body.headOfFamily.firstName || "",
+        body.headOfFamily.fatherName || "",
+        body.headOfFamily.grandName || "",
+        body.headOfFamily.firstName || "",
+        body.headOfFamily.id || "",
+        body.headOfFamily.dob || "",
+        body.headOfFamily.socialStatus || "",
+        body.headOfFamily.health.chronic || "",
+        body.headOfFamily.health.details || "",
+        body.headOfFamily.health.warInjury || "",
+        body.headOfFamily.health.injuryDetails || "",
+        body.headOfFamily.health.injuryDate || "",
+        body.headOfFamily.health.injuryEffect || "",
+        body.headOfFamily.spouseStatus || "",
+        body.headOfFamily.job || "",
+        body.headOfFamily.deceasedSpouse.name || "",
+        body.headOfFamily.deceasedSpouse.id || "",
+        body.headOfFamily.phones.primary || "",
+        body.headOfFamily.phones.alt || "",
+        body.housing.original.city || "",
+        body.housing.original.street || "",
+        body.housing.original.desc || "",
+        body.housing.current.gov || "",
+        body.housing.current.area || "",
+        body.housing.current.type || "",
+        body.housing.hasMartyrWife || "",
+        body.housing.wives || "",
+        body.housing.children || "",
+        body.housing.martyrs || "",
+        JSON.stringify(body)  // العمود 10: كافة التفاصيل (JSON) كنسخة احتياطية
+    ];
+
 
     console.log("adding row:",row);
 

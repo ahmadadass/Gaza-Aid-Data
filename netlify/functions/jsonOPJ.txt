@@ -1,0 +1,38 @@
+{
+  submissionDate: '2026-01-05T16:11:25.156Z',
+  headOfFamily: {
+    firstName: 'هيثم',
+    fatherName: 'سعيد',
+    grandName: 'صالح',
+    familyName: 'عدس',
+    fullName: 'هيثم سعيد صالح عدس',
+    id: '123456789',
+    dob: '2026-01-07',
+    socialStatus: 'male_married',
+    health: {
+      chronic: 'no',
+      details: '',
+      warInjury: 'no',
+      injuryDetails: '',
+      injuryDate: '',
+      injuryEffect: ''
+    },
+    job: 'worker',
+    spouseStatus: 'none',
+    deceasedSpouse: { name: '', id: '', date: '' },
+    phones: { primary: '0597807804', alt: '0597807804' }
+  },
+  housing: {
+    original: {
+      city: 'غزة - التفاح الشرقي - مسجد الجولاني',
+      street: 'شسيسشسشي',
+      desc: 'سشي'
+    },
+    current: { gov: 'north', area: 'سشييشيسش', type: 'shelter_center' },
+    whatsapp: '2332321'
+  },
+  hasMartyrWife: 'no',
+  wives: [],
+  children: [],
+  martyrs: []
+}
