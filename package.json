@@ -1,0 +1,8 @@
+{
+  "name": "gaza-aid-form",
+  "version": "1.0.0",
+  "description": "Form to collect aid data",
+  "dependencies": {
+    "googleapis": "^129.0.0"
+  }
+}
