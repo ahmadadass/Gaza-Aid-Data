@@ -32,7 +32,44 @@
     whatsapp: '2332321'
   },
   hasMartyrWife: 'no',
-  wives: [],
-  children: [],
-  martyrs: []
+  wives: [
+    {
+      name: 'منى عبد الفتاح عيسى عدس',
+          id: '987654321',
+      dob: '2026-01-01',
+      phone: '12345678910',
+      pregnant: 'no',
+      nursing: 'no',
+      sick: 'no',
+      diseaseDetails: '',
+      injured: 'no',
+      injuryDesc: '',
+      injuryDate: '',
+      missing: 'no',
+      prisoner: 'no',
+      prisonDate: ''
+    }
+  ],
+  children: [
+    {
+      name: 'سعيد هيثم سعيد عدس',
+          id: '123456788',
+      gender: 'male',
+      dob: '2025-12-31',
+      motherName: 'منى عبد الفتاع عيسى عدس',
+          sick: 'no',
+      diseaseDetails: '',
+      injured: 'no',
+      injuryDesc: '',
+      injuryDate: '',
+      missing: 'no',
+      missingDate: '',
+      prisoner: 'no',
+      prisonDate: '',
+      education: 'university'
+    }
+  ],
+    martyrs: [
+    { name: 'الشهيد', relation: 'قريب', id: '321', date: '2026-01-08' }
+  ]
 }
