@@ -21,6 +21,8 @@ exports.handler = async (event) => {
 
     const body = JSON.parse(event.body);
 
+        console.log("body (JSON)",body);
+
     const auth = new google.auth.GoogleAuth({
       credentials: {
         client_email: process.env.GOOGLE_CLIENT_EMAIL,
@@ -57,6 +59,8 @@ exports.handler = async (event) => {
       housing.whatsapp || "",                          // العمود 9: واتساب
       JSON.stringify(body)                             // العمود 10: كافة التفاصيل (JSON) كنسخة احتياطية
     ];
+
+    console.log("adding row:",row);
 
     // 3. الإضافة إلى الشيت
     await googleSheets.spreadsheets.values.append({
