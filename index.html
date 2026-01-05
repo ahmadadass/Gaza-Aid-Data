@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>نموذج جمع بيانات العائلات - غزة</title>
+    <title>نموذج جمع بيانات سكان - منطقة مسجد الجولاني</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,82 +12,189 @@
   <body>
     <div class="container">
       <header>
-        <h1>نموذج جمع بيانات العائلات</h1>
-        <p>جمع بيانات العائلات المتضررة - قطاع غزة</p>
+        <h1>نموذج جمع بيانات سكان - منطقة مسجد الجولاني (حي التفاح الشرقي)</h1>
+        <p>نرجو منكم تعبئة هذا النموذج بدقة لتسجيل بيانات سكان حي التفاح الشرقي في منطقة مسجد الجولاني بهدف تقديم المساعدات الإنسانية والدعم اللازم.</p>
       </header>
 
       <div class="progress-bar">
         <div class="step active" data-step="1">رب الأسرة</div>
         <div class="step" data-step="2">الزوجات</div>
         <div class="step" data-step="3">الأبناء</div>
-        <div class="step" data-step="4">تفاصيل أخرى</div>
+        <div class="step" data-step="4">شهداء وأسرى</div>
         <div class="step" data-step="5">السكن والمرفقات</div>
       </div>
 
       <form id="familyForm">
-        <!-- Step 1: Head of Family -->
         <div class="form-step active" id="step1">
-          <h2>بيانات رب الأسرة</h2>
-          <div class="form-group">
-            <label>الاسم الرباعي</label>
-            <input type="text" name="headName" required placeholder="الاسم الأول - الأب - الجد - العائلة">
+          <h2>1) بيانات رب/ة الأسرة</h2>
+          
+          <div class="form-row">
+            <div class="form-group half">
+              <label>الاسم الأول</label>
+              <input type="text" name="headFirstName" required>
+            </div>
+            <div class="form-group half">
+              <label>اسم الأب</label>
+              <input type="text" name="headFatherName" required>
+            </div>
           </div>
-          <div class="form-group">
-            <label>رقم الهوية</label>
-            <input type="number" name="headId" required placeholder="رقم الهوية المكون من 9 أرقام">
+          <div class="form-row">
+            <div class="form-group half">
+              <label>اسم الجد</label>
+              <input type="text" name="headGrandName" required>
+            </div>
+            <div class="form-group half">
+              <label>اسم العائلة</label>
+              <input type="text" name="headFamilyName" required>
+            </div>
           </div>
+
           <div class="form-group">
             <label>تاريخ الميلاد</label>
             <input type="date" name="headDob" required>
           </div>
           <div class="form-group">
-            <label>رقم الهاتف / الجوال</label>
+            <label>رقم الهوية الشخصية (9 أرقام)</label>
+            <input type="number" name="headId" required minlength="9" maxlength="9">
+          </div>
+          
+          <div class="form-group">
+            <label>إرفاق صورة الهوية (الهوية + السليب أو بدل فاقد)</label>
+            <input type="file" name="headIdImage" accept="image/*,.pdf">
+          </div>
+
+          <div class="form-group">
+            <label class="section-label">الحالة الاجتماعية لرب/ة الأسرة</label>
+            <select name="headSocialStatus" required>
+                <option value="">-- اختر الحالة --</option>
+                <option value="male_married">ذكر (متزوج)</option>
+                <option value="male_multi">ذكر (متعدد الزوجات)</option>
+                <option value="male_single_40">ذكر (أعزب فوق 40)</option>
+                <option value="male_widower">ذكر (أرمل) لم يتزوج بعدها</option>
+                <option value="male_divorced">ذكر (مطلق) لم يتزوج بعدها</option>
+                <option value="female_widow">أنثى (أرملة)</option>
+                <option value="female_single_40">أنثى (عزباء فوق 40)</option>
+                <option value="female_divorced">أنثى (مطلقة)</option>
+                <option value="female_abandoned">أنثى (مهجورة)</option>
+            </select>
+          </div>
+
+          <div class="section-box">
+             <h3>الحالة الصحية لرب/ة الأسرة</h3>
+             <div class="form-group">
+                <label>هل يعاني من أمراض مزمنة؟</label>
+                <select name="headHasDisease" onchange="toggleField(this, 'headDiseaseDetails')">
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+                <input type="text" id="headDiseaseDetails" name="headDiseaseDetails" class="hidden-input" placeholder="نوع المرض/الإعاقة بالتفصيل">
+             </div>
+
+             <div class="form-group">
+                <label>هل رب/ة الأسرة من جرحى الحرب أو يعاني من إعاقة دائمة بسبب الحرب؟</label>
+                <select name="headIsInjured" onchange="toggleField(this, 'headInjuryDetails')">
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+                <div id="headInjuryDetails" class="hidden-input">
+                    <input type="text" name="headInjuryDesc" placeholder="وصف الحالة وطبيعتها">
+                    <input type="date" name="headInjuryDate" placeholder="تاريخ الإصابة">
+                    <input type="text" name="headInjuryEffect" placeholder="أثرها على القدرة المعيشية">
+                </div>
+             </div>
+          </div>
+
+          <div class="form-group">
+            <label class="section-label">الوظيفة/طبيعة العمل الحالية</label>
+            <select name="headJob" required>
+                <option value="">-- اختر --</option>
+                <option value="worker">عامل</option>
+                <option value="unemployed">معطل عن العمل</option>
+                <option value="gov_gaza">موظف حكومة غزة</option>
+                <option value="gov_ramallah">موظف حكومة رام الله</option>
+                <option value="unrwa">موظف وكالة</option>
+                <option value="private">موظف قطاع خاص</option>
+                <option value="retired_gaza">متقاعد حكومة غزة</option>
+                <option value="retired_ramallah">متقاعد حكومة رام الله</option>
+                <option value="retired_unrwa">متقاعد وكالة</option>
+                <option value="housewife">ربة بيت</option>
+                <option value="other">أخرى</option>
+            </select>
+          </div>
+
+          <div class="section-box">
+            <h3>حالة الزوج/الزوجة لرب/ربة الأسرة (للمتوفين)</h3>
+            <label>الحالة:</label>
+            <select name="headSpouseStatus" onchange="handleSpouseStatus(this)">
+                <option value="none">لا ينطبق (الزوج/ة على قيد الحياة)</option>
+                <option value="martyr">شهيد</option>
+                <option value="deceased">متوفّى (وفاة طبيعية)</option>
+            </select>
+
+            <div id="deceasedSpouseInfo" class="hidden-input">
+                <input type="text" name="deceasedSpouseName" placeholder="الاسم الرباعي للزوج/ة">
+                <input type="number" name="deceasedSpouseId" placeholder="رقم الهوية">
+                <label>تاريخ الاستشهاد/الوفاة:</label>
+                <input type="date" name="deceasedSpouseDate">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>رقم أساسي (جوال/وطنية)</label>
             <input type="tel" name="headPhone" required placeholder="059xxxxxxx">
           </div>
+          <div class="form-group">
+            <label>رقم بديل</label>
+            <input type="tel" name="headPhoneAlt" placeholder="059xxxxxxx">
+          </div>
+
           <div class="buttons">
             <button type="button" class="btn-next" onclick="nextStep(2)">التالي</button>
           </div>
         </div>
 
-        <!-- Step 2: Wives -->
         <div class="form-step" id="step2">
-          <h2>بيانات الزوجات</h2>
+          <h2>2) بيانات الزوجة/الزوجات</h2>
+          <p class="hint">كرّر "بطاقة الزوجة" لكل زوجة موجودة.</p>
+          
           <div id="wivesContainer">
-            <!-- Dynamic wives fields will be added here -->
-          </div>
-          <button type="button" class="btn-add" onclick="addWife()">+ إضافة زوجة</button>
+            </div>
+          <button type="button" class="btn-add" onclick="addWife()">+ إضافة بطاقة زوجة</button>
+          
           <div class="buttons">
             <button type="button" class="btn-prev" onclick="prevStep(1)">السابق</button>
             <button type="button" class="btn-next" onclick="nextStep(3)">التالي</button>
           </div>
         </div>
 
-        <!-- Step 3: Children -->
         <div class="form-step" id="step3">
-          <h2>بيانات الأبناء</h2>
+          <h2>3) بيانات الأبناء غير المتزوجين</h2>
+          <p class="hint">كرّر البطاقة لكل ابن/ابنة.</p>
+
           <div id="childrenContainer">
-            <!-- Dynamic children fields will be added here -->
-          </div>
+            </div>
           <button type="button" class="btn-add" onclick="addChild()">+ إضافة ابن/ابنة</button>
+          
           <div class="buttons">
             <button type="button" class="btn-prev" onclick="prevStep(2)">السابق</button>
             <button type="button" class="btn-next" onclick="nextStep(4)">التالي</button>
           </div>
         </div>
 
-        <!-- Step 4: Martyrs & Prisoners -->
         <div class="form-step" id="step4">
-          <h2>شهداء وأسرى</h2>
+          <h2>4) حالات الشهداء ضمن أفراد الأسرة</h2>
           
-          <h3>الشهداء</h3>
+          <div class="form-group">
+             <label>هل توجد زوجة شهيدة خلال الحرب؟</label>
+             <select name="hasMartyrWife">
+                 <option value="no">لا</option>
+                 <option value="yes">نعم (يرجى إضافتها في قسم الشهداء بالأسفل)</option>
+             </select>
+          </div>
+
+          <h3>بطاقات الشهداء</h3>
           <div id="martyrsContainer"></div>
           <button type="button" class="btn-add" onclick="addMartyr()">+ إضافة شهيد</button>
-
-          <hr>
-
-          <h3>الأسرى</h3>
-          <div id="prisonersContainer"></div>
-          <button type="button" class="btn-add" onclick="addPrisoner()">+ إضافة أسير</button>
 
           <div class="buttons">
             <button type="button" class="btn-prev" onclick="prevStep(3)">السابق</button>
@@ -95,35 +202,88 @@
           </div>
         </div>
 
-        <!-- Step 5: Housing & Attachments -->
         <div class="form-step" id="step5">
-          <h2>بيانات السكن والمرفقات</h2>
+          <h2>5) بيانات السكن (قبل الحرب وبعدها)</h2>
           
-          <div class="form-group">
-            <label>حالة السكن الحالية</label>
-            <select name="housingStatus" required>
-              <option value="">اختر الحالة...</option>
-              <option value="owner">ملك</option>
-              <option value="rent">إيجار</option>
-              <option value="displaced">نازح (مدرسة/خيام)</option>
-              <option value="relative">لدى أقارب</option>
-            </select>
+          <div class="section-box">
+             <h3>العنوان الأصلي (قبل الحرب)</h3>
+             <div class="form-row">
+                 <div class="form-group half">
+                     <label>المحافظة</label>
+                     <input type="text" value="غزة" readonly style="background:#eee">
+                 </div>
+                 <div class="form-group half">
+                     <label>المدينة/الحي</label>
+                     <input type="text" value="حي التفاح الشرقي" readonly style="background:#eee">
+                 </div>
+             </div>
+             <div class="form-group">
+                 <label>أقرب معلم</label>
+                 <input type="text" value="مسجد الجولاني" readonly style="background:#eee">
+             </div>
+             <div class="form-group">
+                 <label>اسم الشارع/وصف تفصيلي</label>
+                 <input type="text" name="originalStreet" required placeholder="اكتب اسم الشارع">
+             </div>
+             <div class="form-group">
+                 <label>وصف إضافي للمكان</label>
+                 <input type="text" name="originalDesc">
+             </div>
+          </div>
+
+          <div class="section-box">
+             <h3>عنوان السكن الحالي (بعد النزوح)</h3>
+             <div class="form-group">
+                 <label>المحافظة الحالية</label>
+                 <select name="currentGov" required>
+                     <option value="north">شمال غزة</option>
+                     <option value="gaza">غزة</option>
+                     <option value="central">الوسطى</option>
+                     <option value="khanyounis">خانيونس</option>
+                     <option value="rafah">رفح</option>
+                 </select>
+             </div>
+             <div class="form-group">
+                 <label>المدينة/المخيم/المنطقة</label>
+                 <input type="text" name="currentArea" required>
+             </div>
+             <div class="form-group">
+                 <label>نوع الموقع/السكن</label>
+                 <select name="housingType" required>
+                     <option value="shelter_center">مركز إيواء</option>
+                     <option value="tent_random">خيمة (تجمع غير منتظم)</option>
+                     <option value="tent_camp">خيمة داخل مخيم منظم</option>
+                     <option value="hosted">مستضاف لدى أقارب/أصدقاء</option>
+                     <option value="rented">مستأجر</option>
+                     <option value="other">أخرى</option>
+                 </select>
+             </div>
+          </div>
+
+          <div class="form-group" style="background-color: #e8f5e9; padding: 15px; border-radius: 8px;">
+            <label style="font-weight:bold; color: #2e7d32;">رقم واتساب لرب/ـة الأسرة (للتواصل)</label>
+            <input type="tel" name="whatsapp" required placeholder="وفق الصيغ المعتمدة 0097059xxxxxxx">
           </div>
 
           <div class="form-group">
-            <label>العنوان الحالي بالتفصيل</label>
-            <textarea name="address" rows="3" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>رفع الوثائق (صور الهويات، شهادات، تقارير)</label>
+            <label>رفع الوثائق الإضافية (صور الهويات، شهادات ميلاد، تقارير طبية)</label>
             <input type="file" name="documents" multiple accept="image/*,.pdf">
             <small>يمكن اختيار أكثر من ملف</small>
+          </div>
+          
+          <hr>
+          
+          <div class="contact-info">
+             <h3>تنويه للأعضاء الكرام في مجموعة "إغاثية الجولاني":</h3>
+             <p>يسعدنا إعلامكم بتخصيص رقم واتساب للاستفسارات والاستعلامات، للرد على أي تساؤلات تتعلق بالتسجيل أو الشؤون الإغاثية الخاصة بمنطقتنا.</p>
+             <p><strong>📍 خاص بسكان محيط مسجد الجولاني – حي التفاح الشرقي – غزة</strong></p>
+             <p>📞 واتساب فقط (رسائل): <a href="https://wa.me/970568808834" target="_blank">00970568808834</a></p>
+             <p>📩 سيتم الرد عليكم في أقرب فرصة ممكنة حسب توفر الإنترنت.</p>
           </div>
 
           <div class="buttons">
             <button type="button" class="btn-prev" onclick="prevStep(4)">السابق</button>
-            <button type="submit" class="btn-submit">حفظ واستخراج البيانات (JSON)</button>
+            <button type="submit" class="btn-submit">حفظ البيانات</button>
           </div>
         </div>
       </form>
