@@ -177,7 +177,7 @@ function addWife() {
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
-            <input type="text" class="wifeDisease-${id} hidden-input" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
+            <input type="text" class="wifeDisease-${id} hidden-input" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح" hidden >
         </div>
 
         <div class="form-group">
@@ -187,9 +187,9 @@ function addWife() {
                 <option value="yes">نعم</option>
             </select>
             <div class="wifeInjury-${id} hidden-input">
-                <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
+                <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة" hidden >
                 <label>تاريخ الإصابة:</label>
-                <input type="date" name="wives[${id}][injuryDate]">
+                <input type="date" name="wives[${id}][injuryDate]" hidden >
             </div>
         </div>
 
@@ -207,7 +207,7 @@ function addWife() {
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <input type="date" class="wifePrison-${id} hidden-input" name="wives[${id}][prisonDate]" placeholder="تاريخ الأسر">
+                <input type="date" class="wifePrison-${id} hidden-input" name="wives[${id}][prisonDate]" placeholder="تاريخ الأسر" hidden >
             </div>
         </div>
     `;
@@ -255,7 +255,7 @@ function addChild() {
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
-            <input type="text" class="childDisease-${id} hidden-input" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة">
+            <input type="text" class="childDisease-${id} hidden-input" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة" hidden >
         </div>
 
         <div class="form-group">
@@ -265,9 +265,9 @@ function addChild() {
                 <option value="yes">نعم</option>
             </select>
             <div class="childInjury-${id} hidden-input">
-                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
+                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة" hidden >
                 <label>تاريخ الإصابة:</label>
-                <input type="date" name="children[${id}][injuryDate]">
+                <input type="date" name="children[${id}][injuryDate]" hidden >
             </div>
         </div>
 
@@ -278,7 +278,7 @@ function addChild() {
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <input type="date" class="childMissing-${id} hidden-input" name="children[${id}][missingDate]" placeholder="تاريخ الفقد">
+                <input type="date" class="childMissing-${id} hidden-input" name="children[${id}][missingDate]" placeholder="تاريخ الفقد" hidden >
             </div>
             <div class="form-group half">
                 <label>هل أسير؟</label>
@@ -286,7 +286,7 @@ function addChild() {
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <input type="date" class="childPrison-${id} hidden-input" name="children[${id}][prisonDate]" placeholder="تاريخ الأسر">
+                <input type="date" class="childPrison-${id} hidden-input" name="children[${id}][prisonDate]" placeholder="تاريخ الأسر" hidden >
             </div>
         </div>
 
