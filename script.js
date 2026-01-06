@@ -61,6 +61,7 @@ function validateStep(step) {
 // UI Helpers | وظائف مساعدة للواجهة
 function toggleField(selectElem, targetId) {
     const target = document.getElementById(targetId);
+    const input = document.getElementsByClassName('hidden-input');
     if (!target) {
         // Try finding by class inside dynamic cards
         const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
@@ -78,9 +79,11 @@ function toggleField(selectElem, targetId) {
 
     // Standard ID toggle
     if (selectElem.value === 'yes') {
+        input.hidden = false;
         target.style.display = 'block';
         target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
     } else {
+        input.hidden = true;
         target.style.display = 'none';
         target.querySelectorAll('input').forEach(i => i.removeAttribute('required'));
     }
@@ -342,7 +345,62 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     const submitBtn = document.querySelector('.btn-submit');
     const originalBtnText = submitBtn.textContent;
     submitBtn.textContent = 'جاري الإرسال...';
-    submitBtn.disabled = true;
+       submitBtn.disabled = true;
+
+    let headSocialStatus = formData.get('headSocialStatus');
+    let headSocialStatusArb = "";
+    switch (headSocialStatus) {
+    case "male_married":
+        headSocialStatusArb = "-- اختر الحالة --"; 
+        break; 
+    case "male_multi":
+        headSocialStatusArb = "ذكر (متزوج)";
+        break;
+    case "male_multi":
+        headSocialStatusArb = "ذكر (متعدد الزوجات)";
+        break;
+    case "male_single_40":
+        headSocialStatusArb = "ذكر (أعزب فوق 40)";
+        break; 
+    case "male_widower":
+        headSocialStatusArb = "ذكر (أرمل) لم يتزوج بعدها";
+        break;
+    case "male_divorced":
+        headSocialStatusArb = "ذكر (مطلق) لم يتزوج بعدها";
+        break; 
+    case "female_widow":
+        headSocialStatusArb = "أنثى (أرملة)";
+        break;
+    case "female_single_40":
+        headSocialStatusArb = "أنثى (عزباء فوق 40)";
+        break;
+    case "female_divorced":
+        headSocialStatusArb = "أنثى (مطلقة)";
+        break;
+    case "female_abandoned":
+        headSocialStatusArb = "أنثى (مهجورة)";
+        break;
+    default:  
+        headSocialStatusArb = headSocialStatus;
+    }
+
+    let headSpouseStatus = formData.get('headSpouseStatus');
+    let headSpouseStatusArb = "";
+
+    switch (headSocialStatus) {
+    case "none":
+        headSpouseStatusArb = "لا ينطبق (الزوج/ة على قيد الحياة)";
+        break; 
+    case "martyr":
+        headSpouseStatusArb = "شهيد";
+        break; 
+    case "deceased":
+        headSpouseStatusArb = "متوفّى (وفاة طبيعية)";
+        break; 
+
+     default:  
+        headSpouseStatusArb = headSpouseStatus;
+    }
 
     const formData = new FormData(this);
     
@@ -357,17 +415,17 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             fullName: `${formData.get('headFirstName')} ${formData.get('headFatherName')} ${formData.get('headGrandName')} ${formData.get('headFamilyName')}`,
             id: formData.get('headId'),
             dob: formData.get('headDob'),
-            socialStatus: formData.get('headSocialStatus'),
+            socialStatus: headSocialStatusArb,
             health: {
-                chronic: formData.get('headHasDisease'),
+                chronic: (formData.get('headHasDisease') == "yes") ? "نعم" : "لا",
                 details: formData.get('headDiseaseDetails'),
-                warInjury: formData.get('headIsInjured'),
+                warInjury: (formData.get('headIsInjured') == "yes") ? "نعم" : "لا",
                 injuryDetails: formData.get('headInjuryDesc'),
                 injuryDate: formData.get('headInjuryDate'),
                 injuryEffect: formData.get('headInjuryEffect')
             },
             job: formData.get('headJob'),
-            spouseStatus: formData.get('headSpouseStatus'),
+            spouseStatus: headSpouseStatusArb,
             deceasedSpouse: {
                 name: formData.get('deceasedSpouseName'),
                 id: formData.get('deceasedSpouseId'),
@@ -381,7 +439,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
         housing: {
             original: {
                 city: 'غزة - التفاح الشرقي - مسجد الجولاني',
-                street: formData.get('originalStreet'),
+                             street: formData.get('originalStreet'),
                 desc: formData.get('originalDesc')
             },
             current: {
@@ -391,7 +449,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             },
             whatsapp: formData.get('whatsapp')
         },
-        hasMartyrWife: formData.get('hasMartyrWife'),
+        hasMartyrWife: (formData.get('hasMartyrWife') == "yes") ? "نعم" : "لا",
         wives: [],
         children: [],
         martyrs: []
