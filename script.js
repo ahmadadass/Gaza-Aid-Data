@@ -347,6 +347,8 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     submitBtn.textContent = 'جاري الإرسال...';
        submitBtn.disabled = true;
 
+    const formData = new FormData(this);
+
     let headSocialStatus = formData.get('headSocialStatus');
     let headSocialStatusArb = "";
     switch (headSocialStatus) {
@@ -402,7 +404,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
         headSpouseStatusArb = headSpouseStatus;
     }
 
-    const formData = new FormData(this);
+
     
     // بناء كائن البيانات JSON
     const data = {
