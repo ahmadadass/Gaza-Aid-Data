@@ -98,47 +98,47 @@ exports.handler = async (event) => {
     console.log("wives:",wives);
     for (let i = 0;i < 5; i++) {
         console.log("wives[" + i + "]:",wives[i]);
-        row.push(wives[i].name || "");
-        row.push(wives[i].id || "");
-        row.push(wives[i].dob || "");
-        row.push(wives[i].phone || "");
-        row.push(wives[i].pregnant || "");
-        row.push(wives[i].nursing || "");
-        row.push(wives[i].sick || "");
-        row.push(wives[i].diseaseDetails || "");
-        row.push(wives[i].injured || "");
-        row.push(wives[i].injuryDesc || "");
-        row.push(wives[i].injuryDate || "");
-        row.push(wives[i].missing || "");
-        row.push(wives[i].prisoner || "");
-        row.push(wives[i].prisonDate || "");
+        row.push(wives[i]?.name || "");
+        row.push(wives[i]?.id || "");
+        row.push(wives[i]?.dob || "");
+        row.push(wives[i]?.phone || "");
+        row.push(wives[i]?.pregnant || "");
+        row.push(wives[i]?.nursing || "");
+        row.push(wives[i]?.sick || "");
+        row.push(wives[i]?.diseaseDetails || "");
+        row.push(wives[i]?.injured || "");
+        row.push(wives[i]?.injuryDesc || "");
+        row.push(wives[i]?.injuryDate || "");
+        row.push(wives[i]?.missing || "");
+        row.push(wives[i]?.prisoner || "");
+        row.push(wives[i]?.prisonDate || "");
     }
 
     console.log("children:",children);
     for (let i = 0;i < 13; i++) {
         console.log("children[" + i + "]:",children[i]);
-        row.push(children[i].id || "");
-        row.push(children[i].dob || "");
-        row.push(children[i].phone || "");
-        row.push(children[i].pregnant || "");
-        row.push(children[i].nursing || "");
-        row.push(children[i].sick || "");
-        row.push(children[i].diseaseDetails || "");
-        row.push(children[i].injured || "");
-        row.push(children[i].injuryDesc || "");
-        row.push(children[i].injuryDate || "");
-        row.push(children[i].missing || "");
-        row.push(children[i].prisoner || "");
-        row.push(children[i].prisonDate || "");
+        row.push(children[i]?.id || "");
+        row.push(children[i]?.dob || "");
+        row.push(children[i]?.phone || "");
+        row.push(children[i]?.pregnant || "");
+        row.push(children[i]?.nursing || "");
+        row.push(children[i]?.sick || "");
+        row.push(children[i]?.diseaseDetails || "");
+        row.push(children[i]?.injured || "");
+        row.push(children[i]?.injuryDesc || "");
+        row.push(children[i]?.injuryDate || "");
+        row.push(children[i]?.missing || "");
+        row.push(children[i]?.prisoner || "");
+        row.push(children[i]?.prisonDate || "");
    }
 
     console.log("martyrs:",martyrs);
     for (let i = 0;i < 5; i++) {
         console.log("martyrs[" + i + "]:",martyrs[i]);
-        row.push(martyrs[i].name || "");
-        row.push(martyrs[i].relation || "");
-        row.push(martyrs[i].id || "");
-        row.push(martyrs[i].date || "");
+        row.push(martyrs[i]?.name || "");
+        row.push(martyrs[i]?.relation || "");
+        row.push(martyrs[i]?.id || "");
+        row.push(martyrs[i]?.date || "");
     }
 
     row.push(JSON.stringify(body));  // العمود 10: كافة التفاصيل (JSON) كنسخة احتياطية
