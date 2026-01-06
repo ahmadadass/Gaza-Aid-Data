@@ -21,7 +21,7 @@ exports.handler = async (event) => {
 
     const body = JSON.parse(event.body);
 
-        console.log("body (JSON)",body);
+    console.log("body (JSON)",body);
 
     const auth = new google.auth.GoogleAuth({
       credentials: {
@@ -41,9 +41,9 @@ exports.handler = async (event) => {
     // ترتيب الأعمدة هنا يجب أن يطابق ترتيب الأعمدة في ملف الإكسل
     const head = body.headOfFamily || {};
     const housing = body.housing || {};
-    const wives = body.wives || {};
-    const children = body.children || {};
-    const martyrs = body.martyrs || {};
+    const wives = body.wives || [];
+    const children = body.children || [];
+    const martyrs = body.martyrs || [];
     
     // حساب عدد الأفراد
     const wivesCount = (body.wives || []).length;
@@ -95,8 +95,9 @@ exports.handler = async (event) => {
         housing.martyrs || ""
     ];
 
+    console.log("wives:",wives);
     for (let i = 0;i < 5; i++) {
-	
+        console.log("wives[" + i + "]:",wives[i]);
         row.push(wives[i].name || "");
         row.push(wives[i].id || "");
         row.push(wives[i].dob || "");
@@ -113,7 +114,9 @@ exports.handler = async (event) => {
         row.push(wives[i].prisonDate || "");
     }
 
+    console.log("children:",children);
     for (let i = 0;i < 13; i++) {
+        console.log("children[" + i + "]:",children[i]);
         row.push(children[i].id || "");
         row.push(children[i].dob || "");
         row.push(children[i].phone || "");
@@ -129,7 +132,9 @@ exports.handler = async (event) => {
         row.push(children[i].prisonDate || "");
    }
 
+    console.log("martyrs:",martyrs);
     for (let i = 0;i < 5; i++) {
+        console.log("martyrs[" + i + "]:",martyrs[i]);
         row.push(martyrs[i].name || "");
         row.push(martyrs[i].relation || "");
         row.push(martyrs[i].id || "");
