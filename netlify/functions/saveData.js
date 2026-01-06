@@ -92,41 +92,51 @@ exports.handler = async (event) => {
         housing.hasMartyrWife || "",
         housing.wives || "",
         housing.children || "",
-        housing.martyrs || "",
-        wives.name || "",
-        wives.id || "",
-        wives.dob || "",
-        wives.phone || "",
-        wives.pregnant || "",
-        wives.nursing || "",
-        wives.sick || "",
-        wives.diseaseDetails || "",
-        wives.injured || "",
-        wives.injuryDesc || "",
-        wives.injuryDate || "",
-        wives.missing || "",
-        wives.prisoner || "",
-        wives.prisonDate || "",
-        wives.name || "",
-        children.id || "",
-        children.dob || "",
-        children.phone || "",
-        children.pregnant || "",
-        children.nursing || "",
-        children.sick || "",
-        children.diseaseDetails || "",
-        children.injured || "",
-        children.injuryDesc || "",
-        children.injuryDate || "",
-        children.missing || "",
-        children.prisoner || "",
-        children.prisonDate || "",
-        martyrs.name || "",
-        martyrs.relation || "",
-        martyrs.id || "",
-        martyrs.date || "",
-        JSON.stringify(body)  // العمود 10: كافة التفاصيل (JSON) كنسخة احتياطية
+        housing.martyrs || ""
     ];
+
+    for (let i = 0;i < 5; i++) {
+	
+        row.push(wives[i].name || "");
+        row.push(wives[i].id || "");
+        row.push(wives[i].dob || "");
+        row.push(wives[i].phone || "");
+        row.push(wives[i].pregnant || "");
+        row.push(wives[i].nursing || "");
+        row.push(wives[i].sick || "");
+        row.push(wives[i].diseaseDetails || "");
+        row.push(wives[i].injured || "");
+        row.push(wives[i].injuryDesc || "");
+        row.push(wives[i].injuryDate || "");
+        row.push(wives[i].missing || "");
+        row.push(wives[i].prisoner || "");
+        row.push(wives[i].prisonDate || "");
+    }
+
+    for (let i = 0;i < 13; i++) {
+        row.push(children[i].id || "");
+        row.push(children[i].dob || "");
+        row.push(children[i].phone || "");
+        row.push(children[i].pregnant || "");
+        row.push(children[i].nursing || "");
+        row.push(children[i].sick || "");
+        row.push(children[i].diseaseDetails || "");
+        row.push(children[i].injured || "");
+        row.push(children[i].injuryDesc || "");
+        row.push(children[i].injuryDate || "");
+        row.push(children[i].missing || "");
+        row.push(children[i].prisoner || "");
+        row.push(children[i].prisonDate || "");
+   }
+
+    for (let i = 0;i < 5; i++) {
+        row.push(martyrs[i].name || "");
+        row.push(martyrs[i].relation || "");
+        row.push(martyrs[i].id || "");
+        row.push(martyrs[i].date || "");
+    }
+
+    row.push(JSON.stringify(body));  // العمود 10: كافة التفاصيل (JSON) كنسخة احتياطية
 
 
     console.log("adding row:",row);
