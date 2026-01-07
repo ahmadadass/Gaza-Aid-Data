@@ -10,14 +10,17 @@ let martyrCounter = 0;
 // Navigation functions | وظائف التنقل
 function nextStep(step) {
     if (validateStep(currentStep)) {
-        const headSocialStatus = new FormData(document.getElementById('familyForm')).get('headSocialStatus');document.getElementById('headSocialStatus').value;
+        const headSocialStatus = new FormData(document.getElementById('familyForm')).get('headSocialStatus');document.getElementById('headSocialStatus');
+    
+        console.log('nextStep headSocialStatus:',headSocialStatus);
+        console.log('nextStep bef:',step);
 
         if (step === 1 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
             step += 2;
         } else if (step === 1 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')) {
             step += 1;
         }
-
+        console.log('nextStep afrer:',step);
         showStep(step);
     }
 }
@@ -26,11 +29,15 @@ function prevStep(step) {
 
     const headSocialStatus = new FormData(document.getElementById('familyForm')).get('headSocialStatus');
 
+    console.log('prevStep headSocialStatus:',headSocialStatus);
+    console.log('prevStep bef:',step);
+    
     if (step === 3 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')){
         step -= 1;
     } else if (step === 4 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
         step -= 2;
     }
+    console.log('prevStep afrer:',step);
 
     showStep(step);
 }
