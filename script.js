@@ -1,4 +1,4 @@
-const { baremetalsolution } = require("googleapis/build/src/apis/baremetalsolution");
+//const { baremetalsolution } = require("googleapis/build/src/apis/baremetalsolution");
 
 // State management | إدارة الحالة
 let currentStep = 1;
