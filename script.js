@@ -15,9 +15,9 @@ function nextStep(step) {
         console.log('nextStep headSocialStatus:',headSocialStatus);
         console.log('nextStep bef:',step);
 
-        if (step === 1 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
+        if (step === 2 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
             step += 2;
-        } else if (step === 1 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')) {
+        } else if (step === 2 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')) {
             step += 1;
         }
         console.log('nextStep afrer:',step);
@@ -32,9 +32,9 @@ function prevStep(step) {
     console.log('prevStep headSocialStatus:',headSocialStatus);
     console.log('prevStep bef:',step);
     
-    if (step === 3 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')){
+    if (step === 2 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')){
         step -= 1;
-    } else if (step === 4 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
+    } else if (step === 3 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
         step -= 2;
     }
     console.log('prevStep afrer:',step);
