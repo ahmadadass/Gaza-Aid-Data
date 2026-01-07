@@ -54,12 +54,12 @@
             <input type="date" name="headDob" required>
           </div>
           <div class="form-group">
-            <label>رقم الهوية الشخصية (9 أرقام)</label>
+            <label>رقم الهوية الشخصية</label>
             <input type="number" name="headId" required minlength="9" maxlength="9">
           </div>
           
           <div class="form-group">
-            <label>إرفاق صورة الهوية (الهوية + السليب أو بدل فاقد)</label>
+            <label>- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="headIdImage" accept="image/*,.pdf">
           </div>
 
@@ -97,16 +97,16 @@
                     <option value="yes">نعم</option>
                 </select>
                 <div id="headInjuryDetails" class="hidden-input" hidden >
-                    <input type="text" name="headInjuryDesc" placeholder="وصف الحالة وطبيعتها">
+                    <input type="text" name="headInjuryDesc" placeholder="وصف الإصابة">
                     <input type="date" name="headInjuryDate" placeholder="تاريخ الإصابة">
-                    <input type="text" name="headInjuryEffect" placeholder="أثرها على القدرة المعيشية">
+                    <input type="text" name="headInjuryEffect" placeholder="وفي حال وجود بتر تحديد موضعة">
                 </div>
              </div>
           </div>
 
           <div class="form-group">
             <label class="section-label">الوظيفة/طبيعة العمل الحالية</label>
-            <select name="headJob" required>
+            <select name="headJob" required onchange="toggleField(this, 'headOtherJob')">
                 <option value="">-- اختر --</option>
                 <option value="worker">عامل</option>
                 <option value="unemployed">معطل عن العمل</option>
@@ -114,12 +114,12 @@
                 <option value="gov_ramallah">موظف حكومة رام الله</option>
                 <option value="unrwa">موظف وكالة</option>
                 <option value="private">موظف قطاع خاص</option>
-                <option value="retired_gaza">متقاعد حكومة غزة</option>
                 <option value="retired_ramallah">متقاعد حكومة رام الله</option>
                 <option value="retired_unrwa">متقاعد وكالة</option>
                 <option value="housewife">ربة بيت</option>
                 <option value="other">أخرى</option>
             </select>
+            <input type="text" id="headOtherJob" name="headOtherJob" class="hidden-input"  hidden  placeholder="صف العمل وطبيعته">
           </div>
 
           <div class="section-box">
@@ -140,12 +140,12 @@
           </div>
 
           <div class="form-group">
-            <label>رقم أساسي (جوال/وطنية)</label>
-            <input type="tel" name="headPhone" required placeholder="059xxxxxxx">
+            <label>رقم أساسي (جوال/وطنية) 059/056</label>
+            <input type="tel" name="headPhone" required placeholder="ادخل رقم الهاتق">
           </div>
           <div class="form-group">
-            <label>رقم بديل</label>
-            <input type="tel" name="headPhoneAlt" placeholder="059xxxxxxx">
+            <label>رقم بديل (جوال/وطنية) 059/056</label>
+            <input type="tel" name="headPhoneAlt" placeholder="ادخل رقم الهاتف">
           </div>
 
           <div class="buttons">
@@ -155,7 +155,7 @@
 
         <div class="form-step" id="step2">
           <h2>2) بيانات الزوجة/الزوجات</h2>
-          <p class="hint">كرّر "بطاقة الزوجة" لكل زوجة موجودة.</p>
+          <p class="hint">كرر بطاقة الزوجة لمتعدد الزوجات</p>
           
           <div id="wivesContainer">
             </div>
@@ -169,7 +169,7 @@
 
         <div class="form-step" id="step3">
           <h2>3) بيانات الأبناء غير المتزوجين</h2>
-          <p class="hint">كرّر البطاقة لكل ابن/ابنة.</p>
+          <p class="hint">كرر البطاقة لإضافة الإبن/ابنه</p>
 
           <div id="childrenContainer">
             </div>
@@ -210,16 +210,8 @@
              <div class="form-row">
                  <div class="form-group half">
                      <label>المحافظة</label>
-                     <input type="text" value="غزة" readonly style="background:#eee">
+                     <input type="text" value="غزة - حي التفاح الشرقي - مسجد الجولاني" readonly style="background:#eee">
                  </div>
-                 <div class="form-group half">
-                     <label>المدينة/الحي</label>
-                     <input type="text" value="حي التفاح الشرقي" readonly style="background:#eee">
-                 </div>
-             </div>
-             <div class="form-group">
-                 <label>أقرب معلم</label>
-                 <input type="text" value="مسجد الجولاني" readonly style="background:#eee">
              </div>
              <div class="form-group">
                  <label>اسم الشارع/وصف تفصيلي</label>
@@ -244,20 +236,25 @@
                  </select>
              </div>
              <div class="form-group">
-                 <label>المدينة/المخيم/المنطقة</label>
-                 <input type="text" name="currentArea" required>
+                 <label>المحافظة</label>
+                 <input type="text" name="currentCity" required>
+                 <label>المدينة/الحي</label>
+                 <input type="text" name="currentNeighborhood" required>
+                 <label>أقرب معلم</label>
+                 <input type="text" name="currentLandmark" required>
              </div>
              <div class="form-group">
-                 <label>نوع الموقع/السكن</label>
-                 <select name="housingType" required>
-                     <option value="shelter_center">مركز إيواء</option>
-                     <option value="tent_random">خيمة (تجمع غير منتظم)</option>
-                     <option value="tent_camp">خيمة داخل مخيم منظم</option>
-                     <option value="hosted">مستضاف لدى أقارب/أصدقاء</option>
-                     <option value="rented">مستأجر</option>
-                     <option value="other">أخرى</option>
-                 </select>
-             </div>
+              <label>نوع الموقع/السكن</label>
+              <select name="housingType" required onchange="toggleField(this, 'housingOtherType')">
+                <option value="shelter_center">مركز إيواء</option>
+                <option value="tent_random">خيمة (تجمع غير منتظم)</option>
+                <option value="tent_camp">خيمة داخل مخيم منظم</option>
+                <option value="hosted">مستضاف لدى أقارب/أصدقاء</option>
+                <option value="rented">مستأجر</option>
+                <option value="other">أخرى</option>
+              </select>
+              <input type="text" id="housingOtherType" name="housingOtherType" class="hidden-input"  hidden  placeholder="نوع المرض/الإعاقة بالتفصيل">
+            </div>
           </div>
 
           <div class="form-group" style="background-color: #e8f5e9; padding: 15px; border-radius: 8px;">
@@ -274,11 +271,11 @@
           <hr>
           
           <div class="contact-info">
-             <h3>تنويه للأعضاء الكرام في مجموعة "إغاثية الجولاني":</h3>
+             <h3>تنويه للإخوة المواطنين في منطقة الجولانب:</h3>
              <p>يسعدنا إعلامكم بتخصيص رقم واتساب للاستفسارات والاستعلامات، للرد على أي تساؤلات تتعلق بالتسجيل أو الشؤون الإغاثية الخاصة بمنطقتنا.</p>
              <p><strong>📍 خاص بسكان محيط مسجد الجولاني – حي التفاح الشرقي – غزة</strong></p>
              <p>📞 واتساب فقط (رسائل): <a href="https://wa.me/970568808834" target="_blank">00970568808834</a></p>
-             <p>📩 سيتم الرد عليكم في أقرب فرصة ممكنة حسب توفر الإنترنت.</p>
+             <p>📩 سيتم الرد على إستفساراتكم في اقرب فرصة حسب توفر الإنترنت.</p>
           </div>
 
           <div class="buttons">

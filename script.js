@@ -1,3 +1,5 @@
+const { baremetalsolution } = require("googleapis/build/src/apis/baremetalsolution");
+
 // State management | إدارة الحالة
 let currentStep = 1;
 const totalSteps = 5;
@@ -8,6 +10,14 @@ let martyrCounter = 0;
 // Navigation functions | وظائف التنقل
 function nextStep(step) {
     if (validateStep(currentStep)) {
+        const headSocialStatus = document.getElementById('headSocialStatus').value;
+
+        if (step === 1 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
+            step += 2;
+        } else if (step === 1 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')) {
+            step += 1;
+        }
+
         showStep(step);
     }
 }
@@ -61,29 +71,32 @@ function validateStep(step) {
 // UI Helpers | وظائف مساعدة للواجهة
 function toggleField(selectElem, targetId) {
     const target = document.getElementById(targetId);
-    const input = document.getElementsByClassName('hidden-input');
+    //const input = document.getElementsByClassName('hidden-input');
     if (!target) {
         // Try finding by class inside dynamic cards
         const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
         const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
         if(internalTarget) {
-             internalTarget.style.display = selectElem.value === 'yes' ? 'block' : 'none';
+             internalTarget.style.display = selectElem.value === 'yes' || selectElem.value === 'other' ? 'block' : 'none';
              const inputs = internalTarget.querySelectorAll('input');
              inputs.forEach(i => {
-                 if(selectElem.value === 'yes') i.setAttribute('required', 'true');
-                 else i.removeAttribute('required');
-             });
+                if(selectElem.value === 'yes' || selectElem.value === 'other') {
+                    i.hidden = false;
+                    i.setAttribute('required', 'true');
+                } else {
+                    i.hidden = true; 
+                    i.removeAttribute('required');
+                }
+            });
         }
         return;
     }
 
     // Standard ID toggle
-    if (selectElem.value === 'yes') {
-        input.hidden = false;
+    if (selectElem.value === 'yes' || selectElem.value === 'other') {
         target.style.display = 'block';
         target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
     } else {
-        input.hidden = true;
         target.style.display = 'none';
         target.querySelectorAll('input').forEach(i => i.removeAttribute('required'));
     }
@@ -129,6 +142,9 @@ function removeElement(btn) {
 // WIVES | الزوجات
 // ------------------------------------------
 function addWife() {
+    if (wifeCounter >= 4){
+        return "Error: you can only have 4 wifes";
+    }
     wifeCounter++;
     const id = generateId();
     // (تم الحفاظ على نفس الحقول كما في النسخة السابقة)
@@ -186,10 +202,10 @@ function addWife() {
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
-            <div class="wifeInjury-${id} hidden-input">
-                <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة" hidden >
+            <div class="wifeInjury-${id} hidden-input" hidden >
+                <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
                 <label>تاريخ الإصابة:</label>
-                <input type="date" name="wives[${id}][injuryDate]" hidden >
+                <input type="date" name="wives[${id}][injuryDate]">
             </div>
         </div>
 
@@ -202,13 +218,17 @@ function addWife() {
                 </select>
             </div>
             <div class="form-group half">
-                <label>هل أُسرت؟</label>
+                <label>هل أُسرت خلال الحرب؟</label>
                 <select name="wives[${id}][prisoner]" onchange="toggleField(this, 'wifePrison-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
                 <input type="date" class="wifePrison-${id} hidden-input" name="wives[${id}][prisonDate]" placeholder="تاريخ الأسر" hidden >
             </div>
+        </div>
+        <div class="form-group">
+            <label>- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
+            <input type="file" name="wives[${id}][IdImage]" accept="image/*,.pdf">
         </div>
     `;
     document.getElementById('wivesContainer').appendChild(createCard('wife', id, content, `بطاقة الزوجة (${wifeCounter})`));
@@ -264,16 +284,16 @@ function addChild() {
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
-            <div class="childInjury-${id} hidden-input">
-                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة" hidden >
+            <div class="childInjury-${id} hidden-input" hidden >
+                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
                 <label>تاريخ الإصابة:</label>
-                <input type="date" name="children[${id}][injuryDate]" hidden >
+                <input type="date" name="children[${id}][injuryDate]">
             </div>
         </div>
 
         <div class="form-row">
              <div class="form-group half">
-                <label>هل مفقود؟</label>
+                <label>هل هو من مفقودين الحرب?</label>
                 <select name="children[${id}][missing]" onchange="toggleField(this, 'childMissing-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
@@ -281,7 +301,7 @@ function addChild() {
                 <input type="date" class="childMissing-${id} hidden-input" name="children[${id}][missingDate]" placeholder="تاريخ الفقد" hidden >
             </div>
             <div class="form-group half">
-                <label>هل أسير؟</label>
+                <label>هل أسر خلال الحرب؟</label>
                 <select name="children[${id}][prisoner]" onchange="toggleField(this, 'childPrison-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
@@ -293,12 +313,12 @@ function addChild() {
         <div class="form-group">
             <label>المرحلة التعليمية الحالية</label>
             <select name="children[${id}][education]">
-                <option value="none">بدون / دون سن الدراسة</option>
                 <option value="kg">روضة</option>
                 <option value="primary">ابتدائي</option>
                 <option value="middle">إعدادي</option>
                 <option value="high">ثانوي</option>
                 <option value="university">جامعة</option>
+                <option value="none">بدون / دون سن الدراسة</option>
             </select>
         </div>
     `;
@@ -318,8 +338,15 @@ function addMartyr() {
         </div>
         <div class="form-row">
             <div class="form-group half">
-                <label>صفة القرابة</label>
-                <input type="text" name="martyrs[${id}][relation]" required placeholder="أب، ابن، زوجة...">
+        
+                <label>صلة القرابة ابن,ابنة,زوجة</label>
+                    
+                <select name="martyrs[${id}][relation]">
+                    <option value="son">ابن</option>
+                    <option value="daughter">ابنة</option>
+                    <option value="wife">زوجة</option>
+                    <option value="husband">زوج</option>
+                </select>
             </div>
             <div class="form-group half">
                 <label>رقم الهوية</label>
@@ -352,56 +379,55 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     let headSocialStatus = formData.get('headSocialStatus');
     let headSocialStatusArb = "";
     switch (headSocialStatus) {
-    case "male_married":
-        headSocialStatusArb = "-- اختر الحالة --"; 
-        break; 
-    case "male_multi":
-        headSocialStatusArb = "ذكر (متزوج)";
-        break;
-    case "male_multi":
-        headSocialStatusArb = "ذكر (متعدد الزوجات)";
-        break;
-    case "male_single_40":
-        headSocialStatusArb = "ذكر (أعزب فوق 40)";
-        break; 
-    case "male_widower":
-        headSocialStatusArb = "ذكر (أرمل) لم يتزوج بعدها";
-        break;
-    case "male_divorced":
-        headSocialStatusArb = "ذكر (مطلق) لم يتزوج بعدها";
-        break; 
-    case "female_widow":
-        headSocialStatusArb = "أنثى (أرملة)";
-        break;
-    case "female_single_40":
-        headSocialStatusArb = "أنثى (عزباء فوق 40)";
-        break;
-    case "female_divorced":
-        headSocialStatusArb = "أنثى (مطلقة)";
-        break;
-    case "female_abandoned":
-        headSocialStatusArb = "أنثى (مهجورة)";
-        break;
-    default:  
-        headSocialStatusArb = headSocialStatus;
+        case "male_married":
+            headSocialStatusArb = "-- اختر الحالة --"; 
+            break; 
+        case "male_multi":
+            headSocialStatusArb = "ذكر (متزوج)";
+            break;
+        case "male_multi":
+            headSocialStatusArb = "ذكر (متعدد الزوجات)";
+            break;
+        case "male_single_40":
+            headSocialStatusArb = "ذكر (أعزب فوق 40)";
+            break; 
+        case "male_widower":
+            headSocialStatusArb = "ذكر (أرمل) لم يتزوج بعدها";
+            break;
+        case "male_divorced":
+            headSocialStatusArb = "ذكر (مطلق) لم يتزوج بعدها";
+            break; 
+        case "female_widow":
+            headSocialStatusArb = "أنثى (أرملة)";
+            break;
+        case "female_single_40":
+            headSocialStatusArb = "أنثى (عزباء فوق 40)";
+            break;
+        case "female_divorced":
+            headSocialStatusArb = "أنثى (مطلقة)";
+            break;
+        case "female_abandoned":
+            headSocialStatusArb = "أنثى (مهجورة)";
+            break;
+        default:  
+            headSocialStatusArb = headSocialStatus;
     }
 
     let headSpouseStatus = formData.get('headSpouseStatus');
     let headSpouseStatusArb = "";
 
     switch (headSocialStatus) {
-    case "none":
-        headSpouseStatusArb = "لا ينطبق (الزوج/ة على قيد الحياة)";
-        break; 
-    case "martyr":
-        headSpouseStatusArb = "شهيد";
-        break; 
-    case "deceased":
-        headSpouseStatusArb = "متوفّى (وفاة طبيعية)";
-        break; 
-
-     default:  
-        headSpouseStatusArb = headSpouseStatus;
+        case "none":
+            headSpouseStatusArb = "لا ينطبق (الزوج/ة على قيد الحياة)";
+            break; 
+        case "martyr":
+            headSpouseStatusArb = "شهيد";
+            break; 
+        case "deceased":
+            headSpouseStatusArb = "متوفّى (وفاة طبيعية)";
+            break; 
+        default:  
+            headSpouseStatusArb = headSpouseStatus;
     }
 
 
@@ -426,7 +452,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
                 injuryDate: formData.get('headInjuryDate'),
                 injuryEffect: formData.get('headInjuryEffect')
             },
-            job: formData.get('headJob'),
+            job: formData.get('headJob') === 'other' ? formData.get('headOtherJob') : formData.get('headOtherJob'),
             spouseStatus: headSpouseStatusArb,
             deceasedSpouse: {
                 name: formData.get('deceasedSpouseName'),
@@ -441,13 +467,15 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
         housing: {
             original: {
                 city: 'غزة - التفاح الشرقي - مسجد الجولاني',
-                             street: formData.get('originalStreet'),
+                street: formData.get('originalStreet'),
                 desc: formData.get('originalDesc')
             },
             current: {
                 gov: formData.get('currentGov'),
-                area: formData.get('currentArea'),
-                type: formData.get('housingType')
+                city: formData.get('currentCity'),
+                neighborhood: formData.get('currentNeighborhood'),
+                landmark: formData.get('currentLandmark'),
+                type: formData.get('housingType') === 'other' ?   formData.get('housingOtherType') : formData.get('housingType')
             },
             whatsapp: formData.get('whatsapp')
         },
