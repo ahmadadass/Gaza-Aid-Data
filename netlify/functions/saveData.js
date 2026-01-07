@@ -156,8 +156,9 @@ exports.handler = async (event) => {
       spreadsheetId: spreadsheetId, // تم إضافة المفتاح المفقود
       range: "sheet1", // تأكد أن اسم الورقة في جوجل شيت هو sheet1
       valueInputOption: "USER_ENTERED",
-      resource: row // يجب أن تكون مصفوفة داخل مصفوفة
-      ,
+      resource: {
+        row // يجب أن تكون مصفوفة داخل مصفوفة
+      },
     });
 
     return {
