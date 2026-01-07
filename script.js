@@ -10,7 +10,7 @@ let martyrCounter = 0;
 // Navigation functions | وظائف التنقل
 function nextStep(step) {
     if (validateStep(currentStep)) {
-        const headSocialStatus = document.getElementById('headSocialStatus').value;
+        const headSocialStatus = new FormData(document.getElementById('familyForm')).get('headSocialStatus');document.getElementById('headSocialStatus').value;
 
         if (step === 1 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
             step += 2;
@@ -23,6 +23,15 @@ function nextStep(step) {
 }
 
 function prevStep(step) {
+
+    const headSocialStatus = new FormData(document.getElementById('familyForm')).get('headSocialStatus');
+
+    if (step === 3 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')){
+        step -= 1;
+    } else if (step === 4 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
+        step -= 2;
+    }
+
     showStep(step);
 }
 
