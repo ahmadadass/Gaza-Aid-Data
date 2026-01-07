@@ -1,4 +1,6 @@
 const { google } = require("googleapis");
+const path = require('path');
+const { Readable } = require('stream');
 
 exports.handler = async (event) => {
   // 1. التعامل مع طلبات OPTIONS (Preflight) لتجنب أخطاء CORS
@@ -154,9 +156,8 @@ exports.handler = async (event) => {
       spreadsheetId: spreadsheetId, // تم إضافة المفتاح المفقود
       range: "sheet1", // تأكد أن اسم الورقة في جوجل شيت هو sheet1
       valueInputOption: "USER_ENTERED",
-      resource: {
-        values: [row] // يجب أن تكون مصفوفة داخل مصفوفة
-      },
+      resource: row // يجب أن تكون مصفوفة داخل مصفوفة
+      ,
     });
 
     return {

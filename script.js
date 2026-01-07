@@ -16,7 +16,7 @@ function nextStep(step) {
         console.log('nextStep bef:',step);
 
         if (step === 2 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
-            step += 2;
+            step += 3;
         } else if (step === 2 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')) {
             step += 1;
         }
@@ -34,8 +34,8 @@ function prevStep(step) {
     
     if (step === 2 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')){
         step -= 1;
-    } else if (step === 3 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
-        step -= 2;
+    } else if (step === 4 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
+        step -= 3;
     }
     console.log('prevStep afrer:',step);
 
@@ -461,9 +461,9 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             dob: formData.get('headDob'),
             socialStatus: headSocialStatusArb,
             health: {
-                chronic: (formData.get('headHasDisease') == "yes") ? "نعم" : "لا",
+                chronic: (formData.get('headHasDisease') == 'yes') ? 'نعم' : 'لا',
                 details: formData.get('headDiseaseDetails'),
-                warInjury: (formData.get('headIsInjured') == "yes") ? "نعم" : "لا",
+                warInjury: (formData.get('headIsInjured') == 'yes') ? 'نعم' : 'لا',
                 injuryDetails: formData.get('headInjuryDesc'),
                 injuryDate: formData.get('headInjuryDate'),
                 injuryEffect: formData.get('headInjuryEffect')
@@ -495,7 +495,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             },
             whatsapp: formData.get('whatsapp')
         },
-        hasMartyrWife: (formData.get('hasMartyrWife') == "yes") ? "نعم" : "لا",
+        hasMartyrWife: (formData.get('hasMartyrWife') === 'yes') ? 'نعم' : 'لا',
         wives: [],
         children: [],
         martyrs: []
