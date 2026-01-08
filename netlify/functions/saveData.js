@@ -157,7 +157,7 @@ exports.handler = async (event) => {
       range: "sheet1", // تأكد أن اسم الورقة في جوجل شيت هو sheet1
       valueInputOption: "USER_ENTERED",
       resource: {
-        row // يجب أن تكون مصفوفة داخل مصفوفة
+        values: [row] // يجب أن تكون مصفوفة داخل مصفوفة
       },
     });
 
