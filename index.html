@@ -59,13 +59,14 @@
           </div>
           
           <div class="form-group">
-            <label>- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
+            <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
+            <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
             <input type="file" name="headIdImage" accept="image/*,.pdf">
           </div>
 
           <div class="form-group">
             <label class="section-label">الحالة الاجتماعية لرب/ة الأسرة</label>
-            <select name="headSocialStatus" required onchange="toggleField(this, 'headAbandonedDate')">
+            <select name="headSocialStatus" required onchange="toggleField(this, 'headAbandonedDetas')">
                 <option value="">-- اختر الحالة --</option>
                 <option value="male_married">ذكر (متزوج)</option>
                 <option value="male_multi">ذكر (متعدد الزوجات)</option>
@@ -78,8 +79,10 @@
                 <option value="female_abandoned">أنثى (مهجورة)</option>
                 <option value="female_abandoned_left">أنثى (متروكة)</option>
             </select>
-            <label>تاريخ النقطاعها عن زوجها في الحرب؟</label>
-            <input type="date" name="headAbandonedDate" id ="headAbandonedDate" class="hidden-input" hidden placeholder="ادخل تاريح النقطاع">
+            <div id="headAbandonedDetas" class="hidden-input" hidden >
+              <label class="hint">تاريخ النقطاعها عن زوجها في الحرب؟</label>
+              <input type="date" name="headAbandonedDate" placeholder="ادخل تاريح النقطاع">
+            </div>
           </div>
 
           <div class="section-box">
@@ -92,8 +95,8 @@
                 </select>
                 <div id="headDiseaseDetails" class="hidden-input"  hidden >
                   <input type="text" name="headDiseaseType" placeholder="نوع المرض/الإعاقة بالتفصيل">
-                  <label>إرفاق صورة عن التقرير الطبي:</label>
-                  <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                  <label class="hint">إرفاق صورة عن التقرير الطبي للمراض المزمن:</label>
+                  <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                   <input type="file" name="headDiseaseImage" accept="image/*,.pdf">
                 </div>
              </div>
@@ -109,7 +112,7 @@
                     <label class="hint">تاريخ الاصابة</label>
                     <input type="date" name="headInjuryDate" placeholder="تاريخ الإصابة">
                     <input type="text" name="headInjuryEffect" placeholder="وفي حال وجود بتر تحديد موضعة">
-                    <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
+                    <label class="hint">إرفاق صورة عن التقرير الطبي للإصابة:</label>
                     <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                     <input type="file" name="headInjuryImage" accept="image/*,.pdf">
                 </div>
@@ -146,7 +149,7 @@
           <div class="section-box">
             <h3>حالة الزوج/الزوجة لرب/ربة الأسرة</h3>
             <label>الحالة:</label>
-            <select name="headSpouseStatus" onchange="handleSpouseStatus(this)">
+            <select name="headSpouseStatus" onchange="handleSpouseStatus(this, 'deceasedSpouseInfo')">
                 <option value="none">لا ينطبق (الزوج/ة على قيد الحياة)</option>
                 <option value="martyr">شهيد</option>
                 <option value="deceased">متوفّى (وفاة طبيعية)</option>
@@ -198,7 +201,7 @@
           <h2>4) حالات الشهداء ضمن أفراد الأسرة</h2>
           
           <div class="form-group">
-             <label>هل توجد زوجة شهيدة خلال الحرب؟</label>
+             <label>هل توجد زوجة/الأبناء شهيدة خلال الحرب؟</label>
              <select name="hasMartyrWife">
                  <option value="no">لا</option>
                  <option value="yes">نعم (يرجى إضافتها في قسم الشهداء بالأسفل)</option>
@@ -266,7 +269,7 @@
                 <option value="rented">مستأجر</option>
                 <option value="other">أخرى</option>
               </select>
-              <input type="text" id="housingOtherType" name="housingOtherType" class="hidden-input"  hidden  placeholder="نوع المرض/الإعاقة بالتفصيل">
+              <input type="text" id="housingOtherType" name="housingOtherType" class="hidden-input"  hidden  placeholder="نوع السكن بالتفصيل">
             </div>
           </div>
 

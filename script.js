@@ -274,10 +274,14 @@ function addWife() {
         <div class="form-row">
             <div class="form-group half">
                 <label>هل فُقدت خلال الحرب؟</label>
-                <select name="wives[${id}][missing]">
+                <select name="wives[${id}][missing] onchange="toggleField(this, 'wifeMissing-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
+                <div id="wifeMissing-${id}" class="hidden-input">
+                    <label>تاريخ الفقد:</label>
+                    <input type="date" name="wives[${id}][missingDate]" placeholder="تاريخ الفقد">
+                </div>
             </div>
             <div class="form-group half">
                 <label>هل أُسرت خلال الحرب؟</label>
@@ -333,12 +337,17 @@ function addChild() {
         </div>
         
         <div class="form-group">
-            <label>هل يعاني من أمراض؟</label>
-            <select name="children[${id}][sick]" onchange="toggleField(this, 'childDisease-${id}')">
+            <label>هل يعاني ابنك/بنتك من أمراض؟</label>
+            <select name="children[${id}][sick]" onchange="toggleField(this, 'childDiseaseDesc-${id}')">
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
-            <input type="text" class="childDisease-${id} hidden-input" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة" hidden >
+            <div id="childDiseaseDesc-${id}" class="hidden-input" hidden >
+                <input type="text" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة">
+                <label>إرفاق صورة عن التقرير الطبي للمرض:</label>
+                <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
+                <input type="file" accept="image/*,.pdf""
+            </div>
         </div>
 
         <div class="form-group">
@@ -347,10 +356,10 @@ function addChild() {
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
-            <div class="childInjury-${id}" hidden-input hidden >
-                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
+            <div id="childInjury-${id}" class="hidden-input" hidden >
                 <label class="hint">تاريخ الإصابة:</label>
                 <input type="date" name="children[${id}][injuryDate]">
+                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
             </div>
         </div>
 
@@ -361,7 +370,10 @@ function addChild() {
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <input type="date" class="childMissing-${id} hidden-input" name="children[${id}][missingDate]" placeholder="تاريخ الفقد" hidden >
+                <div id="childMissing-${id}" class="hidden-input" hidden> 
+                    <label class="hint">تاريخ الفقد</label>
+                    <input type="date" name="children[${id}][missingDate]" placeholder="تاريخ الفقد">
+                </div>
             </div>
             <div class="form-group half">
                 <label>هل أسر خلال الحرب؟</label>
@@ -408,7 +420,6 @@ function addMartyr() {
                     <option value="son">ابن</option>
                     <option value="daughter">ابنة</option>
                     <option value="wife">زوجة</option>
-                    <option value="husband">زوج</option>
                 </select>
             </div>
             <div class="form-group half">
