@@ -599,7 +599,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     // ----------------------------------------------------
     const API_URL = "https://gazaaiddata.netlify.app/.netlify/functions/saveData";
 
-    console.log("sending data to server: ",body);
+    console.log("sending data to server: ",data);
 
     fetch(API_URL, {
         method: 'POST',
