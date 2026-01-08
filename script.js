@@ -96,7 +96,7 @@ function toggleField(selectElem, targetId) {
              internalTarget.style.display = selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned') ? 'block' : 'none';
              const inputs = internalTarget.querySelectorAll('input');
              inputs.forEach(i => {
-                if(selectElem.value === 'yes' || selectElem.value === 'other') {
+                if(selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned')) {
                     i.hidden = false;
                     i.setAttribute('required', 'true');
                 } else {
@@ -109,7 +109,7 @@ function toggleField(selectElem, targetId) {
     }
 
     // Standard ID toggle
-    if (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value === 'female_abandoned') {
+    if (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned')) {
         target.style.display = 'block';
         target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
     } else {

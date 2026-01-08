@@ -59,8 +59,8 @@
           </div>
           
           <div class="form-group">
-            <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
-            <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+            <label><p>إرفاق صورة الهوية</p></label>
+            <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="headIdImage" accept="image/*,.pdf">
           </div>
 
@@ -95,9 +95,11 @@
                 </select>
                 <div id="headDiseaseDetails" class="hidden-input"  hidden >
                   <input type="text" name="headDiseaseType" placeholder="نوع المرض/الإعاقة بالتفصيل">
-                  <label class="hint">إرفاق صورة عن التقرير الطبي للمراض المزمن:</label>
-                  <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
-                  <input type="file" name="headDiseaseImage" accept="image/*,.pdf">
+                    <div class="form-group">
+                    <label class="hint">إرفاق صورة عن التقرير الطبي <b>للمراض المزمن</b>:</label>
+                    <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                    <input type="file" name="headDiseaseImage" accept="image/*,.pdf">
+                  </div>
                 </div>
              </div>
 
@@ -108,13 +110,17 @@
                     <option value="yes">نعم</option>
                 </select>
                 <div id="headInjuryDetails" class="hidden-input" hidden >
-                    <input type="text" name="headInjuryDesc" placeholder="وصف الإصابة">
+                  <input type="text" name="headInjuryDesc" placeholder="وصف الإصابة">
+                  <div class="form-group">
                     <label class="hint">تاريخ الاصابة</label>
                     <input type="date" name="headInjuryDate" placeholder="تاريخ الإصابة">
                     <input type="text" name="headInjuryEffect" placeholder="وفي حال وجود بتر تحديد موضعة">
-                    <label class="hint">إرفاق صورة عن التقرير الطبي للإصابة:</label>
-                    <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
-                    <input type="file" name="headInjuryImage" accept="image/*,.pdf">
+                    <div class="form-group">
+                      <label class="hint">إرفاق صورة عن التقرير الطبي للإصابة:</label>
+                      <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                      <input type="file" name="headInjuryImage" accept="image/*,.pdf">
+                    </div>
+                  </div>
                 </div>
              </div>
           </div>
