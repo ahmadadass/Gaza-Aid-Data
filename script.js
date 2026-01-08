@@ -119,15 +119,15 @@ function toggleField(selectElem, targetId) {
 }
 
 function handleSpouseStatus(selectElem, targetId) {
-    console.log("handleSpouseStatus: selectElem",selectElem);
+    //console.log("handleSpouseStatus: selectElem",selectElem);
     const target = document.getElementById(targetId);
-    console.log("target:",target);
+    //console.log("target:",target);
    if (!target) {
         // Try finding by class inside dynamic cards
         const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
-        console.log("parent:",parent);
+        //console.log("parent:",parent);
         const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
-        console.log("internalTarget:",internalTarget);
+        //console.log("internalTarget:",internalTarget);
         if(internalTarget) {
              internalTarget.style.display = (selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate') ? 'block' : 'none';
              const inputs = internalTarget.querySelectorAll('input');
@@ -146,7 +146,7 @@ function handleSpouseStatus(selectElem, targetId) {
         return;
     } 
 
-    if (selectElem.value === 'martyr' || selectElem.value === 'deceased') {
+    if (selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate') {
         target.style.display = 'block';
         target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
     } else {
@@ -252,7 +252,7 @@ function addWife() {
             </select>
 
             <div id="wives[${id}][diseaseDetails]" class="hidden-input"  hidden >
-                <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
+                <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة">
                 <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
@@ -278,14 +278,14 @@ function addWife() {
 
         <div class="form-row">
             <div class="form-group half">
-                <label>هل فُقدت خلال الحرب؟</label>
-                <select name="wives[${id}][missing] onchange="toggleField(this, 'wifeMissing-${id}')">
+               <label>هل فقدت زوجتك خلال الحرب؟</label>
+                <select name="wife[${id}][missing]" onchange="toggleField(this, 'wifeMissing-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <div id="wifeMissing-${id}" class="hidden-input" hidden>
-                    <label>تاريخ الفقد:</label>
-                    <input type="date" name="wives[${id}][missingDate]" placeholder="تاريخ الفقد">
+                <div id="wifeMissing-${id}" class="hidden-input" hidden> 
+                    <label class="hint">تاريخ الفقد</label>
+                    <input type="date" name="wife[${id}][missingDate]" placeholder="تاريخ الفقد">
                 </div>
             </div>
             <div class="form-group half">
@@ -301,7 +301,7 @@ function addWife() {
             </div>
         </div>
         <div class="form-group">
-            <label><p>إرفاق صورة الهوية</p></label>
+            <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="wives[${id}][IdImage]" accept="image/*,.pdf">
         </div>

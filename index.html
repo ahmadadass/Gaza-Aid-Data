@@ -59,7 +59,7 @@
           </div>
           
           <div class="form-group">
-            <label><p>إرفاق صورة الهوية</p></label>
+            <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="headIdImage" accept="image/*,.pdf">
           </div>
@@ -94,8 +94,10 @@
                     <option value="yes">نعم</option>
                 </select>
                 <div id="headDiseaseDetails" class="hidden-input"  hidden >
-                  <input type="text" name="headDiseaseType" placeholder="نوع المرض/الإعاقة بالتفصيل">
-                    <div class="form-group">
+                  <div class="form-group">
+                    <input type="text" name="headDiseaseType" placeholder="نوع المرض/الإعاقة بالتفصيل">
+                  </div>
+                  <div class="form-group">
                     <label class="hint">إرفاق صورة عن التقرير الطبي <b>للمراض المزمن</b>:</label>
                     <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                     <input type="file" name="headDiseaseImage" accept="image/*,.pdf">
@@ -163,9 +165,11 @@
             </select>
 
             <div id="deceasedSpouseInfo" class="hidden-input"  hidden >
-                <input type="text" name="deceasedSpouseName" placeholder="الاسم الرباعي للزوج/ة">
-                <input type="number" name="deceasedSpouseId" placeholder="رقم الهوية">
-                <label class="hint">تاريخ الاستشهاد/الوفاة:</label>
+                <div class="form-group">
+                  <input type="text" name="deceasedSpouseName" placeholder="الاسم الرباعي للزوج">
+                  <input type="number" name="deceasedSpouseId" placeholder="رقم الهوية">
+                </div>
+                <label class="hint">تاريخ الاستشهاد/الوفاة/الفقدان:</label>
                 <input type="date" name="deceasedSpouseDate">
             </div>
           </div>
