@@ -93,7 +93,7 @@ function toggleField(selectElem, targetId) {
         const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
         const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
         if(internalTarget) {
-             internalTarget.style.display = selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned') ? 'block' : 'none';
+             internalTarget.style.display = (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned')) ? 'block' : 'none';
              const inputs = internalTarget.querySelectorAll('input');
              inputs.forEach(i => {
                 if(selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned')) {
@@ -119,22 +119,27 @@ function toggleField(selectElem, targetId) {
 }
 
 function handleSpouseStatus(selectElem, targetId) {
+    console.log("handleSpouseStatus: selectElem,targetId",selectElem,target);
     const target = document.getElementById(targetId);
-
+    console.log("target:",target);
    if (!target) {
         // Try finding by class inside dynamic cards
         const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
+        console.log("parent:",parent);
         const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
+        console.log("internalTarget:",internalTarget);
         if(internalTarget) {
-             internalTarget.style.display = selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate' ? 'block' : 'none';
+             internalTarget.style.display = (selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate') ? 'block' : 'none';
              const inputs = internalTarget.querySelectorAll('input');
              inputs.forEach(i => {
                 if(selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate') {
                     i.hidden = false;
                     i.setAttribute('required', 'true');
+                    console.log("set Attribute show for ",i);
                 } else {
                     i.hidden = true; 
                     i.removeAttribute('required');
+                    console.log("set Attribute hidden ",i);
                 }
             });
         }
