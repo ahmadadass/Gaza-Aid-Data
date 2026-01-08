@@ -119,7 +119,7 @@ function toggleField(selectElem, targetId) {
 }
 
 function handleSpouseStatus(selectElem, targetId) {
-    console.log("handleSpouseStatus: selectElem,targetId",selectElem,target);
+    console.log("handleSpouseStatus: selectElem",selectElem);
     const target = document.getElementById(targetId);
     console.log("target:",target);
    if (!target) {
