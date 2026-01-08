@@ -173,7 +173,7 @@ function removeElement(btn) {
     if(confirm('هل أنت متأكد من الحذف؟')) {
         const master = btn.closest('.dynamic-card');  //.remove();
         const master_id = master.id;
-        switch (master_id){
+        switch (master_id[0]){
             case 'w':
                 wifeCounter--;
                 break;
@@ -241,7 +241,7 @@ function addWife() {
 
         <div class="form-group">
             <label>هل تعاني زوجتك من أمراض؟</label>
-            <select name="wives[${id}][sick]" onchange="toggleField(this, 'wifeDisease-${id}')">
+            <select name="wives[${id}][sick]" onchange="toggleField(this, 'wives[${id}][diseaseDetails]')">
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
@@ -261,11 +261,11 @@ function addWife() {
                 <option value="yes">نعم</option>
             </select>
             <div class="wifeInjury-${id} hidden-input" hidden >
-                <label class="hint">ادخل بيانات إصابة زوجتك:-</label>
+                <label><b>ادخل بيانات إصابة زوجتك:-</b></label>
                 <label class="hint">تاريخ إصابة زوجتك:</label>
                 <input type="date" name="wives[${id}][injuryDate]" placeholder="">
                 <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
-                <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
+                <label>إرفاق صورة عن التقرير الطبي:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][injuryDate]" placeholder="ارفاق صورة">
             </div>
@@ -278,7 +278,7 @@ function addWife() {
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <div id="wifeMissing-${id}" class="hidden-input">
+                <div id="wifeMissing-${id}" class="hidden-input" hidden>
                     <label>تاريخ الفقد:</label>
                     <input type="date" name="wives[${id}][missingDate]" placeholder="تاريخ الفقد">
                 </div>
@@ -289,12 +289,15 @@ function addWife() {
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <input type="date" class="wifePrison-${id} hidden-input" name="wives[${id}][prisonDate]" placeholder="تاريخ الأسر" hidden >
+                <div id="wifePrison-${id}" class="hidden-input" hidden> 
+                    <label>تاريخ الاسر</label>
+                    <input type="date" name="wives[${id}][prisonDate]" placeholder="تاريخ الأسر">
+                </div>
             </div>
         </div>
         <div class="form-group">
-            <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
-            <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+            <label><p>إرفاق صورة الهوية</p></label>
+            <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="wives[${id}][IdImage]" accept="image/*,.pdf">
         </div>
     `;
@@ -344,9 +347,11 @@ function addChild() {
             </select>
             <div id="childDiseaseDesc-${id}" class="hidden-input" hidden >
                 <input type="text" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة">
-                <label>إرفاق صورة عن التقرير الطبي للمرض:</label>
-                <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
-                <input type="file" accept="image/*,.pdf""
+                <div class="form-group">
+                    <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
+                    <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
+                    <input type="file" accept="image/*,.pdf"">
+                </div>
             </div>
         </div>
 
