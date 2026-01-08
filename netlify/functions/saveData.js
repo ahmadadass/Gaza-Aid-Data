@@ -154,7 +154,7 @@ exports.handler = async (event) => {
     await googleSheets.spreadsheets.values.append({
       auth,
       spreadsheetId: spreadsheetId, // تم إضافة المفتاح المفقود
-      range: "sheet1", // تأكد أن اسم الورقة في جوجل شيت هو sheet1
+      range: "sheet1!A:A", // تأكد أن اسم الورقة في جوجل شيت هو sheet1
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [row] // يجب أن تكون مصفوفة داخل مصفوفة
