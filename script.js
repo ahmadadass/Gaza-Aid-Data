@@ -17,7 +17,7 @@ function nextStep(step) {
 
         if (step === 2 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
             step += 3;
-        } else if (step === 2 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')) {
+        } else if (step === 2 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus.includes('female'))) {
             step += 1;
         }
         console.log('nextStep afrer:',step);
@@ -31,11 +31,11 @@ function prevStep(step) {
 
     console.log('prevStep headSocialStatus:',headSocialStatus);
     console.log('prevStep bef:',step);
-    
-    if (step === 2 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus === 'female_widow' || headSocialStatus === 'female_divorced' || headSocialStatus === 'female_abandoned')){
-        step -= 1;
-    } else if (step === 4 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
+
+    if (step === 4 && ( headSocialStatus === 'male_single_40' || headSocialStatus === 'female_single_40' )){
         step -= 3;
+    } else if (step === 2 && ( headSocialStatus === 'male_widower' || headSocialStatus === 'male_divorced' || headSocialStatus.includes('female'))){
+        step -= 1;
     }
     console.log('prevStep afrer:',step);
 
@@ -93,7 +93,7 @@ function toggleField(selectElem, targetId) {
         const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
         const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
         if(internalTarget) {
-             internalTarget.style.display = selectElem.value === 'yes' || selectElem.value === 'other' ? 'block' : 'none';
+             internalTarget.style.display = selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned') ? 'block' : 'none';
              const inputs = internalTarget.querySelectorAll('input');
              inputs.forEach(i => {
                 if(selectElem.value === 'yes' || selectElem.value === 'other') {
@@ -109,7 +109,7 @@ function toggleField(selectElem, targetId) {
     }
 
     // Standard ID toggle
-    if (selectElem.value === 'yes' || selectElem.value === 'other') {
+    if (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value === 'female_abandoned') {
         target.style.display = 'block';
         target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
     } else {
@@ -118,8 +118,29 @@ function toggleField(selectElem, targetId) {
     }
 }
 
-function handleSpouseStatus(selectElem) {
-    const target = document.getElementById('deceasedSpouseInfo');
+function handleSpouseStatus(selectElem, targetId) {
+    const target = document.getElementById(targetId);
+
+   if (!target) {
+        // Try finding by class inside dynamic cards
+        const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
+        const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
+        if(internalTarget) {
+             internalTarget.style.display = selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate' ? 'block' : 'none';
+             const inputs = internalTarget.querySelectorAll('input');
+             inputs.forEach(i => {
+                if(selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate') {
+                    i.hidden = false;
+                    i.setAttribute('required', 'true');
+                } else {
+                    i.hidden = true; 
+                    i.removeAttribute('required');
+                }
+            });
+        }
+        return;
+    } 
+
     if (selectElem.value === 'martyr' || selectElem.value === 'deceased') {
         target.style.display = 'block';
         target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
@@ -150,7 +171,22 @@ function generateId() {
 
 function removeElement(btn) {
     if(confirm('هل أنت متأكد من الحذف؟')) {
-        btn.closest('.dynamic-card').remove();
+        const master = btn.closest('.dynamic-card');  //.remove();
+        const master_id = master.id;
+        switch (master_id){
+            case 'w':
+                wifeCounter--;
+                break;
+            case 'c':
+                childCounter--;
+                break;
+            case 'm':
+                martyrCounter--;
+                break;
+            default:
+                console.log("can't identify master id:",master_id);
+                break;
+        }
     }
 }
 
@@ -204,24 +240,34 @@ function addWife() {
         </div>
 
         <div class="form-group">
-            <label>هل تعاني من أمراض؟</label>
+            <label>هل تعاني زوجتك من أمراض؟</label>
             <select name="wives[${id}][sick]" onchange="toggleField(this, 'wifeDisease-${id}')">
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
-            <input type="text" class="wifeDisease-${id} hidden-input" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح" hidden >
+
+            <div id="wives[${id}][diseaseDetails]" class="hidden-input"  hidden >
+                <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
+                <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة">
+                <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
+            </div>
         </div>
 
         <div class="form-group">
-            <label>هل تعرضت لإصابة/إعاقة نتيجة الحرب؟</label>
+            <label>هل تعرضت زوجتك لإصابة/إعاقة نتيجة الحرب؟</label>
             <select name="wives[${id}][injured]" onchange="toggleField(this, 'wifeInjury-${id}')">
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
             <div class="wifeInjury-${id} hidden-input" hidden >
+                <label class="hint">ادخل بيانات إصابة زوجتك:-</label>
+                <label class="hint">تاريخ إصابة زوجتك:</label>
+                <input type="date" name="wives[${id}][injuryDate]" placeholder="">
                 <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
-                <label>تاريخ الإصابة:</label>
-                <input type="date" name="wives[${id}][injuryDate]">
+                <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
+                <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                <input type="file" name="wives[${id}][injuryDate]" placeholder="ارفاق صورة">
             </div>
         </div>
 
@@ -243,7 +289,8 @@ function addWife() {
             </div>
         </div>
         <div class="form-group">
-            <label>- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
+            <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
+            <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
             <input type="file" name="wives[${id}][IdImage]" accept="image/*,.pdf">
         </div>
     `;
@@ -300,16 +347,16 @@ function addChild() {
                 <option value="no">لا</option>
                 <option value="yes">نعم</option>
             </select>
-            <div class="childInjury-${id} hidden-input" hidden >
+            <div class="childInjury-${id}" hidden-input hidden >
                 <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
-                <label>تاريخ الإصابة:</label>
+                <label class="hint">تاريخ الإصابة:</label>
                 <input type="date" name="children[${id}][injuryDate]">
             </div>
         </div>
 
         <div class="form-row">
              <div class="form-group half">
-                <label>هل هو من مفقودين الحرب?</label>
+                <label>هل ابنك/بنتك من مفقودين الحرب?</label>
                 <select name="children[${id}][missing]" onchange="toggleField(this, 'childMissing-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
@@ -365,7 +412,7 @@ function addMartyr() {
                 </select>
             </div>
             <div class="form-group half">
-                <label>رقم الهوية</label>
+                <label class="hint">رقم الهوية</label>
                 <input type="number" name="martyrs[${id}][id]">
             </div>
         </div>
@@ -441,7 +488,10 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             break; 
         case "deceased":
             headSpouseStatusArb = "متوفّى (وفاة طبيعية)";
-            break; 
+            break;
+        case "unknownFate":
+            headSpouseStatusArb = "غير معروف مصيره";
+            break;
         default:  
             headSpouseStatusArb = headSpouseStatus;
     }
@@ -462,7 +512,8 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             socialStatus: headSocialStatusArb,
             health: {
                 chronic: (formData.get('headHasDisease') == 'yes') ? 'نعم' : 'لا',
-                details: formData.get('headDiseaseDetails'),
+                chronicType: formData.get('headDiseaseType'),
+                chronicImage: formData.get('') || "", //image uri in here
                 warInjury: (formData.get('headIsInjured') == 'yes') ? 'نعم' : 'لا',
                 injuryDetails: formData.get('headInjuryDesc'),
                 injuryDate: formData.get('headInjuryDate'),

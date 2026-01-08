@@ -69,7 +69,7 @@ exports.handler = async (event) => {
         head.firstName || "",
         head.fatherName || "",
         head.grandName || "",
-        head.firstName || "",
+        head.lastName || "",
         head.id || "",
         head.dob || "",
         head.socialStatus || "",

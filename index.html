@@ -65,7 +65,7 @@
 
           <div class="form-group">
             <label class="section-label">الحالة الاجتماعية لرب/ة الأسرة</label>
-            <select name="headSocialStatus" required>
+            <select name="headSocialStatus" required onchange="toggleField(this, 'headAbandonedDate')">
                 <option value="">-- اختر الحالة --</option>
                 <option value="male_married">ذكر (متزوج)</option>
                 <option value="male_multi">ذكر (متعدد الزوجات)</option>
@@ -76,7 +76,10 @@
                 <option value="female_single_40">أنثى (عزباء فوق 40)</option>
                 <option value="female_divorced">أنثى (مطلقة)</option>
                 <option value="female_abandoned">أنثى (مهجورة)</option>
+                <option value="female_abandoned_left">أنثى (متروكة)</option>
             </select>
+            <label>تاريخ النقطاعها عن زوجها في الحرب؟</label>
+            <input type="date" name="headAbandonedDate" id ="headAbandonedDate" class="hidden-input" hidden placeholder="ادخل تاريح النقطاع">
           </div>
 
           <div class="section-box">
@@ -87,7 +90,12 @@
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <input type="text" id="headDiseaseDetails" name="headDiseaseDetails" class="hidden-input"  hidden  placeholder="نوع المرض/الإعاقة بالتفصيل">
+                <div id="headDiseaseDetails" class="hidden-input"  hidden >
+                  <input type="text" name="headDiseaseType" placeholder="نوع المرض/الإعاقة بالتفصيل">
+                  <label>إرفاق صورة عن التقرير الطبي:</label>
+                  <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                  <input type="file" name="headDiseaseImage" accept="image/*,.pdf">
+                </div>
              </div>
 
              <div class="form-group">
@@ -98,8 +106,12 @@
                 </select>
                 <div id="headInjuryDetails" class="hidden-input" hidden >
                     <input type="text" name="headInjuryDesc" placeholder="وصف الإصابة">
+                    <label class="hint">تاريخ الاصابة</label>
                     <input type="date" name="headInjuryDate" placeholder="تاريخ الإصابة">
                     <input type="text" name="headInjuryEffect" placeholder="وفي حال وجود بتر تحديد موضعة">
+                    <label class="hint">إرفاق صورة عن التقرير الطبي:</label>
+                    <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                    <input type="file" name="headInjuryImage" accept="image/*,.pdf">
                 </div>
              </div>
           </div>
@@ -114,38 +126,39 @@
                 <option value="gov_ramallah">موظف حكومة رام الله</option>
                 <option value="unrwa">موظف وكالة</option>
                 <option value="private">موظف قطاع خاص</option>
+                <option value="retired_gaza">متقاعد حكومة غزة</option>
                 <option value="retired_ramallah">متقاعد حكومة رام الله</option>
-                <option value="retired_unrwa">متقاعد وكالة</option>
                 <option value="housewife">ربة بيت</option>
                 <option value="other">أخرى</option>
             </select>
             <input type="text" id="headOtherJob" name="headOtherJob" class="hidden-input"  hidden  placeholder="صف العمل وطبيعته">
           </div>
 
+          <div class="form-group">
+            <label>رقم أساسي (جوال/وطنية) 059/056</label>
+            <input type="tel" name="headPhone" required placeholder="ادخل رقم الهاتف">
+          </div>
+          <div class="form-group">
+            <label>رقم بديل (جوال/وطنية) 059/056</label>
+            <input type="tel" name="headPhoneAlt" placeholder="ادخل رقم الهاتف">
+          </div>
+
           <div class="section-box">
-            <h3>حالة الزوج/الزوجة لرب/ربة الأسرة (للمتوفين)</h3>
+            <h3>حالة الزوج/الزوجة لرب/ربة الأسرة</h3>
             <label>الحالة:</label>
             <select name="headSpouseStatus" onchange="handleSpouseStatus(this)">
                 <option value="none">لا ينطبق (الزوج/ة على قيد الحياة)</option>
                 <option value="martyr">شهيد</option>
                 <option value="deceased">متوفّى (وفاة طبيعية)</option>
+                <option value="unknownFate">غير معروف مصيره</option>
             </select>
 
             <div id="deceasedSpouseInfo" class="hidden-input"  hidden >
                 <input type="text" name="deceasedSpouseName" placeholder="الاسم الرباعي للزوج/ة">
                 <input type="number" name="deceasedSpouseId" placeholder="رقم الهوية">
-                <label>تاريخ الاستشهاد/الوفاة:</label>
+                <label class="hint">تاريخ الاستشهاد/الوفاة:</label>
                 <input type="date" name="deceasedSpouseDate">
             </div>
-          </div>
-
-          <div class="form-group">
-            <label>رقم أساسي (جوال/وطنية) 059/056</label>
-            <input type="tel" name="headPhone" required placeholder="ادخل رقم الهاتق">
-          </div>
-          <div class="form-group">
-            <label>رقم بديل (جوال/وطنية) 059/056</label>
-            <input type="tel" name="headPhoneAlt" placeholder="ادخل رقم الهاتف">
           </div>
 
           <div class="buttons">
@@ -210,7 +223,7 @@
              <div class="form-row">
                  <div class="form-group half">
                      <label>المحافظة</label>
-                     <input type="text" value="غزة - حي التفاح الشرقي - مسجد الجولاني" readonly style="background:#eee">
+                     <input type="text" value="غزة-حي التفاح-مسجد الجولاني" readonly style="background:#eee">
                  </div>
              </div>
              <div class="form-group">
@@ -236,9 +249,9 @@
                  </select>
              </div>
              <div class="form-group">
-                 <label>المحافظة</label>
+                 <label>المدينة</label>
                  <input type="text" name="currentCity" required>
-                 <label>المدينة/الحي</label>
+                 <label>المخيم/الحي</label>
                  <input type="text" name="currentNeighborhood" required>
                  <label>أقرب معلم</label>
                  <input type="text" name="currentLandmark" required>
@@ -265,12 +278,25 @@
           <hr>
           
           <div class="contact-info">
-             <h3>تنويه للإخوة المواطنين في منطقة الجولانب:</h3>
+             <h3>تنويه للإخوة السكان في منطقة الجولانب:</h3>
              <p>يسعدنا إعلامكم بتخصيص رقم واتساب للاستفسارات والاستعلامات، للرد على أي تساؤلات تتعلق بالتسجيل أو الشؤون الإغاثية الخاصة بمنطقتنا.</p>
              <p><strong>📍 خاص بسكان محيط مسجد الجولاني – حي التفاح الشرقي – غزة</strong></p>
              <p>📞 واتساب فقط (رسائل): <a href="https://wa.me/970568808834" target="_blank">00970568808834</a></p>
              <p>📩 سيتم الرد على إستفساراتكم في اقرب فرصة حسب توفر الإنترنت.</p>
           </div>
+
+          <div class="whatsapp-grope">
+            <h3>يسرّنا دعوتكم للانضمام إلى *مجموعة "إغاثية الجولاني"*، وهي مجموعة مخصصة لسكان *المنطقة الجغرافية المحيطة بمسجد الجولاني – حي التفاح الشرقي*، وتهدف إلى:</h3>
+            <p>- تنظيم عملية جمع وتحديث بيانات السكان الأصليين.</p>
+            <p>- توحيد قنوات التواصل الخاصة بأهالي المنطقة.</p>
+            <p>- متابعة أي تطورات أو مستجدات إغاثية وخدماتية تخص المنطقة.</p>
+            <p>رابط الانضمام للمجموعة: <a href="https://chat.whatsapp.com/Czbuv9Hz9Y62WpyVDKMQEz" target="_blank">هنا</a></p>
+          </div>
+
+          <div class="pledge">
+            <p><strong>✍️ تعهد:</strong></p>
+            <p>أُقرّ أنا المُسجل/ـة أن جميع البيانات التي قمتُ بإدخالها صحيحة ودقيقة، وأتحمّل كامل المسؤولية عن أي معلومات غير صحيحة أو مُضللة، وأُدرك أن أي خطأ متعمد قد يؤدي إلى استبعادي من قوائم الاستحقاق.</p>
+          </div>          
 
           <div class="buttons">
             <button type="button" class="btn-prev" onclick="prevStep(4)">السابق</button>
