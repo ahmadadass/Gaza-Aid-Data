@@ -90,6 +90,8 @@ function toggleField(selectElem, targetId) {
     //const input = document.getElementsByClassName('hidden-input');
     if (!target) {
         // Try finding by class inside dynamic cards
+        console.log("select elem", selectElem)
+        console.log("select elem value", selectElem.value)
         const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
         const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
         if(internalTarget) {
@@ -109,7 +111,7 @@ function toggleField(selectElem, targetId) {
     }
 
     // Standard ID toggle
-    if (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned')) {
+    if (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female')) {
         target.style.display = 'block';
         target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
     } else {
@@ -501,10 +503,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     let headSocialStatusArb = "";
     switch (headSocialStatus) {
         case "male_married":
-            headSocialStatusArb = "-- اختر الحالة --"; 
-            break; 
-        case "male_multi":
-            headSocialStatusArb = "ذكر (متزوج)";
+            headSocialStatusArb = "ذكر (متزوج)"; 
             break;
         case "male_multi":
             headSocialStatusArb = "ذكر (متعدد الزوجات)";
