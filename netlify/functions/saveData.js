@@ -119,6 +119,7 @@ exports.handler = async (event) => {
         row.push(wives[i]?.injuryDate || "");
         row.push(wives[i]?.injuryImage || "")
         row.push(wives[i]?.missing || "");
+        row.push(wives[i]?.missingDate || "")
         row.push(wives[i]?.prisoner || "");
         row.push(wives[i]?.prisonDate || "");
         row.push(wives[i]?.IdImage || "");
@@ -133,7 +134,8 @@ exports.handler = async (event) => {
         row.push(children[i]?.pregnant || "");
         row.push(children[i]?.nursing || "");
         row.push(children[i]?.sick || "");
-        row.push(),
+        row.push(children[i]?.missing || "");
+        row.push(children[i]?.missingDate || "");
         row.push(children[i]?.diseaseDetails || "");
         row.push(children[i]?.injured || "");
         row.push(children[i]?.injuryDesc || "");
@@ -154,6 +156,11 @@ exports.handler = async (event) => {
 
     row.push(JSON.stringify(body));  // العمود 10: كافة التفاصيل (JSON) كنسخة احتياطية
 
+    for (let i = 0; i < row.length; i++) {
+      if (typeof row[i] === 'object' && row[i] !== null && !Array.isArray(row[i])){
+        row[i] = "error intering data";
+      }
+    }
 
     console.log("adding row:",row);
 

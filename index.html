@@ -173,26 +173,6 @@
             <input type="tel" name="headPhoneAlt" placeholder="ادخل رقم الهاتف">
           </div>
 
-          <div class="section-box">
-            <h3>حالة الزوج/الزوجة لرب/ربة الأسرة</h3>
-            <label>الحالة:</label>
-            <select name="headSpouseStatus" onchange="handleSpouseStatus(this, 'deceasedSpouseInfo')">
-                <option value="none">لا ينطبق (الزوج/ة على قيد الحياة)</option>
-                <option value="martyr">شهيد</option>
-                <option value="deceased">متوفّى (وفاة طبيعية)</option>
-                <option value="unknownFate">غير معروف مصيره</option>
-            </select>
-
-            <div id="deceasedSpouseInfo" class="hidden-input"  hidden >
-                <div class="form-group">
-                  <input type="text" name="deceasedSpouseName" placeholder="الاسم الرباعي للزوج">
-                  <input type="number" name="deceasedSpouseId" placeholder="رقم الهوية">
-                </div>
-                <label class="hint">تاريخ الاستشهاد/الوفاة/الفقدان:</label>
-                <input type="date" name="deceasedSpouseDate">
-            </div>
-          </div>
-
           <div class="buttons">
             <button type="button" class="btn-next" onclick="nextStep(2)">التالي</button>
           </div>

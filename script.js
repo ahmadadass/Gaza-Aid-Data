@@ -570,13 +570,13 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             health: {
                 chronic: (formData.get('headHasDisease') == 'yes') ? 'نعم' : 'لا',
                 chronicType: formData.get('headDiseaseType'),
-                chronicImage: formData.get('') || "", //image uri in here
+                chronicImage: formData.get('headIdImage') || "", //image uri in here
                 warInjury: (formData.get('headIsInjured') == 'yes') ? 'نعم' : 'لا',
                 injuryDetails: formData.get('headInjuryDesc'),
                 injuryDate: formData.get('headInjuryDate'),
                 injuryEffect: formData.get('headInjuryEffect')
             },
-            job: formData.get('headJob') === 'other' ? formData.get('headOtherJob') : formData.get('headOtherJob'),
+            job: formData.get('headJob') === 'other' ? formData.get('headOtherJob') : formData.get('headJob'),
             spouseStatus: headSpouseStatusArb,
             deceasedSpouse: {
                 name: formData.get('deceasedSpouseName'),
