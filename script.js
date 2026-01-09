@@ -576,14 +576,20 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     // Helper function for nested fields
     const extractDynamic = (prefix) => {
         const map = {};
+        console.log("extractDynamic of ",prefix);
         for(let [key, value] of formData.entries()) {
             if(key.startsWith(prefix + '[')) {
                 const match = key.match(new RegExp(`${prefix}\\[(.*?)\\]\\[(.*?)\\]`));
+                console.log("match: ", match);
                 if(match) {
                     const id = match[1];
                     const field = match[2];
                     if(!map[id]) map[id] = {};
-                    map[id][field] = value;
+                    if (value === 'yes' || value === 'no')
+                        map[id][field] = value === 'yes' ? 'نعم' : 'لا';
+                    else
+                        map[id][field] = value;
+                    console.log(`map[${id}][${field}] = ${value}`);
                 }
             }
         }

@@ -69,12 +69,13 @@ exports.handler = async (event) => {
         head.firstName || "",
         head.fatherName || "",
         head.grandName || "",
-        head.lastName || "",
+        head.familyName || "",
         head.id || "",
         head.dob || "",
         head.socialStatus || "",
         head.health.chronic || "",
-        head.health.details || "",
+        head.health.chronicType || "",
+        head.health.chronicImage || "",
         head.health.warInjury || "",
         head.health.injuryDetails || "",
         head.health.injuryDate || "",
@@ -83,6 +84,7 @@ exports.handler = async (event) => {
         head.job || "",
         head.deceasedSpouse.name || "",
         head.deceasedSpouse.id || "",
+        head.deceasedSpouse.date || "",
         head.phones.primary || "",
         head.phones.alt || "",
         housing.original.city || "",
@@ -91,12 +93,13 @@ exports.handler = async (event) => {
         housing.current.gov || "",
         housing.current.city || "",
         housing.current.neighborhood || "",
-        housing.current.arealandmark || "",
+        housing.current.landmark || "",
         housing.current.type || "",
         housing.hasMartyrWife || "",
         housing.wives || "",
         housing.children || "",
-        housing.martyrs || ""
+        housing.martyrs || "",
+        housing.whatsapp || ""
     ];
 
     console.log("wives:",wives);
@@ -109,6 +112,7 @@ exports.handler = async (event) => {
         row.push(wives[i]?.pregnant || "");
         row.push(wives[i]?.nursing || "");
         row.push(wives[i]?.sick || "");
+        row.push(wives[i].diseaseImage || "")
         row.push(wives[i]?.diseaseDetails || "");
         row.push(wives[i]?.injured || "");
         row.push(wives[i]?.injuryDesc || "");
@@ -116,6 +120,7 @@ exports.handler = async (event) => {
         row.push(wives[i]?.missing || "");
         row.push(wives[i]?.prisoner || "");
         row.push(wives[i]?.prisonDate || "");
+        row.push(wives[i].IdImage || "");
     }
 
     console.log("children:",children);
@@ -127,6 +132,7 @@ exports.handler = async (event) => {
         row.push(children[i]?.pregnant || "");
         row.push(children[i]?.nursing || "");
         row.push(children[i]?.sick || "");
+        row.push(),
         row.push(children[i]?.diseaseDetails || "");
         row.push(children[i]?.injured || "");
         row.push(children[i]?.injuryDesc || "");
