@@ -66,7 +66,8 @@
 
           <div class="form-group">
             <label class="section-label">الحالة الاجتماعية لرب/ة الأسرة</label>
-            <select name="headSocialStatus" required onchange="toggleField(this, 'headAbandonedDetas')">
+            <select name="headSocialStatus" required onchange="toggleField
+            (this, 'headAbandonedDeta')">
                 <option value="">-- اختر الحالة --</option>
                 <option value="male_married">ذكر (متزوج)</option>
                 <option value="male_multi">ذكر (متعدد الزوجات)</option>
@@ -79,9 +80,28 @@
                 <option value="female_abandoned">أنثى (مهجورة)</option>
                 <option value="female_abandoned_left">أنثى (متروكة)</option>
             </select>
-            <div id="headAbandonedDetas" class="hidden-input" hidden >
-              <label class="hint">تاريخ النقطاعها عن زوجها في الحرب؟</label>
-              <input type="date" name="headAbandonedDate" placeholder="ادخل تاريح النقطاع">
+            <div id="headAbandonedDeta" class="hidden-input" hidden >
+              <h3>حالة الزوج رب الأسرة</h3>
+              <label>الحالة:</label>
+              <select name="headSpouseStatus">
+                  <option value="deceased">متوفّى (وفاة طبيعية)</option>
+                  <option value="martyr">شهيد</option>
+                  <option value="unknownFate">غير معروف مصيره</option>
+              </select>
+
+              <div class="section-box">
+                  <div class="form-group">
+                    <input type="text" name="deceasedSpouseName" placeholder="الاسم الرباعي للزوج">
+                    <input type="number" name="deceasedSpouseId" placeholder="رقم الهوية">
+                  </div>
+                  <label class="hint">تاريخ الاستشهاد/الوفاة/الفقدان:</label>
+                  <input type="date" name="deceasedSpouseDate">
+              </div>
+    
+              <div class="section-box">
+                <label class="hint">تاريخ النقطاعها عن زوجها في الحرب؟</label>
+                <input type="date" name="headAbandonedDate" placeholder="ادخل تاريح النقطاع">
+              </div>
             </div>
           </div>
 

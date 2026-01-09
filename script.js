@@ -93,10 +93,10 @@ function toggleField(selectElem, targetId) {
         const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
         const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
         if(internalTarget) {
-             internalTarget.style.display = (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned')) ? 'block' : 'none';
+             internalTarget.style.display = (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female')) ? 'block' : 'none';
              const inputs = internalTarget.querySelectorAll('input');
              inputs.forEach(i => {
-                if(selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female_abandoned')) {
+                if(selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female')) {
                     i.hidden = false;
                     i.setAttribute('required', 'true');
                 } else {
@@ -119,6 +119,43 @@ function toggleField(selectElem, targetId) {
 }
 
 function handleSpouseStatus(selectElem, targetId) {
+    //console.log("handleSpouseStatus: selectElem",selectElem);
+    const target = document.getElementById(targetId);
+    //console.log("target:",target);
+   if (!target) {
+        // Try finding by class inside dynamic cards
+        const parent = selectElem.closest('.dynamic-card') || selectElem.closest('.section-box');
+        //console.log("parent:",parent);
+        const internalTarget = parent ? parent.querySelector('.' + targetId) : null;
+        //console.log("internalTarget:",internalTarget);
+        if(internalTarget) {
+             internalTarget.style.display = (selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate') ? 'block' : 'none';
+             const inputs = internalTarget.querySelectorAll('input');
+             inputs.forEach(i => {
+                if(selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate') {
+                    i.hidden = false;
+                    i.setAttribute('required', 'true');
+                    console.log("set Attribute show for ",i);
+                } else {
+                    i.hidden = true; 
+                    i.removeAttribute('required');
+                    console.log("set Attribute hidden ",i);
+                }
+            });
+        }
+        return;
+    } 
+
+    if (selectElem.value === 'martyr' || selectElem.value === 'deceased' || selectElem.value === 'unknownFate') {
+        target.style.display = 'block';
+        target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
+    } else {
+        target.style.display = 'none';
+        target.querySelectorAll('input').forEach(i => i.removeAttribute('required'));
+    }
+}
+
+function handleSocialStatus(selectElem, targetId) {
     //console.log("handleSpouseStatus: selectElem",selectElem);
     const target = document.getElementById(targetId);
     //console.log("target:",target);
@@ -200,7 +237,7 @@ function removeElement(btn) {
 // ------------------------------------------
 function addWife() {
     if (wifeCounter >= 4){
-        return "Error: you can only have 4 wifes";
+        return "Error: you can only have 4 wives";
     }
     wifeCounter++;
     const id = generateId();
@@ -272,29 +309,29 @@ function addWife() {
                 <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
                 <label>إرفاق صورة عن التقرير الطبي:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
-                <input type="file" name="wives[${id}][injuryDate]" placeholder="ارفاق صورة">
+                <input type="file" name="wives[${id}][injuryImage]" placeholder="ارفاق صورة">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group half">
                <label>هل فقدت زوجتك خلال الحرب؟</label>
-                <select name="wife[${id}][missing]" onchange="toggleField(this, 'wifeMissing-${id}')">
+                <select name="wives[${id}][missing]" onchange="toggleField(this, 'wivesMissing-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <div id="wifeMissing-${id}" class="hidden-input" hidden> 
+                <div id="wivesMissing-${id}" class="hidden-input" hidden> 
                     <label class="hint">تاريخ الفقد</label>
                     <input type="date" name="wife[${id}][missingDate]" placeholder="تاريخ الفقد">
                 </div>
             </div>
             <div class="form-group half">
                 <label>هل أُسرت خلال الحرب؟</label>
-                <select name="wives[${id}][prisoner]" onchange="toggleField(this, 'wifePrison-${id}')">
+                <select name="wives[${id}][prisoner]" onchange="toggleField(this, 'wivesPrison-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                <div id="wifePrison-${id}" class="hidden-input" hidden> 
+                <div id="wivesPrison-${id}" class="hidden-input" hidden> 
                     <label>تاريخ الاسر</label>
                     <input type="date" name="wives[${id}][prisonDate]" placeholder="تاريخ الأسر">
                 </div>

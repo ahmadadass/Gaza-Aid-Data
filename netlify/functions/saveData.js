@@ -112,15 +112,16 @@ exports.handler = async (event) => {
         row.push(wives[i]?.pregnant || "");
         row.push(wives[i]?.nursing || "");
         row.push(wives[i]?.sick || "");
-        row.push(wives[i].diseaseImage || "")
+        row.push(wives[i]?.diseaseImage || "")
         row.push(wives[i]?.diseaseDetails || "");
         row.push(wives[i]?.injured || "");
         row.push(wives[i]?.injuryDesc || "");
         row.push(wives[i]?.injuryDate || "");
+        row.push(wives[i]?.injuryImage || "")
         row.push(wives[i]?.missing || "");
         row.push(wives[i]?.prisoner || "");
         row.push(wives[i]?.prisonDate || "");
-        row.push(wives[i].IdImage || "");
+        row.push(wives[i]?.IdImage || "");
     }
 
     console.log("children:",children);
