@@ -269,6 +269,7 @@ function removeElement(btn) {
                 console.log("can't identify master id:",master_id);
                 break;
         }
+        master.remove();
     }
 }
 
