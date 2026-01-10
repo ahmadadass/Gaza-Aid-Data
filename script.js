@@ -6,6 +6,43 @@ const totalSteps = 5;
 let wifeCounter = 0;
 let childCounter = 0;
 let martyrCounter = 0;
+const regexIdNumber = /^[4789][0-9]{8}$/; // 422948516
+const regexPhoneNumber = /^05[96][0-9]{7}$/; // 0591234567
+const regexWhatsappPhoneNumber = /^(00|\+)97[02]5[69][0-9]{7}$/; // 00972591234567
+
+function checkRegex(selectElem, targetRegex){
+    console.log("CheckRegex selectElem:",selectElem);
+    console.log("CheckRegex targetRegex:",targetRegex);
+    switch(targetRegex){
+        case 'id':
+            if (!regexIdNumber.test(selectElem.value)) {
+                selectElem.setCustomValidity("رقم الهوية يجب أن يكون 9 أرقام فقط");
+                selectElem.reportValidity();
+            } else {
+                selectElem.setCustomValidity("");
+            }
+            break;
+        case 'phone':
+            if (!regexPhoneNumber.test(selectElem.value)) {
+                selectElem.setCustomValidity("رقم الهاتف يجب أن يكون 10 أرقام \nومبدوء 059 او 056");
+                selectElem.reportValidity();
+            } else {
+                selectElem.setCustomValidity("");
+            }
+            break;
+        case 'whatsapp':
+            if (!regexWhatsappPhoneNumber.test(selectElem.value)) {
+                selectElem.setCustomValidity("رقم الهاتف يجب ان يكون مبدوء ب +972 او +970\nثم رقم الهاتف بدون الصفر في البداية.");
+                selectElem.reportValidity();
+            } else {
+                selectElem.setCustomValidity("");
+            }
+            break;
+
+        default:
+            console.log("Did not find targetRegex:",targetRegex);
+    }
+}
 
 // Navigation functions | وظائف التنقل
 function nextStep(step) {
@@ -252,7 +289,7 @@ function addWife() {
             </div>
             <div class="form-group half">
                 <label>رقم الهوية</label>
-                <input type="number" name="wives[${id}][id]" required>
+                <input type="text" name="wives[${id}][id]" required inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
             </div>
         </div>
         <div class="form-row">
@@ -262,7 +299,7 @@ function addWife() {
             </div>
             <div class="form-group half">
                 <label>رقم الهاتف</label>
-                <input type="tel" name="wives[${id}][phone]">
+                <input type="tel" name="wives[${id}][phone]" inputmode="numeric" maxlength="10" onchange="checkRegex(this, 'phone')">
             </div>
         </div>
         
@@ -362,7 +399,7 @@ function addChild() {
             </div>
             <div class="form-group half">
                 <label>رقم الهوية</label>
-                <input type="number" name="children[${id}][id]" required>
+                <input type="text" name="children[${id}][id]" required inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
             </div>
         </div>
         <div class="form-row">
@@ -473,7 +510,7 @@ function addMartyr() {
             </div>
             <div class="form-group half">
                 <label class="hint">رقم الهوية</label>
-                <input type="number" name="martyrs[${id}][id]">
+                <input type="text" name="martyrs[${id}][id]" inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
             </div>
         </div>
         <div class="form-group">

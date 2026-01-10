@@ -55,7 +55,7 @@
           </div>
           <div class="form-group">
             <label>رقم الهوية الشخصية</label>
-            <input type="number" name="headId" required minlength="9" maxlength="9">
+            <input type="text" name="headId" required inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
           </div>
           
           <div class="form-group">
@@ -91,7 +91,7 @@
               <div class="section-box">
                   <div class="form-group">
                     <input type="text" name="deceasedSpouseName" placeholder="الاسم الرباعي للزوج">
-                    <input type="number" name="deceasedSpouseId" placeholder="رقم الهوية">
+                    <input type="text" name="deceasedSpouseId" placeholder="رقم الهوية" inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
                   </div>
                   <label class="hint">تاريخ الاستشهاد/الوفاة/الفقدان:</label>
                   <input type="date" name="deceasedSpouseDate">
@@ -166,11 +166,11 @@
 
           <div class="form-group">
             <label>رقم أساسي (جوال/وطنية) 059/056</label>
-            <input type="tel" name="headPhone" required placeholder="ادخل رقم الهاتف">
+            <input type="tel" name="headPhone" required placeholder="ادخل رقم الهاتف" inputmode="numeric" maxlength="10" onchange="checkRegex(this, 'phone')">
           </div>
           <div class="form-group">
             <label>رقم بديل (جوال/وطنية) 059/056</label>
-            <input type="tel" name="headPhoneAlt" placeholder="ادخل رقم الهاتف">
+            <input type="tel" name="headPhoneAlt" placeholder="ادخل رقم الهاتف" inputmode="numeric" maxlength="10" onchange="checkRegex(this, 'phone')">
           </div>
 
           <div class="buttons">
@@ -284,7 +284,7 @@
 
           <div class="form-group" style="background-color: #e8f5e9; padding: 15px; border-radius: 8px;">
             <label style="font-weight:bold; color: #2e7d32;">رقم واتساب لرب/ـة الأسرة (للتواصل)</label>
-            <input type="tel" name="whatsapp" required placeholder="وفق الصيغ المعتمدة 0097059xxxxxxx">
+            <input type="tel" name="whatsapp" required placeholder="وفق الصيغ المعتمدة +97059xxxxxxx" maxlength="14" onchange="checkRegex(this, 'whatsapp')">
           </div>
           
           <hr>
