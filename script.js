@@ -107,7 +107,7 @@ function validateStep(step) {
              return; 
         }
 
-        if (!input.value.trim()) {
+        if (!input.value.trim() || input.title !== "") {
             input.style.borderColor = 'red';
             valid = false;
         } else {
@@ -254,6 +254,7 @@ function removeElement(btn) {
     if(confirm('هل أنت متأكد من الحذف؟')) {
         const master = btn.closest('.dynamic-card');  //.remove();
         const master_id = master.id;
+        console.log("identifying master_id:",master_id);
         switch (master_id[0]){
             case 'w':
                 wifeCounter--;
