@@ -794,3 +794,12 @@ window.addEventListener('load', function() {
         if (saved) input.value = saved;
     });
 });
+
+// Prevent "Enter" key from submitting the form
+document.addEventListener('keydown', function(event) {
+  // If the key pressed is "Enter" AND the user is not in a large text area
+  if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
+    event.preventDefault(); // Stop the default action (Submit)
+    return false;
+  }
+});
