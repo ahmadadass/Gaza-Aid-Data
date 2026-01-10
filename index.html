@@ -24,7 +24,7 @@
         <div class="step" data-step="5">السكن والمرفقات</div>
       </div>
 
-      <form id="familyForm">
+      <form id="familyForm" novalidate>
         <div class="form-step active" id="step1">
           <h2>1) بيانات رب/ة الأسرة</h2>
           
@@ -97,7 +97,7 @@
                   <input type="date" name="deceasedSpouseDate">
               </div>
     
-              <div class="section-box">
+              <div class="section-box" hidden >
                 <label class="hint">تاريخ النقطاعها عن زوجها في الحرب؟</label>
                 <input type="date" name="headAbandonedDate" placeholder="ادخل تاريح النقطاع">
               </div>
@@ -151,7 +151,7 @@
             <select name="headJob" required onchange="toggleField(this, 'headOtherJob')">
                 <option value="">-- اختر --</option>
                 <option value="worker">عامل</option>
-                <option value="unemployed">معطل عن العمل</option>
+                <option value="unemployed">عاطل عن العمل</option>
                 <option value="gov_gaza">موظف حكومة غزة</option>
                 <option value="gov_ramallah">موظف حكومة رام الله</option>
                 <option value="unrwa">موظف وكالة</option>

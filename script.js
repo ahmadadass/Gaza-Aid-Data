@@ -107,7 +107,7 @@ function validateStep(step) {
              return; 
         }
 
-        if (!input.value.trim() || input.title !== "") {
+        if (!input.value.trim() || !input.checkValidity()) {
             input.style.borderColor = 'red';
             valid = false;
         } else {
@@ -278,7 +278,8 @@ function removeElement(btn) {
 // ------------------------------------------
 function addWife() {
     if (wifeCounter >= 4){
-        return "Error: you can only have 4 wives";
+        alert("لا يمكن إضافة أكثر من 4 زوجات");
+        return;
     }
     wifeCounter++;
     const id = generateId();
@@ -391,6 +392,10 @@ function addWife() {
 // CHILDREN | الأبناء
 // ------------------------------------------
 function addChild() {
+    if (childCounter >= 10) {
+        alert("لا يمكن إضافة أكثر من 10 أبناء في هذا النموذج");
+        return;
+    }
     childCounter++;
     const id = generateId();
     const content = `
@@ -592,8 +597,63 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             headSpouseStatusArb = headSpouseStatus;
     }
 
+    let headJob = formData.get('headJob') === 'other' ? formData.get('headOtherJob') : formData.get('headJob');
+    let headJobArb = "";
+    switch (headJob){
+        case 'worker':
+            headJobArb = "عامل";
+            break;
+        case 'unemployed':
+            headJobArb = "عاطل عن العمل";
+            break;
+        case 'gov_gaza':
+            headJobArb = "موظف حكومة غزة";
+            break;
+        case 'gov_ramallah':
+            headJobArb = "موطف حكومة رام الله";
+            break;
+        case 'unrwa':
+            headJobArb = "موطف وكاله";
+            break;
+        case 'private':
+            headJobArb = "موظف قطاع خاص";
+            break;
+        case 'retired_gaza':
+            headJobArb = "متقاعد حكومة غزة";
+            break;
+        case 'retired_ramallah':
+            headJobArb = "متقاعد حكومة رام الله";
+            break;
+        case 'housewife':
+            headJobArb = "ربة بيت";
+            break;
+        default:
+            headJobArb = headJob;
+    }
 
-    
+    let currentGov = formData.get('currentGov');
+    let currentGovArb = "";
+    switch (currentGov){
+        case 'north':
+            currentGovArb = "شمال غزة";
+            break;
+        case 'gaza':
+            currentGovArb = "غزة";
+            break;
+        case 'central':
+            currentGovArb = "الوسطى";
+            break;
+        case 'khanyounis':
+            currentGovArb = "خانيونس";
+            break;
+        case 'rafah':
+            currentGovArb = "رفح";
+            break;
+        default:
+            currentGovArb = currentGov;
+    }
+
+
     // بناء كائن البيانات JSON
     const data = {
         submissionDate: new Date().toISOString(),
@@ -615,7 +675,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
                 injuryDate: formData.get('headInjuryDate'),
                 injuryEffect: formData.get('headInjuryEffect')
             },
-            job: formData.get('headJob') === 'other' ? formData.get('headOtherJob') : formData.get('headJob'),
+            job: headJobArb,
             spouseStatus: headSpouseStatusArb,
             deceasedSpouse: {
                 name: formData.get('deceasedSpouseName'),
@@ -634,7 +694,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
                 desc: formData.get('originalDesc')
             },
             current: {
-                gov: formData.get('currentGov'),
+                gov: currentGovArb,
                 city: formData.get('currentCity'),
                 neighborhood: formData.get('currentNeighborhood'),
                 landmark: formData.get('currentLandmark'),
@@ -663,6 +723,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
                     if (value === 'yes' || value === 'no')
                         map[id][field] = value === 'yes' ? 'نعم' : 'لا';
                     else
+                        //if (prefix === 'martyrs' && id ===  )
                         map[id][field] = value;
                     console.log(`map[${id}][${field}] = ${value}`);
                 }
@@ -716,4 +777,20 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
 // Event Listeners for Next buttons
 document.querySelectorAll('.btn-next').forEach((btn, idx) => {
     btn.addEventListener('click', () => nextStep(idx + 2));
+});
+
+// Save data whenever an input changes
+document.addEventListener('input', function(e) {
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+        localStorage.setItem(e.target.id, e.target.value);
+    }
+});
+
+// Load data when page opens
+window.addEventListener('load', function() {
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        const saved = localStorage.getItem(input.id);
+        if (saved) input.value = saved;
+    });
 });
