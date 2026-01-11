@@ -781,7 +781,10 @@ document.querySelectorAll('.btn-next').forEach((btn, idx) => {
 
 // Save data whenever an input changes
 document.addEventListener('input', function(e) {
+    console.log("Saving field:", e.target.id, e.target.value);
     if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+        const inputId = e.target.id || e.target.name; // Use unique ID or name as key
+        console.log("Saving field:", inputId, e.target.value);
         localStorage.setItem(e.target.id, e.target.value);
     }
 });
