@@ -780,22 +780,57 @@ document.querySelectorAll('.btn-next').forEach((btn, idx) => {
 });
 
 // Save data whenever an input changes
+//document.addEventListener('input', function(e) {
+//    console.log("Saving field:", e.target.id, e.target.value);
+//    if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+//        const inputId = e.target.id || e.target.name; // Use unique ID or name as key
+//        console.log("Saving field:", inputId, e.target.value);
+//        localStorage.setItem(e.target.id, e.target.value);
+//    }
+//});
+
 document.addEventListener('input', function(e) {
-    console.log("Saving field:", e.target.id, e.target.value);
-    if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
-        const inputId = e.target.id || e.target.name; // Use unique ID or name as key
-        console.log("Saving field:", inputId, e.target.value);
-        localStorage.setItem(e.target.id, e.target.value);
-    }
+     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+         const inputId = e.target.id || e.target.name;
+         console.log("Saving field:", inputId, e.target.value);
+         
+         // Check if the field is a date and store it in the correct format
+         if (e.target.type === 'date' && !isValidDate(e.target.value)) {
+             console.log('Invalid date format');
+             return;  // Prevent saving invalid date
+         }
+         
+         localStorage.setItem(inputId, e.target.value); // Save to localStorage
+     }
 });
+
+// Function to validate date format (yyyy-MM-dd)
+function isValidDate(date) {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    return regex.test(date);
+}
+
 
 // Load data when page opens
 window.addEventListener('load', function() {
     const inputs = document.querySelectorAll('input, select');
-    inputs.forEach(input => {
-        const saved = localStorage.getItem(input.id);
-        if (saved) input.value = saved;
-    });
+
+        const fileInput = document.querySelector('[name="headIdImage"]');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function(event) {
+            const selectedFile = event.target.files[0]; // Get the selected file
+            console.log("File selected:", selectedFile);
+
+            // You can perform additional actions here, like validating the file type or size
+        });
+    } else {
+
+        inputs.forEach(input => {
+            const saved = localStorage.getItem(input.id);
+            if (saved) input.value = saved;
+        });
+    }
 });
 
 // Prevent "Enter" key from submitting the form
