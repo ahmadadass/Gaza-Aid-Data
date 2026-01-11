@@ -284,6 +284,7 @@ function addWife() {
     wifeCounter++;
     const id = generateId();
     // (تم الحفاظ على نفس الحقول كما في النسخة السابقة)
+/*
     const content = `
         <div class="form-row">
             <div class="form-group half">
@@ -384,8 +385,113 @@ function addWife() {
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="wives[${id}][IdImage]" accept="image/*,.pdf">
         </div>
-    `;
+    `;*/
+    const content = getWifeById(id);
     document.getElementById('wivesContainer').appendChild(createCard('wife', id, content, `بطاقة الزوجة (${wifeCounter})`));
+}
+
+function getWifeById(id){
+    return `
+        <div class="form-row">
+            <div class="form-group half">
+                <label>الاسم الرباعي</label>
+                <input type="text" name="wives[${id}][name]" required>
+            </div>
+            <div class="form-group half">
+                <label>رقم الهوية</label>
+                <input type="text" name="wives[${id}][id]" required inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group half">
+                <label>تاريخ الميلاد</label>
+                <input type="date" name="wives[${id}][dob]" required>
+            </div>
+            <div class="form-group half">
+                <label>رقم الهاتف</label>
+                <input type="tel" name="wives[${id}][phone]" inputmode="numeric" maxlength="10" onchange="checkRegex(this, 'phone')">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group half">
+                <label>هل حامل؟</label>
+                <select name="wives[${id}][pregnant]">
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+            </div>
+            <div class="form-group half">
+                <label>هل مرضع؟</label>
+                <select name="wives[${id}][nursing]">
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>هل تعاني زوجتك من أمراض؟</label>
+            <select name="wives[${id}][sick]" onchange="toggleField(this, 'wives[${id}][diseaseDetails]')">
+                <option value="no">لا</option>
+                <option value="yes">نعم</option>
+            </select>
+
+            <div id="wives[${id}][diseaseDetails]" class="hidden-input"  hidden >
+                <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
+                <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة">
+                <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>هل تعرضت زوجتك لإصابة/إعاقة نتيجة الحرب؟</label>
+            <select name="wives[${id}][injured]" onchange="toggleField(this, 'wifeInjury-${id}')">
+                <option value="no">لا</option>
+                <option value="yes">نعم</option>
+            </select>
+            <div class="wifeInjury-${id} hidden-input" hidden >
+                <label><b>ادخل بيانات إصابة زوجتك:-</b></label>
+                <label class="hint">تاريخ إصابة زوجتك:</label>
+                <input type="date" name="wives[${id}][injuryDate]" placeholder="">
+                <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
+                <label>إرفاق صورة عن التقرير الطبي:</label>
+                <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
+                <input type="file" name="wives[${id}][injuryImage]" placeholder="ارفاق صورة">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group half">
+               <label>هل فقدت زوجتك خلال الحرب؟</label>
+                <select name="wives[${id}][missing]" onchange="toggleField(this, 'wivesMissing-${id}')">
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+                <div id="wivesMissing-${id}" class="hidden-input" hidden> 
+                    <label class="hint">تاريخ الفقد</label>
+                    <input type="date" name="wife[${id}][missingDate]" placeholder="تاريخ الفقد">
+                </div>
+            </div>
+            <div class="form-group half">
+                <label>هل أُسرت خلال الحرب؟</label>
+                <select name="wives[${id}][prisoner]" onchange="toggleField(this, 'wivesPrison-${id}')">
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+                <div id="wivesPrison-${id}" class="hidden-input" hidden> 
+                    <label>تاريخ الاسر</label>
+                    <input type="date" name="wives[${id}][prisonDate]" placeholder="تاريخ الأسر">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>إرفاق صورة الهوية</label>
+            <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
+            <input type="file" name="wives[${id}][IdImage]" accept="image/*,.pdf">
+        </div>
+    `;
 }
 
 // ------------------------------------------
@@ -398,6 +504,7 @@ function addChild() {
     }
     childCounter++;
     const id = generateId();
+    /*
     const content = `
         <div class="form-row">
             <div class="form-group half">
@@ -489,8 +596,104 @@ function addChild() {
                 <option value="none">بدون / دون سن الدراسة</option>
             </select>
         </div>
-    `;
+    `;*/
+    const content = getChildById(id);
     document.getElementById('childrenContainer').appendChild(createCard('child', id, content, `ابن/ابنة (${childCounter})`));
+}
+
+function getChildById(id){
+    return `
+        <div class="form-row">
+            <div class="form-group half">
+                <label>الاسم الرباعي</label>
+                <input type="text" name="children[${id}][name]" required>
+            </div>
+            <div class="form-group half">
+                <label>رقم الهوية</label>
+                <input type="text" name="children[${id}][id]" required inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
+            </div>
+        </div>
+        <div class="form-row">
+             <div class="form-group half">
+                <label>الجنس</label>
+                <select name="children[${id}][gender]" required>
+                    <option value="male">ذكر</option>
+                    <option value="female">أنثى</option>
+                </select>
+            </div>
+            <div class="form-group half">
+                <label>تاريخ الميلاد</label>
+                <input type="date" name="children[${id}][dob]" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>اسم الأم (رباعي)</label>
+            <input type="text" name="children[${id}][motherName]" required>
+        </div>
+        
+        <div class="form-group">
+            <label>هل يعاني ابنك/بنتك من أمراض؟</label>
+            <select name="children[${id}][sick]" onchange="toggleField(this, 'childDiseaseDesc-${id}')">
+                <option value="no">لا</option>
+                <option value="yes">نعم</option>
+            </select>
+            <div id="childDiseaseDesc-${id}" class="hidden-input" hidden >
+                <input type="text" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة">
+                <div class="form-group">
+                    <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
+                    <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
+                    <input type="file" accept="image/*,.pdf"">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>هل تعرض لإصابة/إعاقة نتيجة الحرب؟</label>
+            <select name="children[${id}][injured]" onchange="toggleField(this, 'childInjury-${id}')">
+                <option value="no">لا</option>
+                <option value="yes">نعم</option>
+            </select>
+            <div id="childInjury-${id}" class="hidden-input" hidden >
+                <label class="hint">تاريخ الإصابة:</label>
+                <input type="date" name="children[${id}][injuryDate]">
+                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
+            </div>
+        </div>
+
+        <div class="form-row">
+             <div class="form-group half">
+                <label>هل ابنك/بنتك من مفقودين الحرب?</label>
+                <select name="children[${id}][missing]" onchange="toggleField(this, 'childMissing-${id}')">
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+                <div id="childMissing-${id}" class="hidden-input" hidden> 
+                    <label class="hint">تاريخ الفقد</label>
+                    <input type="date" name="children[${id}][missingDate]" placeholder="تاريخ الفقد">
+                </div>
+            </div>
+            <div class="form-group half">
+                <label>هل أسر خلال الحرب؟</label>
+                <select name="children[${id}][prisoner]" onchange="toggleField(this, 'childPrison-${id}')">
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+                <input type="date" class="childPrison-${id} hidden-input" name="children[${id}][prisonDate]" placeholder="تاريخ الأسر" hidden >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>المرحلة التعليمية الحالية</label>
+            <select name="children[${id}][education]">
+                <option value="kg">روضة</option>
+                <option value="primary">ابتدائي</option>
+                <option value="middle">إعدادي</option>
+                <option value="high">ثانوي</option>
+                <option value="university">جامعة</option>
+                <option value="none">بدون / دون سن الدراسة</option>
+            </select>
+        </div>
+    `; 
 }
 
 // ------------------------------------------
@@ -499,6 +702,7 @@ function addChild() {
 function addMartyr() {
     martyrCounter++;
     const id = generateId();
+    /*
     const content = `
         <div class="form-group">
             <label>الاسم الرباعي</label>
@@ -524,9 +728,62 @@ function addMartyr() {
             <label>تاريخ الاستشهاد</label>
             <input type="date" name="martyrs[${id}][date]" required>
         </div>
-    `;
+    `;*/
+    const content = getMartyrById(id);
     document.getElementById('martyrsContainer').appendChild(createCard('martyr', id, content, `شهيد (${martyrCounter})`));
 }
+
+function getMartyrById(id){
+    return `
+        <div class="form-group">
+            <label>الاسم الرباعي</label>
+            <input type="text" name="martyrs[${id}][name]" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group half">
+        
+                <label>صلة القرابة ابن,ابنة,زوجة</label>
+                    
+                <select name="martyrs[${id}][relation]">
+                    <option value="son">ابن</option>
+                    <option value="daughter">ابنة</option>
+                    <option value="wife">زوجة</option>
+                </select>
+            </div>
+            <div class="form-group half">
+                <label class="hint">رقم الهوية</label>
+                <input type="text" name="martyrs[${id}][id]" inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>تاريخ الاستشهاد</label>
+            <input type="date" name="martyrs[${id}][date]" required>
+        </div>
+    `;
+}
+
+const extractDynamic = (prefix) => {
+    const map = {};
+    console.log("extractDynamic of ",prefix);
+    for(let [key, value] of formData.entries()) {
+        if(key.startsWith(prefix + '[')) {
+            const match = key.match(new RegExp(`${prefix}\\[(.*?)\\]\\[(.*?)\\]`));
+            console.log("match: ", match);
+            if(match) {
+                const id = match[1];
+                const field = match[2];
+                if(!map[id]) map[id] = {};
+                    if (value === 'yes' || value === 'no')
+                        map[id][field] = value === 'yes' ? 'نعم' : 'لا';
+                    else
+                        //if (prefix === 'martyrs' && id ===  )
+                        map[id][field] = value;
+                    console.log(`map[${id}][${field}] = ${value}`);
+                }
+            }
+        }
+        return Object.values(map);
+    };
 
 // ------------------------------------------
 // SUBMIT | إرسال النموذج
@@ -709,6 +966,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     };
 
     // Helper function for nested fields
+    /*
     const extractDynamic = (prefix) => {
         const map = {};
         console.log("extractDynamic of ",prefix);
@@ -730,7 +988,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             }
         }
         return Object.values(map);
-    };
+    };*/
 
     data.wives = extractDynamic('wives');
     data.children = extractDynamic('children');
@@ -795,12 +1053,16 @@ document.addEventListener('input', function(e) {
          console.log("Saving field:", inputId, e.target.value);
          
          // Check if the field is a date and store it in the correct format
-         if (e.target.type === 'date' && !isValidDate(e.target.value)) {
-             console.log('Invalid date format');
-             return;  // Prevent saving invalid date
-         }
+        if (e.target.type === 'date' && !isValidDate(e.target.value)) {
+            console.log('Invalid date format');
+            return;  // Prevent saving invalid date
+        }
+
+        saveDynamicFieldData('wives');
+        saveDynamicFieldData('children');
+        saveDynamicFieldData('martyrs');
          
-         localStorage.setItem(inputId, e.target.value); // Save to localStorage
+        localStorage.setItem(inputId, e.target.value); // Save to localStorage
      }
 });
 
@@ -831,10 +1093,106 @@ window.addEventListener('load', function() {
         console.log("saved:",saved);
         if (saved) {
             input.value = saved; // Apply saved data to the input field
+            const event = new Event('change', { bubbles: true });
+
+            // 4. Dispatch the event
+            input.dispatchEvent(event);
         }
     });
+    loadDynamicFieldData('wives');
+    loadDynamicFieldData('children');
+    loadDynamicFieldData('martyrs');
 });
 
+// Function to save data to localStorage when adding a dynamic field (wife)
+/*
+function saveDynamicFieldData() {
+    const wivesData = [];
+    document.querySelectorAll('.wife-card').forEach((card, index) => {
+        const wife = {
+            name: card.querySelector('[name="wives[' + index + '][name]"]').value,
+            id: card.querySelector('[name="wives[' + index + '][id]"]').value,
+            dob: card.querySelector('[name="wives[' + index + '][dob]"]').value,
+            phone: card.querySelector('[name="wives[' + index + '][phone]"]').value,
+            pregnant: card.querySelector('[name="wives[' + index + '][pregnant]"]').value,
+            nursing: card.querySelector('[name="wives[' + index + '][nursing]"]').value,
+            sick: card.querySelector('[name="wives[' + index + '][sick]"]').value,
+            diseaseImage: card.querySelector('[name="wives[' + index + '][diseaseImage]"]').value,
+            diseaseDetails: card.querySelector('[name="wives[' + index + '][diseaseDetails]"]').value,
+            injured: card.querySelector('[name="wives[' + index + '][injured]"]').value,
+            injuryDate: card.querySelector('[name="wives[' + index + '][injuryDate]"]').value,
+            injuryDesc: card.querySelector('[name="wives[' + index + '][injuryDesc]"]').value,
+            injuryImage: card.querySelector('[name="wives[' + index + '][injuryImage]"]').value,
+            missing: card.querySelector('[name="wives[' + index + '][missing]"]').value,
+            prisoner: card.querySelector('[name="wives[' + index + '][prisoner]"]').value,
+            prisonDate: card.querySelector('[name="wives[' + index + '][prisonDate]"]').value,
+            IdImage: card.querySelector('[name="wives[' + index + '][IdImage]"]').value,
+        };
+        wivesData.push(wife);
+    });
+    
+    // Save the wives data to localStorage
+    localStorage.setItem('wives', JSON.stringify(wivesData));
+}*/
+
+function saveDynamicFieldData(prefix) {
+    const dynamicData = extractDynamic(prefix); // Get dynamic data for the given prefix (wives, children, martyrs)
+    localStorage.setItem(prefix, JSON.stringify(dynamicData)); // Save to localStorage
+}
+
+function loadDynamicFieldData(prefix) {
+    const savedData = JSON.parse(localStorage.getItem(prefix));
+
+    if (savedData) {
+        savedData.forEach((data, id) => {
+            // Create dynamic fields for wives, children, or martyrs
+            const container = document.getElementById(prefix + 'Container');
+            const dynamicFieldCard = document.createElement('div');
+            dynamicFieldCard.classList.add(`${prefix}-card`);
+            switch (prefix){
+                case 'wives':
+                    dynamicFieldCard.innerHTML = getWifeById(id);
+                    break;
+                case 'children':
+                    dynamicFieldCard.innerHTML = getChildById(id);
+                    break;
+                case 'martyrs':
+                    dynamicFieldCard.innerHTML = getMartyrById(id);
+                    break;
+                
+                default:
+                    break;
+                
+            }
+            //dynamicFieldCard.innerHTML = generateDynamicFieldHTML(prefix, id, data); // Use the appropriate HTML structure for each dynamic field
+/*
+            const keys = Object.keys(data);
+            keys.forEach(key => {
+                // Find the element inside dynamicFieldCard based on the id
+                const element = dynamicFieldCard.querySelector(`[name="${prefix}[${id}][${key}]"]`); // Use name attribute to find the element
+
+                if (element) {
+                    // Set the value for the element, assuming you're working with text input, select, etc.
+                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+                        element.value = data[key]; // For input fields or text areas
+                    } else {
+                        element.textContent = data[key]; // For other elements like spans, divs, etc.
+                    }
+                }
+            });*/
+
+            container.appendChild(dynamicFieldCard);
+
+            // Populate the form fields with the saved data
+            Object.keys(data).forEach(field => {
+                const input = dynamicFieldCard.querySelector(`[name="${prefix}[${index}][${field}]"]`);
+                if (input) {
+                    input.value = data[field];
+                }
+            });
+        });
+    }
+}
 
 // Prevent "Enter" key from submitting the form
 document.addEventListener('keydown', function(event) {

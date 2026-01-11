@@ -34,20 +34,23 @@
   hasMartyrWife: 'no',
   wives: [
     {
-      name: 'منى عبد الفتاح عيسى عدس',
+      name: 'اسم الزوجة',
           id: '987654321',
-      dob: '2026-01-01',
-      phone: '12345678910',
-      pregnant: 'no',
-      nursing: 'no',
-      sick: 'no',
+      dob: '2026-01-16',
+      phone: '0593407569',
+      pregnant: 'لا',
+          nursing: 'لا',
+          sick: 'لا',
+          diseaseImage: {},
       diseaseDetails: '',
-      injured: 'no',
+      injured: 'لا',
+          injuryDate: '',
       injuryDesc: '',
-      injuryDate: '',
-      missing: 'no',
-      prisoner: 'no',
-      prisonDate: ''
+      injuryImage: {},
+      missing: 'لا',
+          prisoner: 'لا',
+          prisonDate: '',
+      IdImage: {}
     }
   ],
   children: [
