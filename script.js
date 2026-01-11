@@ -812,26 +812,29 @@ function isValidDate(date) {
 
 
 // Load data when page opens
+//window.addEventListener('load', function() {
+//    const inputs = document.querySelectorAll('input, select');
+//   inputs.forEach(input => {
+//        const saved = localStorage.getItem(input.id);
+//        if (saved) input.value = saved;
+//    });  
+//});
+
 window.addEventListener('load', function() {
     const inputs = document.querySelectorAll('input, select');
-
-        const fileInput = document.querySelector('[name="headIdImage"]');
-
-    if (fileInput) {
-        fileInput.addEventListener('change', function(event) {
-            const selectedFile = event.target.files[0]; // Get the selected file
-            console.log("File selected:", selectedFile);
-
-            // You can perform additional actions here, like validating the file type or size
-        });
-    } else {
-
-        inputs.forEach(input => {
-            const saved = localStorage.getItem(input.id);
-            if (saved) input.value = saved;
-        });
-    }
+    inputs.forEach(input => {
+        const saved = localStorage.getItem(input.id || input.name); // Use unique id or name as key
+        console.log("loading input.");
+        console.log("input:",input);
+        console.log("input.id:",input.id);
+        console.log("input.name:",input.name);
+        console.log("saved:",saved);
+        if (saved) {
+            input.value = saved; // Apply saved data to the input field
+        }
+    });
 });
+
 
 // Prevent "Enter" key from submitting the form
 document.addEventListener('keydown', function(event) {
