@@ -765,7 +765,7 @@ function getMartyrById(id){
 const extractDynamic = (prefix) => {
     const map = {};
     console.log("extractDynamic of ",prefix);
-    for(let [key, value] of formData.entries()) {
+    for(let [key, value] of new FormData(document.getElementById('familyForm')).entries()) {
         if(key.startsWith(prefix + '[')) {
             const match = key.match(new RegExp(`${prefix}\\[(.*?)\\]\\[(.*?)\\]`));
             console.log("match: ", match);
@@ -782,8 +782,8 @@ const extractDynamic = (prefix) => {
                 }
             }
         }
-        return Object.values(map);
-    };
+    return Object.values(map);
+};
 
 // ------------------------------------------
 // SUBMIT | إرسال النموذج
