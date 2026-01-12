@@ -1147,22 +1147,32 @@ function loadDynamicFieldData(prefix) {
         savedData.forEach((data, id) => {
             // Create dynamic fields for wives, children, or martyrs
             const container = document.getElementById(prefix + 'Container');
-            const dynamicFieldCard = document.createElement('div');
-            dynamicFieldCard.classList.add(`${prefix}-card`);
+            const content = '';
+            let type = '';
+            let title = '';
             switch (prefix){
                 case 'wives':
-                    dynamicFieldCard.innerHTML = getWifeById(id);
+                    content = getWifeById(id);
+                    wifeCounter++;
+                    type = 'wife';
+                    title = `بطاقة الزوجة (${wifeCounter})`;
                     break;
                 case 'children':
-                    dynamicFieldCard.innerHTML = getChildById(id);
+                    content = getChildById(id);
+                    childCounter++;
+                    type = 'child';
+                    title = `ابن/ابنة (${childCounter})`;
                     break;
                 case 'martyrs':
-                    dynamicFieldCard.innerHTML = getMartyrById(id);
+                    content = getMartyrById(id);
+                    martyrCounter++;
+                    type = 'martyr';
+                    title = `شهيد (${martyrCounter})`;
                     break;
                 
                 default:
-                    break;
-                
+                    console.log("can't find prefix:",prefix)
+                    return;
             }
             //dynamicFieldCard.innerHTML = generateDynamicFieldHTML(prefix, id, data); // Use the appropriate HTML structure for each dynamic field
 /*
@@ -1181,6 +1191,9 @@ function loadDynamicFieldData(prefix) {
                 }
             });*/
 
+    
+
+            container.appendChild(createCard(type, id, content, title));
             container.appendChild(dynamicFieldCard);
 
             // Populate the form fields with the saved data
