@@ -6,13 +6,14 @@ const totalSteps = 5;
 let wifeCounter = 0;
 let childCounter = 0;
 let martyrCounter = 0;
-const regexIdNumber = /^[4789][0-9]{8}$/; // 422948516
+const regexIdNumber = /^[0-9]{9}$/; // 422948516
 const regexPhoneNumber = /^05[96][0-9]{7}$/; // 0591234567
 const regexWhatsappPhoneNumber = /^(00|\+)97[02]5[69][0-9]{7}$/; // 00972591234567
 
 function checkRegex(selectElem, targetRegex){
     console.log("CheckRegex selectElem:",selectElem);
     console.log("CheckRegex targetRegex:",targetRegex);
+    console.log("Value being validated:", selectElem.value);
     switch(targetRegex){
         case 'id':
             if (!regexIdNumber.test(selectElem.value)) {
@@ -1219,7 +1220,7 @@ function loadDynamicFieldData(prefix,cardId) {
             // Populate the form fields with the saved data
         Object.keys(data).forEach(field => {
             const input = card.querySelector(`[name="${prefix}[${id}][${field}]"]`);
-            if (input && !input.type === 'file') {
+            if (input && input.type != 'file') {
                 input.value = data[field];
             }
         });
@@ -1228,7 +1229,7 @@ function loadDynamicFieldData(prefix,cardId) {
 
 function clearLocalStorage() {
     localStorage.clear(); // This will clear all data in localStorage
-    console.log("localStorage has been cleared.");
+    window.location.reload();
 }
 
 // Prevent "Enter" key from submitting the form
