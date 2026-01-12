@@ -1194,7 +1194,6 @@ function loadDynamicFieldData(prefix) {
     
 
             container.appendChild(createCard(type, id, content, title));
-            container.appendChild(dynamicFieldCard);
 
             // Populate the form fields with the saved data
             Object.keys(data).forEach(field => {
