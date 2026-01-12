@@ -1160,42 +1160,41 @@ function saveDynamicFieldData(prefix) {
     //localStorage.setItem(`${prefix}-${}`, JSON.stringify(dynamicData)); // Save to localStorage
 }
 
-function loadDynamicFieldData(prefix,id) {
+function loadDynamicFieldData(prefix,cardId) {
 
-    const savedData = JSON.parse(localStorage.getItem(id));
+    const data = JSON.parse(localStorage.getItem(cardId));
 
-    if (savedData) {
-        savedData.forEach((data, index) => {
-            // Create dynamic fields for wives, children, or martyrs
-            const container = document.getElementById(prefix + 'Container');
-            let content = '';
-            let type = '';
-            let title = '';
-            let id = index
-            switch (prefix){
-                case 'wives':
-                    content = getWifeById(id);
-                    wifeCounter++;
-                    type = 'wife';
-                    title = `بطاقة الزوجة (${wifeCounter})`;
-                    break;
-                case 'children':
-                    content = getChildById(id);
-                    childCounter++;
-                    type = 'child';
-                    title = `ابن/ابنة (${childCounter})`;
-                    break;
-                case 'martyrs':
-                    content = getMartyrById(id);
-                    martyrCounter++;
-                    type = 'martyr';
-                    title = `شهيد (${martyrCounter})`;
-                    break;
+    if (data) {
+        // Create dynamic fields for wives, children, or martyrs
+        const container = document.getElementById(prefix + 'Container');
+        let content = '';
+        let type = '';
+        let title = '';
+        let id = cardId.substring(prefix.length+1);
+        switch (prefix){
+            case 'wives':
+                content = getWifeById(id);
+                wifeCounter++;
+                type = 'wife';
+                title = `بطاقة الزوجة (${wifeCounter})`;
+                break;
+            case 'children':
+                content = getChildById(id);
+                childCounter++;
+                type = 'child';
+                title = `ابن/ابنة (${childCounter})`;
+                break;
+            case 'martyrs':
+                content = getMartyrById(id);
+                martyrCounter++;
+                type = 'martyr';
+                title = `شهيد (${martyrCounter})`;
+                break;
                 
-                default:
-                    console.log("can't find prefix:",prefix)
-                    return;
-            }
+            default:
+                console.log("can't find prefix:",prefix)
+                return;
+        }
             //dynamicFieldCard.innerHTML = generateDynamicFieldHTML(prefix, id, data); // Use the appropriate HTML structure for each dynamic field
 /*
             const keys = Object.keys(data);
@@ -1214,16 +1213,15 @@ function loadDynamicFieldData(prefix,id) {
             });*/
 
     
-            const card = createCard(type, id, content, title);
-            container.appendChild(card);
+        const card = createCard(type, id, content, title);
+        container.appendChild(card);
 
             // Populate the form fields with the saved data
-            Object.keys(data).forEach(field => {
-                const input = card.querySelector(`[name="${prefix}[${id}][${field}]"]`);
-                if (input && !input.type === 'file') {
-                    input.value = data[field];
-                }
-            });
+        Object.keys(data).forEach(field => {
+            const input = card.querySelector(`[name="${prefix}[${id}][${field}]"]`);
+            if (input && !input.type === 'file') {
+                input.value = data[field];
+            }
         });
     }
 }
