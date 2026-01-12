@@ -1198,7 +1198,7 @@ function loadDynamicFieldData(prefix) {
             // Populate the form fields with the saved data
             Object.keys(data).forEach(field => {
                 const input = card.querySelector(`[name="${prefix}[${id}][${field}]"]`);
-                if (input) {
+                if (input && !input.type === 'file') {
                     input.value = data[field];
                 }
             });
