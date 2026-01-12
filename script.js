@@ -1147,7 +1147,7 @@ function loadDynamicFieldData(prefix) {
         savedData.forEach((data, id) => {
             // Create dynamic fields for wives, children, or martyrs
             const container = document.getElementById(prefix + 'Container');
-            const content = '';
+            let content = '';
             let type = '';
             let title = '';
             switch (prefix){
