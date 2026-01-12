@@ -782,7 +782,7 @@ const extractDynamic = (prefix) => {
                 }
             }
         }
-    return Object.values(map);
+    return map;
 };
 
 // ------------------------------------------
@@ -1099,9 +1099,19 @@ window.addEventListener('load', function() {
             input.dispatchEvent(event);
         }
     });
-    loadDynamicFieldData('wives');
-    loadDynamicFieldData('children');
-    loadDynamicFieldData('martyrs');
+
+    Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith('wives-')){
+            loadDynamicFieldData('wives',key);
+        } 
+        if (key.startsWith('children-')){
+            loadDynamicFieldData('children',key);
+        } 
+        if (key.startsWith('martyrs-')){
+            loadDynamicFieldData('martyrs',key);
+        } 
+    });
+
 });
 
 // Function to save data to localStorage when adding a dynamic field (wife)
@@ -1137,19 +1147,31 @@ function saveDynamicFieldData() {
 
 function saveDynamicFieldData(prefix) {
     const dynamicData = extractDynamic(prefix); // Get dynamic data for the given prefix (wives, children, martyrs)
-    localStorage.setItem(prefix, JSON.stringify(dynamicData)); // Save to localStorage
+    let keys = Object.keys(dynamicData);
+    
+    keys.forEach((key) => {
+        console.log(`saving prefix: ${prefix} data`);
+        console.log("index:",key);
+        console.log("data:",dynamicData[key]);
+       
+        localStorage.setItem(`${prefix}-${key}`, JSON.stringify(dynamicData[key])); // Save to localStorage 
+
+    });
+    //localStorage.setItem(`${prefix}-${}`, JSON.stringify(dynamicData)); // Save to localStorage
 }
 
-function loadDynamicFieldData(prefix) {
-    const savedData = JSON.parse(localStorage.getItem(prefix));
+function loadDynamicFieldData(prefix,id) {
+
+    const savedData = JSON.parse(localStorage.getItem(id));
 
     if (savedData) {
-        savedData.forEach((data, id) => {
+        savedData.forEach((data, index) => {
             // Create dynamic fields for wives, children, or martyrs
             const container = document.getElementById(prefix + 'Container');
             let content = '';
             let type = '';
             let title = '';
+            let id = index
             switch (prefix){
                 case 'wives':
                     content = getWifeById(id);
