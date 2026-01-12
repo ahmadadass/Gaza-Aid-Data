@@ -1228,6 +1228,11 @@ function loadDynamicFieldData(prefix,id) {
     }
 }
 
+function clearLocalStorage() {
+    localStorage.clear(); // This will clear all data in localStorage
+    console.log("localStorage has been cleared.");
+}
+
 // Prevent "Enter" key from submitting the form
 document.addEventListener('keydown', function(event) {
   // If the key pressed is "Enter" AND the user is not in a large text area
