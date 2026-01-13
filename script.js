@@ -9,6 +9,10 @@ let martyrCounter = 0;
 const regexIdNumber = /^[0-9]{9}$/; // 422948516
 const regexPhoneNumber = /^05[96][0-9]{7}$/; // 0591234567
 const regexWhatsappPhoneNumber = /^(00|\+)97[02]5[69][0-9]{7}$/; // 00972591234567
+const CLIENT_ID = "55966527419-gfu4gdkn89aunrhrq41leh8kd2neai7k.apps.googleusercontent.com";
+const SCOPES = "https://www.googleapis.com/auth/drive.file";
+let accessToken = null;
+let tokenClient = null;
 
 function checkRegex(selectElem, targetRegex){
     console.log("CheckRegex selectElem:",selectElem);
@@ -384,7 +388,7 @@ function addWife() {
         <div class="form-group">
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
-            <input type="file" name="wives[${id}][IdImage]" accept="image/*,.pdf">
+            <input type="file" name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
         </div>
     `;*/
     const content = getWifeById(id);
@@ -490,7 +494,7 @@ function getWifeById(id){
         <div class="form-group">
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
-            <input type="file" name="wives[${id}][IdImage]" accept="image/*,.pdf">
+            <input type="file" name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
         </div>
     `;
 }
@@ -546,7 +550,7 @@ function addChild() {
                 <div class="form-group">
                     <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
                     <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
-                    <input type="file" accept="image/*,.pdf"">
+                    <input type="file" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
                 </div>
             </div>
         </div>
@@ -643,7 +647,7 @@ function getChildById(id){
                 <div class="form-group">
                     <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
                     <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
-                    <input type="file" accept="image/*,.pdf"">
+                    <input type="file" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
                 </div>
             </div>
         </div>
@@ -1084,6 +1088,22 @@ function isValidDate(date) {
 //});
 
 window.addEventListener('load', function() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: (resp) => {
+            if (resp.error) {
+                console.error(resp);
+                alert("Auth error: " + resp.error);
+                return;
+            }
+            accessToken = resp.access_token;
+            document.getElementById("upload").disabled = false;
+        },
+    });
+    // Prompts user consent the first time; may be silent later
+    tokenClient.requestAccessToken({ prompt: "consent" });
+
     const inputs = document.querySelectorAll('input, select');
     inputs.forEach(input => {
         const saved = localStorage.getItem(input.id || input.name); // Use unique id or name as key
@@ -1240,3 +1260,107 @@ document.addEventListener('keydown', function(event) {
     return false;
   }
 });
+
+
+async function uploadphoto(input) {
+    if (!(input instanceof HTMLInputElement)) return;
+    if (input.type !== "file") return;
+
+    // Optional: only handle specific file inputs (recommended)
+    // Example: <input type="file" data-drive-upload="1">
+    if (!input.matches('input[type="file"][data-drive-upload="1"]')) return;
+
+    if (!accessToken) {
+      alert("Please sign in first.");
+      // Optional: clear selection so user can re-pick later
+      input.value = "";
+      return;
+    }
+
+    const file = input.files?.[0];
+    if (!file) return;
+
+    // Optional: folderId per input
+    const folderId = input.dataset.folderId; // e.g. data-folder-id="..."
+
+    try {
+      const result = await uploadImageMultipart({
+        token: accessToken,
+        file,
+        filename: file.name,
+        folderId,
+      });
+
+      console.log("Uploaded:", result);
+
+      // Optional: store uploaded file id somewhere next to input
+      // Example: write into a hidden field in the same container
+      const hidden = input.closest(".file-row")?.querySelector('input[type="hidden"][name="driveFileId"]');
+      if (hidden) hidden.value = result.id;
+
+      // Optional: show link
+      const linkEl = input.closest(".file-row")?.querySelector(".drive-link");
+      if (linkEl && result.webViewLink) {
+        linkEl.href = result.webViewLink;
+        linkEl.textContent = "Open in Drive";
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed. See console.");
+    } finally {
+      // Allow selecting the same file again to re-trigger change
+      input.value = "";
+    }
+}
+
+async function uploadImageMultipart({ token, file, filename, folderId }) {
+    // Multipart upload: metadata + binary in one request :contentReference[oaicite:4]{index=4}
+    const metadata = {
+        name: filename,
+        mimeType: file.type || "application/octet-stream",
+    };
+
+    if (folderId) {
+        metadata.parents = [folderId];
+    }
+
+    const boundary = "-------314159265358979323846";
+    const delimiter = `\r\n--${boundary}\r\n`;
+    const closeDelim = `\r\n--${boundary}--`;
+
+    const arrayBuffer = await file.arrayBuffer();
+    const bodyParts = [
+        delimiter,
+        "Content-Type: application/json; charset=UTF-8\r\n\r\n",
+        JSON.stringify(metadata),
+        delimiter,
+        `Content-Type: ${metadata.mimeType}\r\n\r\n`,
+        new Uint8Array(arrayBuffer),
+        closeDelim,
+    ];
+
+    // Build a Blob safely containing binary + strings
+    const multipartRequestBody = new Blob(bodyParts);
+
+    console.log("multipartRequestBody:",multipartRequestBody);
+
+    const uploadUrl ="https://www.googleapis.com/upload/drive/v3/files" +"?uploadType=multipart&fields=id,name,mimeType,webViewLink";
+
+    const res = await fetch(uploadUrl, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,"Content-Type": `multipart/related; boundary=${boundary}`,
+        },
+        body: multipartRequestBody,
+    });
+
+    console.log("Upload to drive res:",res);
+
+    if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Drive upload failed (${res.status}): ${errText}`);
+    }
+
+    return await res.json();
+}

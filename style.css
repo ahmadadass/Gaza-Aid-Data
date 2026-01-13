@@ -161,6 +161,11 @@ button {
   color: white;
 }
 
+.btn-delete {
+  background: #c0392b;
+  color: white;
+}
+
 .btn-add {
   background: #27ae60;
   color: white;
