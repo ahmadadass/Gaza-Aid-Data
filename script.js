@@ -1101,8 +1101,6 @@ window.addEventListener('load', function() {
             document.getElementById("upload").disabled = false;
         },
     });
-    // Prompts user consent the first time; may be silent later
-    tokenClient.requestAccessToken({ prompt: "consent" });
 
     const inputs = document.querySelectorAll('input, select');
     inputs.forEach(input => {
@@ -1132,6 +1130,9 @@ window.addEventListener('load', function() {
             loadDynamicFieldData('martyrs',key);
         } 
     });
+
+    // Prompts user consent the first time; may be silent later
+    tokenClient.requestAccessToken({ prompt: "consent" });
 
 });
 
@@ -1271,10 +1272,12 @@ async function uploadphoto(input) {
     if (!input.matches('input[type="file"][data-drive-upload="1"]')) return;
 
     if (!accessToken) {
-      alert("Please sign in first.");
-      // Optional: clear selection so user can re-pick later
-      input.value = "";
-      return;
+        alert("Please sign in first.");
+        // Optional: clear selection so user can re-pick later
+        input.value = "";
+        // Prompts user consent the first time; may be silent later
+        tokenClient.requestAccessToken({ prompt: "consent" });
+        return;
     }
 
     const file = input.files?.[0];
@@ -1284,33 +1287,26 @@ async function uploadphoto(input) {
     const folderId = input.dataset.folderId; // e.g. data-folder-id="..."
 
     try {
-      const result = await uploadImageMultipart({
-        token: accessToken,
-        file,
-        filename: file.name,
-        folderId,
-      });
+        const result = await uploadImageMultipart({
+            token: accessToken,
+            file,
+            filename: file.name,
+            folderId,
+        });
 
-      console.log("Uploaded:", result);
+        console.log("Uploaded:", result);
 
-      // Optional: store uploaded file id somewhere next to input
-      // Example: write into a hidden field in the same container
-      const hidden = input.closest(".file-row")?.querySelector('input[type="hidden"][name="driveFileId"]');
-      if (hidden) hidden.value = result.id;
-
-      // Optional: show link
-      const linkEl = input.closest(".file-row")?.querySelector(".drive-link");
-      if (linkEl && result.webViewLink) {
-        linkEl.href = result.webViewLink;
-        linkEl.textContent = "Open in Drive";
-      }
+        input.value = result.webViewLink;
 
     } catch (err) {
-      console.error(err);
-      alert("Upload failed. See console.");
+        console.error(err);
+        alert("Upload failed.");
+
+        // Prompts user consent the first time; may be silent later
+        tokenClient.requestAccessToken({ prompt: "consent" });
     } finally {
-      // Allow selecting the same file again to re-trigger change
-      input.value = "";
+        // Allow selecting the same file again to re-trigger change
+        //input.value = "";
     }
 }
 
