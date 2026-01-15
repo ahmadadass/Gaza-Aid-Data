@@ -1063,12 +1063,14 @@ document.querySelectorAll('.btn-next').forEach((btn, idx) => {
 //    }
 //});
 
-document.addEventListener('input', saveDataTolocalStorage(e) );
-
+document.addEventListener('input', function(e){
+    saveDataTolocalStorage(e);
+});
+    
 function saveDataTolocalStorage(e) {
-     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
-         const inputId = e.target.id || e.target.name;
-         console.log("Saving field:", inputId, e.target.value);
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+        const inputId = e.target.id || e.target.name;
+        console.log("Saving field:", inputId, e.target.value);
          
          // Check if the field is a date and store it in the correct format
         if (e.target.type === 'date' && !isValidDate(e.target.value)) {
@@ -1081,8 +1083,8 @@ function saveDataTolocalStorage(e) {
         saveDynamicFieldData('martyrs');
          
         localStorage.setItem(inputId, e.target.value); // Save to localStorage
-     }
-}
+    }
+};
 
 // Function to validate date format (yyyy-MM-dd)
 function isValidDate(date) {
@@ -1314,7 +1316,7 @@ async function uploadphoto(input) {
         if (hidden) hidden.value = result.id;
 
         input.id = result.webViewLink;
-        saveDataTolocalStorage(input);
+        saveDataTolocalStorage(hidden);
 
     } catch (err) {
         console.error(err);
