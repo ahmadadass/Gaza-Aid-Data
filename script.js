@@ -340,7 +340,7 @@ function addWife() {
                 <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="hidden" name="wives[${id}][diseaseImage]drive">
+                <input type="hidden" name="wives[${id}][diseaseImageDrive]">
                 <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
             </div>
         </div>
@@ -359,7 +359,7 @@ function addWife() {
                 <label>إرفاق صورة عن التقرير الطبي:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][injuryImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="hidden" name="wives[${id}][injuryImage]drive">
+                <input type="hidden" name="wives[${id}][injuryImageDrive]">
             </div>
         </div>
 
@@ -391,7 +391,7 @@ function addWife() {
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
-            <input type="hidden" name="wives[${id}][IdImage]drive">
+            <input type="hidden" name="wives[${id}][IdImageDrive]">
         </div>
     `;*/
     const content = getWifeById(id);
@@ -449,7 +449,7 @@ function getWifeById(id){
                 <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="hidden" name="wives[${id}][diseaseImage]drive">
+                <input type="hidden" name="wives[${id}][diseaseImageDrive]">
                 <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
             </div>
         </div>
@@ -468,7 +468,7 @@ function getWifeById(id){
                 <label>إرفاق صورة عن التقرير الطبي:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][injuryImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="hidden" name="wives[${id}][injuryImage]drive">
+                <input type="hidden" name="wives[${id}][injuryImageDrive]">
             </div>
         </div>
 
@@ -500,7 +500,7 @@ function getWifeById(id){
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
-            <input type="hidden" name="wives[${id}][IdImage]drive">
+            <input type="hidden" name="wives[${id}][IdImageDrive]">
         </div>
     `;
 }
@@ -557,7 +557,7 @@ function addChild() {
                     <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
                     <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
                     <input type="file" name="children[${id}][diseaseImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
-                    <input type="hidden" name="children[${id}][injuryImage]drive">
+                    <input type="hidden" name="children[${id}][injuryImageDrive]">
                 </div>
             </div>
         </div>
@@ -655,7 +655,7 @@ function getChildById(id){
                     <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
                     <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
                     <input type="file" name="children[${id}][diseaseImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
-                    <input type="hidden" name="children[${id}][diseaseImage]drive">
+                    <input type="hidden" name="children[${id}][diseaseImageDrive]">
                 </div>
             </div>
         </div>
@@ -781,7 +781,7 @@ const extractDynamic = (prefix) => {
     for(let [key, value] of new FormData(document.getElementById('familyForm')).entries()) {
         if(key.startsWith(prefix + '[')) {
             const match = key.match(new RegExp(`${prefix}\\[(.*?)\\]\\[(.*?)\\]`));
-            //const matchDrive = key.match(new RegExp(`${prefix}\\[(.*?)\\]\\[(.*?)\\]drive`));
+            //const matchDrive = key.match(new RegExp(`${prefix}\\[(.*?)\\]\\[(.*?)\\Drive]`));
             console.log("match: ", match);
             if(match) {
                 const id = match[1];
@@ -935,16 +935,18 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
             familyName: formData.get('headFamilyName'),
             fullName: `${formData.get('headFirstName')} ${formData.get('headFatherName')} ${formData.get('headGrandName')} ${formData.get('headFamilyName')}`,
             id: formData.get('headId'),
+            idImage: formData.get('driveHeadIdImage'),
             dob: formData.get('headDob'),
             socialStatus: headSocialStatusArb,
             health: {
                 chronic: (formData.get('headHasDisease') == 'yes') ? 'نعم' : 'لا',
                 chronicType: formData.get('headDiseaseType'),
-                chronicImage: formData.get('driveHeadIdImage') || "", //image uri in here
+                chronicImage: formData.get('driveHeadDiseaseImage'), //image uri in here
                 warInjury: (formData.get('headIsInjured') == 'yes') ? 'نعم' : 'لا',
                 injuryDetails: formData.get('headInjuryDesc'),
                 injuryDate: formData.get('headInjuryDate'),
-                injuryEffect: formData.get('headInjuryEffect')
+                injuryEffect: formData.get('headInjuryEffect'),
+                injuryImage: formData.get('driveHeadInjuryImage')
             },
             job: headJobArb,
             spouseStatus: headSpouseStatusArb,
@@ -1031,7 +1033,7 @@ document.getElementById('familyForm').addEventListener('submit', function(e) {
     .then(result => {
         console.log('Success:', result);
         alert('تم حفظ البيانات بنجاح! شكراً لتعاونكم.');
-        
+        clearLocalStorage();
         // إعادة تعيين النموذج
         document.getElementById('familyForm').reset();
         window.location.reload(); 
