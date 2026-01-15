@@ -112,7 +112,7 @@ exports.handler = async (event) => {
         row.push(wives[i]?.pregnant || "");
         row.push(wives[i]?.nursing || "");
         row.push(wives[i]?.sick || "");
-        row.push(wives[i]?.diseaseImage || "")
+        row.push(wives[i]?.diseaseImage || "");
         row.push(wives[i]?.diseaseDetails || "");
         row.push(wives[i]?.injured || "");
         row.push(wives[i]?.injuryDesc || "");
