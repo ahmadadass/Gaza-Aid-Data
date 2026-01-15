@@ -1064,10 +1064,6 @@ document.querySelectorAll('.btn-next').forEach((btn, idx) => {
 //});
 
 document.addEventListener('input', function(e){
-    saveDataTolocalStorage(e);
-});
-    
-function saveDataTolocalStorage(e) {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
         const inputId = e.target.id || e.target.name;
         console.log("Saving field:", inputId, e.target.value);
@@ -1084,7 +1080,7 @@ function saveDataTolocalStorage(e) {
          
         localStorage.setItem(inputId, e.target.value); // Save to localStorage
     }
-};
+});
 
 // Function to validate date format (yyyy-MM-dd)
 function isValidDate(date) {
@@ -1312,11 +1308,18 @@ async function uploadphoto(input) {
         console.log("Uploaded:", result);
 
         // Optional: store uploaded file id somewhere next to input
-        const hidden = input.closest(".file-row")?.querySelector('input[type="hidden"][name="driveHeadIdImage"]');
-        if (hidden) hidden.value = result.id;
+        const hidden = input.closest(".form-group")?.querySelector('input[type="hidden"]');
+        console.log("hidden:",hidden);
+        if (hidden) hidden.value = result.webViewLink;
+
+        console.log("Saving field:", hidden.name, result.webViewLink);
+        localStorage.setItem(hidden.name, result.webViewLink);
 
         input.id = result.webViewLink;
-        saveDataTolocalStorage(hidden);
+        //const event = new Event('change', { bubbles: true });
+
+        //Dispatch the event
+        //hidden.dispatchEvent(event);
 
     } catch (err) {
         console.error(err);
