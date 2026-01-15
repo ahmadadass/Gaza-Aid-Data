@@ -1063,7 +1063,9 @@ document.querySelectorAll('.btn-next').forEach((btn, idx) => {
 //    }
 //});
 
-document.addEventListener('input', function(e) {
+document.addEventListener('input', saveDataTolocalStorage(e) );
+
+function saveDataTolocalStorage(e) {
      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
          const inputId = e.target.id || e.target.name;
          console.log("Saving field:", inputId, e.target.value);
@@ -1080,7 +1082,7 @@ document.addEventListener('input', function(e) {
          
         localStorage.setItem(inputId, e.target.value); // Save to localStorage
      }
-});
+}
 
 // Function to validate date format (yyyy-MM-dd)
 function isValidDate(date) {
@@ -1312,6 +1314,7 @@ async function uploadphoto(input) {
         if (hidden) hidden.value = result.id;
 
         input.id = result.webViewLink;
+        saveDataTolocalStorage(input);
 
     } catch (err) {
         console.error(err);
