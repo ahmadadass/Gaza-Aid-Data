@@ -340,7 +340,7 @@ function addWife() {
                 <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="hidden" name="wives[${id}][diseaseImageDrive]">
+                <input type="text" hidden id="driveUri" name="wives[${id}][diseaseImageDrive]">
                 <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
             </div>
         </div>
@@ -359,7 +359,7 @@ function addWife() {
                 <label>إرفاق صورة عن التقرير الطبي:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][injuryImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="hidden" name="wives[${id}][injuryImageDrive]">
+                <input type="text" hidden id="driveUri" name="wives[${id}][injuryImageDrive]">
             </div>
         </div>
 
@@ -391,7 +391,7 @@ function addWife() {
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
-            <input type="hidden" name="wives[${id}][IdImageDrive]">
+            <input type="text" hidden id="driveUri" name="wives[${id}][IdImageDrive]">
         </div>
     `;*/
     const content = getWifeById(id);
@@ -449,7 +449,7 @@ function getWifeById(id){
                 <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="hidden" name="wives[${id}][diseaseImageDrive]">
+                <input type="text" hidden id="driveUri" name="wives[${id}][diseaseImageDrive]">
                 <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
             </div>
         </div>
@@ -468,7 +468,7 @@ function getWifeById(id){
                 <label>إرفاق صورة عن التقرير الطبي:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][injuryImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="hidden" name="wives[${id}][injuryImageDrive]">
+                <input type="text" hidden id="driveUri" name="wives[${id}][injuryImageDrive]">
             </div>
         </div>
 
@@ -500,7 +500,7 @@ function getWifeById(id){
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
             <input type="file" name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
-            <input type="hidden" name="wives[${id}][IdImageDrive]">
+            <input type="text" hidden id="driveUri" name="wives[${id}][IdImageDrive]">
         </div>
     `;
 }
@@ -557,7 +557,7 @@ function addChild() {
                     <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
                     <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
                     <input type="file" name="children[${id}][diseaseImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
-                    <input type="hidden" name="children[${id}][injuryImageDrive]">
+                    <input type="text" hidden id="driveUri" name="children[${id}][injuryImageDrive]">
                 </div>
             </div>
         </div>
@@ -655,7 +655,7 @@ function getChildById(id){
                     <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
                     <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
                     <input type="file" name="children[${id}][diseaseImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
-                    <input type="hidden" name="children[${id}][diseaseImageDrive]">
+                    <input type="text" hidden id="driveUri" name="children[${id}][diseaseImageDrive]">
                 </div>
             </div>
         </div>
@@ -1308,7 +1308,7 @@ async function uploadphoto(input) {
         console.log("Uploaded:", result);
 
         // Optional: store uploaded file id somewhere next to input
-        const hidden = input.closest(".form-group")?.querySelector('input[type="hidden"]');
+        const hidden = input.closest(".form-group")?.querySelector('input[type="text"][id="driveUri]]');
         console.log("hidden:",hidden);
         if (hidden) hidden.value = result.webViewLink;
 
