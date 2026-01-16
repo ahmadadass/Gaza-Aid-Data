@@ -71,6 +71,7 @@ exports.handler = async (event) => {
         head.grandName || "",
         head.familyName || "",
         head.id || "",
+        head.idImage || "",
         head.dob || "",
         head.socialStatus || "",
         head.health.chronic || "",
@@ -80,6 +81,7 @@ exports.handler = async (event) => {
         head.health.injuryDetails || "",
         head.health.injuryDate || "",
         head.health.injuryEffect || "",
+        head.injuryImage || "",
         head.spouseStatus || "",
         head.job || "",
         head.deceasedSpouse.name || "",
@@ -107,12 +109,13 @@ exports.handler = async (event) => {
         console.log("wives[" + i + "]:",wives[i]);
         row.push(wives[i]?.name || "");
         row.push(wives[i]?.id || "");
+        row.push(wives[i]?.IdImageDrive || ""),
         row.push(wives[i]?.dob || "");
         row.push(wives[i]?.phone || "");
         row.push(wives[i]?.pregnant || "");
         row.push(wives[i]?.nursing || "");
         row.push(wives[i]?.sick || "");
-        row.push(wives[i]?.diseaseImage || "");
+        row.push(wives[i]?.diseaseImageDrive || "");
         row.push(wives[i]?.diseaseDetails || "");
         row.push(wives[i]?.injured || "");
         row.push(wives[i]?.injuryDesc || "");
@@ -122,7 +125,6 @@ exports.handler = async (event) => {
         row.push(wives[i]?.missingDate || "")
         row.push(wives[i]?.prisoner || "");
         row.push(wives[i]?.prisonDate || "");
-        row.push(wives[i]?.IdImage || "");
     }
 
     console.log("children:",children);
@@ -137,6 +139,7 @@ exports.handler = async (event) => {
         row.push(children[i]?.missing || "");
         row.push(children[i]?.missingDate || "");
         row.push(children[i]?.diseaseDetails || "");
+        row.push(children[i]?.diseaseImageDrive || "");
         row.push(children[i]?.injured || "");
         row.push(children[i]?.injuryDesc || "");
         row.push(children[i]?.injuryDate || "");
