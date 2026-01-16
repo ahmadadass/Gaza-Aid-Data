@@ -1143,7 +1143,7 @@ window.addEventListener('load', function() {
     });
 
     // Prompts user consent the first time; may be silent later
-    tokenClient.requestAccessToken({ prompt: "consent" });
+    //tokenClient.requestAccessToken({ prompt: "consent" });
 
 });
 
@@ -1273,6 +1273,36 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
+let accessToken = null;
+let tokenClient = null;
+
+// On page load you already init tokenClient (keep that).
+
+document.addEventListener("click", (e) => {
+  const input = e.target.closest?.('input[type="file"][data-drive-upload="1"]');
+  if (!input) return;
+
+  if (accessToken) {
+    // Already authed → allow default chooser to open
+    return;
+  }
+
+  // No token yet → block chooser and do auth only
+  e.preventDefault();
+  e.stopPropagation();
+
+  tokenClient.callback = (resp) => {
+    if (resp.error) {
+      console.error(resp);
+      alert("Sign-in blocked/failed. Please allow popups for this site.");
+      return;
+    }
+    accessToken = resp.access_token;
+    alert("تم تسجيل الدخول. الآن اضغط على حقل الصورة مرة أخرى لاختيار الملف.");
+  };
+
+  tokenClient.requestAccessToken({ prompt: "consent" });
+}, true);
 
 async function uploadphoto(input) {
     if (!(input instanceof HTMLInputElement)) return;
@@ -1287,7 +1317,7 @@ async function uploadphoto(input) {
         // Optional: clear selection so user can re-pick later
         input.value = "";
         // Prompts user consent the first time; may be silent later
-        tokenClient.requestAccessToken({ prompt: "consent" });
+        //tokenClient.requestAccessToken({ prompt: "consent" });
         return;
     }
 
@@ -1308,7 +1338,7 @@ async function uploadphoto(input) {
         console.log("Uploaded:", result);
 
         // Optional: store uploaded file id somewhere next to input
-        const hidden = input.closest(".form-group")?.querySelector('input[type="text"][id="driveUri]]');
+        const hidden = input.closest(".form-group").querySelector('#driveUri');   //?.querySelector('input[type="text"][id="driveUri]');
         console.log("hidden:",hidden);
         if (hidden) hidden.value = result.webViewLink;
 
