@@ -1069,8 +1069,9 @@ document.addEventListener('input', function(e){
         console.log("Saving field:", inputId, e.target.value);
          
          // Check if the field is a date and store it in the correct format
-        if (e.target.type === 'date' && !isValidDate(e.target.value)) {
-            console.log('Invalid date format');
+        if (e.target.type === 'file' ) {
+            console.log('saving file name to localStorage input',input);
+            localStorage.setItem(inputId, e.target.files?.[0].name); // Save to localStorage 
             return;  // Prevent saving invalid date
         }
 
@@ -1122,7 +1123,12 @@ window.addEventListener('load', function() {
         console.log("input.name:",input.name);
         console.log("saved:",saved);
         if (saved) {
-            input.value = saved; // Apply saved data to the input field
+            if(input.typ='file') {
+                const element = ensureFileNameElement(input);
+
+                if (element) el.textContent = saved;
+            } else
+                input.value = saved; // Apply saved data to the input field
             const event = new Event('change', { bubbles: true });
 
             // 4. Dispatch the event
@@ -1315,6 +1321,7 @@ async function uploadphoto(input) {
         //tokenClient.requestAccessToken({ prompt: "consent" });
         return;
     }
+    setFileNameUI(input);
 
     const file = input.files?.[0];
     if (!file) return;
@@ -1407,4 +1414,25 @@ async function uploadImageMultipart({ token, file, filename, folderId }) {
     }
 
     return await res.json();
+}
+
+function ensureFileNameElement(input) {
+  const formGroup = input.closest(".form-group");
+  if (!formGroup) return null;
+
+  let element = formGroup.querySelector(".fileName");
+  if (!element) {
+    element = document.createElement("span");
+    element.className = "fileName";
+    formGroup.appendChild(element);
+  }
+  return element;
+}
+
+function setFileNameUI(input) {
+  const formGroup = input.closest(".form-group");
+  const nameElement = formGroup?.querySelector(".fileName");
+  const file = input.files?.[0];
+
+  if (nameElement) nameElement.textContent = file ? file.name : "";
 }
