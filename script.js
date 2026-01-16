@@ -107,12 +107,13 @@ function validateStep(step) {
         if (input.offsetParent === null) return; // Ignore hidden fields
         
         // Check file inputs
-        if (input.type === 'file' && input.files.length === 0) {
-             // يمكن جعلها اختيارية إذا أردت، حالياً نتجاوز التحقق للملفات لتسهيل التجربة
-             return; 
+        if (input.type === 'file' && input.files?.[0]?.name != null ) {
+            // يمكن جعلها اختيارية إذا أردت، حالياً نتجاوز التحقق للملفات لتسهيل التجربة
+            console.log("type file input.file[0].name:",input.files?.[0]?.name);
+            return; 
         }
 
-        if (!input.value.trim() || !input.checkValidity()) {
+        if (!input.value.trim() || !input.checkValidity() || (input.type === 'file' && input.files?.[0]?.name == null)) {
             input.style.borderColor = 'red';
             valid = false;
         } else {
@@ -390,7 +391,7 @@ function addWife() {
         <div class="form-group">
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
-            <input type="file" name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
+            <input type="file" required name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
             <input type="text" hidden id="driveUri" name="wives[${id}][IdImageDrive]">
         </div>
     `;*/
@@ -499,7 +500,7 @@ function getWifeById(id){
         <div class="form-group">
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
-            <input type="file" name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
+            <input type="file" required name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
             <input type="text" hidden id="driveUri" name="wives[${id}][IdImageDrive]">
         </div>
     `;
@@ -1070,7 +1071,7 @@ document.addEventListener('input', function(e){
          
          // Check if the field is a date and store it in the correct format
         if (e.target.type === 'file' ) {
-            console.log('saving file name to localStorage input',input);
+            console.log('saving file name to localStorage input',e.target);
             localStorage.setItem(inputId, e.target.files?.[0].name); // Save to localStorage 
             return;  // Prevent saving invalid date
         }
@@ -1123,7 +1124,7 @@ window.addEventListener('load', function() {
         console.log("input.name:",input.name);
         console.log("saved:",saved);
         if (saved) {
-            if(input.typ='file') {
+            if(input.type === 'file') {
                 const element = ensureFileNameElement(input);
 
                 if (element) element.textContent = saved;

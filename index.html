@@ -62,7 +62,7 @@
           <div class="form-group">
             <label>إرفاق صورة الهوية</label>
             <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
-            <input type="file" name="headIdImage" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
+            <input type="file" required name="headIdImage" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
             <input type="text" hidden id="driveUri" name="driveHeadIdImage">
           </div>
 
@@ -121,7 +121,7 @@
                   <div class="form-group">
                     <label class="hint">إرفاق صورة عن التقرير الطبي <b>للمراض المزمن</b>:</label>
                     <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
-                    <input type="file" name="headDiseaseImage" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
+                    <input type="file" required name="headDiseaseImage" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
                     <input type="text" hidden id="driveUri" name="driveHeadDiseaseImage">
                   </div>
                 </div>
@@ -142,7 +142,7 @@
                     <div class="form-group">
                       <label class="hint">إرفاق صورة عن التقرير الطبي للإصابة:</label>
                       <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
-                      <input type="file" name="headInjuryImage" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
+                      <input type="file" required name="headInjuryImage" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
                       <input type="text" hidden id="driveUri" name="driveHeadInjuryImage" onchange="">
                     </div>
                   </div>
