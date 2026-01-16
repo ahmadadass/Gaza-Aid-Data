@@ -1126,7 +1126,7 @@ window.addEventListener('load', function() {
             if(input.typ='file') {
                 const element = ensureFileNameElement(input);
 
-                if (element) el.textContent = saved;
+                if (element) element.textContent = saved;
             } else
                 input.value = saved; // Apply saved data to the input field
             const event = new Event('change', { bubbles: true });
