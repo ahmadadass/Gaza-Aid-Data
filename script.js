@@ -1273,11 +1273,6 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-let accessToken = null;
-let tokenClient = null;
-
-// On page load you already init tokenClient (keep that).
-
 document.addEventListener("click", (e) => {
   const input = e.target.closest?.('input[type="file"][data-drive-upload="1"]');
   if (!input) return;
