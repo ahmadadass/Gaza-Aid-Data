@@ -47,24 +47,6 @@ exports.handler = async (event) => {
     const children = body.children || [];
     const martyrs = body.martyrs || [];
     
-    // حساب عدد الأفراد
-    const wivesCount = (body.wives || []).length;
-    const childrenCount = (body.children || []).length;
-    
-    // تجهيز الصف (Array of values)
-    const row1 = [
-      body.submissionDate || new Date().toISOString(), // العمود 1: التاريخ
-      head.fullName || "",                             // العمود 2: الاسم الرباعي
-      head.id || "",                                   // العمود 3: الهوية
-      head.phones?.primary || "",                      // العمود 4: الجوال
-      housing.current?.area || "",                     // العمود 5: المنطقة الحالية
-      housing.current?.type || "",                     // العمود 6: نوع السكن
-      wivesCount,                                      // العمود 7: عدد الزوجات
-      childrenCount,                                   // العمود 8: عدد الأبناء
-      housing.whatsapp || "",                          // العمود 9: واتساب
-      JSON.stringify(body)                             // العمود 10: كافة التفاصيل (JSON) كنسخة احتياطية
-    ];
-
     const row = [
         head.firstName || "",
         head.fatherName || "",
@@ -105,7 +87,29 @@ exports.handler = async (event) => {
     ];
 
     console.log("wives:",wives);
-    for (let i = 0;i < 5; i++) {
+    Object.keys(wives).forEach((key) => {
+        console.log("wives[" + key + "]:",wives[key]);
+        row.push(wives[key]?.name || "");
+        row.push(wives[key]?.id || "");
+        row.push(wives[key]?.IdImageDrive || ""),
+        row.push(wives[key]?.dob || "");
+        row.push(wives[key]?.phone || "");
+        row.push(wives[key]?.pregnant || "");
+        row.push(wives[key]?.nursing || "");
+        row.push(wives[key]?.sick || "");
+        row.push(wives[key]?.diseaseImageDrive || "");
+        row.push(wives[key]?.diseaseDetails || "");
+        row.push(wives[key]?.injured || "");
+        row.push(wives[key]?.injuryDesc || "");
+        row.push(wives[key]?.injuryDate || "");
+        row.push(wives[key]?.injuryImageDrive || "");
+        row.push(wives[key]?.missing || "");
+        row.push(wives[key]?.missingDate || "")
+        row.push(wives[key]?.prisoner || "");
+        row.push(wives[key]?.prisonDate || "");
+    });
+    const wivesCount = Object.keys(wives).length;
+    for(let i=0; i < 4-wivesCount;i++){
         console.log("wives[" + i + "]:",wives[i]);
         row.push(wives[i]?.name || "");
         row.push(wives[i]?.id || "");
@@ -128,7 +132,29 @@ exports.handler = async (event) => {
     }
 
     console.log("children:",children);
-    for (let i = 0;i < 13; i++) {
+    Object.keys(children).forEach((key) => {
+        console.log("children[" + key + "]:",children[key]);
+        row.push(children[key]?.id || "");
+        row.push(children[key]?.dob || "");
+        row.push(children[key]?.phone || "");
+        row.push(children[key]?.pregnant || "");
+        row.push(children[key]?.nursing || "");
+        row.push(children[key]?.sick || "");
+        row.push(children[key]?.missing || "");
+        row.push(children[key]?.missingDate || "");
+        row.push(children[key]?.diseaseDetails || "");
+        row.push(children[key]?.diseaseImageDrive || "");
+        row.push(children[key]?.injured || "");
+        row.push(children[key]?.injuryDesc || "");
+        row.push(children[key]?.injuryDate || "");
+        row.push(children[key]?.injuryImageDrive || "");
+        row.push(children[key]?.missing || "");
+        row.push(children[key]?.prisoner || "");
+        row.push(children[key]?.prisonDate || "");
+    });
+
+    const childernCount = Object.keys(children).length;
+    for (let i = 0;i < 12-childernCount; i++) {
         console.log("children[" + i + "]:",children[i]);
         row.push(children[i]?.id || "");
         row.push(children[i]?.dob || "");
@@ -147,10 +173,19 @@ exports.handler = async (event) => {
         row.push(children[i]?.missing || "");
         row.push(children[i]?.prisoner || "");
         row.push(children[i]?.prisonDate || "");
-   }
+    }
 
     console.log("martyrs:",martyrs);
-    for (let i = 0;i < 5; i++) {
+    Object.keys(martyrs).forEach((key) => {
+        console.log("martyrs[" + key + "]:",martyrs[key]);
+        row.push(martyrs[key]?.name || "");
+        row.push(martyrs[key]?.relation || "");
+        row.push(martyrs[key]?.id || "");
+        row.push(martyrs[key]?.date || "");
+    })
+
+    const martyrsCount = Object.keys(martyrs).length;    
+    for (let i = 0;i < 5-martyrsCount; i++) {
         console.log("martyrs[" + i + "]:",martyrs[i]);
         row.push(martyrs[i]?.name || "");
         row.push(martyrs[i]?.relation || "");
