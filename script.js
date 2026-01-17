@@ -150,6 +150,7 @@ function toggleField(selectElem, targetId) {
                     i.hidden = true; 
                     i.removeAttribute('required');
                 }
+                if (i.type === 'file') i.style.display = (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female')) ? 'block' : 'none';
             });
         }
         return;
@@ -158,10 +159,16 @@ function toggleField(selectElem, targetId) {
     // Standard ID toggle
     if (selectElem.value === 'yes' || selectElem.value === 'other' || selectElem.value.includes('female')) {
         target.style.display = 'block';
-        target.querySelectorAll('input').forEach(i => i.setAttribute('required', 'true'));
+        target.querySelectorAll('input').forEach(i => { 
+            i.setAttribute('required', 'true');
+            if (i.type === 'file') i.style.display = 'block';
+        });
     } else {
         target.style.display = 'none';
-        target.querySelectorAll('input').forEach(i => i.removeAttribute('required'));
+        target.querySelectorAll('input').forEach(i => { 
+            i.removeAttribute('required');
+            if (i.type === 'file') i.style.display = 'none'; 
+        });
     }
 }
 
@@ -291,112 +298,6 @@ function addWife() {
     }
     wifeCounter++;
     const id = generateId();
-    // (تم الحفاظ على نفس الحقول كما في النسخة السابقة)
-/*
-    const content = `
-        <div class="form-row">
-            <div class="form-group half">
-                <label>الاسم الرباعي</label>
-                <input type="text" name="wives[${id}][name]" required>
-            </div>
-            <div class="form-group half">
-                <label>رقم الهوية</label>
-                <input type="text" name="wives[${id}][id]" required inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group half">
-                <label>تاريخ الميلاد</label>
-                <input type="date" name="wives[${id}][dob]" required>
-            </div>
-            <div class="form-group half">
-                <label>رقم الهاتف</label>
-                <input type="tel" name="wives[${id}][phone]" inputmode="numeric" maxlength="10" onchange="checkRegex(this, 'phone')">
-            </div>
-        </div>
-        
-        <div class="form-row">
-            <div class="form-group half">
-                <label>هل حامل؟</label>
-                <select name="wives[${id}][pregnant]">
-                    <option value="no">لا</option>
-                    <option value="yes">نعم</option>
-                </select>
-            </div>
-            <div class="form-group half">
-                <label>هل مرضع؟</label>
-                <select name="wives[${id}][nursing]">
-                    <option value="no">لا</option>
-                    <option value="yes">نعم</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>هل تعاني زوجتك من أمراض؟</label>
-            <select name="wives[${id}][sick]" onchange="toggleField(this, 'wives[${id}][diseaseDetails]')">
-                <option value="no">لا</option>
-                <option value="yes">نعم</option>
-            </select>
-
-            <div id="wives[${id}][diseaseDetails]" class="hidden-input"  hidden >
-                <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
-                <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
-                <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="text" hidden id="driveUri" name="wives[${id}][diseaseImageDrive]">
-                <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>هل تعرضت زوجتك لإصابة/إعاقة نتيجة الحرب؟</label>
-            <select name="wives[${id}][injured]" onchange="toggleField(this, 'wifeInjury-${id}')">
-                <option value="no">لا</option>
-                <option value="yes">نعم</option>
-            </select>
-            <div class="wifeInjury-${id} hidden-input" hidden >
-                <label><b>ادخل بيانات إصابة زوجتك:-</b></label>
-                <label class="hint">تاريخ إصابة زوجتك:</label>
-                <input type="date" name="wives[${id}][injuryDate]" placeholder="">
-                <input type="text" name="wives[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
-                <label>إرفاق صورة عن التقرير الطبي:</label>
-                <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
-                <input type="file" name="wives[${id}][injuryImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
-                <input type="text" hidden id="driveUri" name="wives[${id}][injuryImageDrive]">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group half">
-               <label>هل فقدت زوجتك خلال الحرب؟</label>
-                <select name="wives[${id}][missing]" onchange="toggleField(this, 'wivesMissing-${id}')">
-                    <option value="no">لا</option>
-                    <option value="yes">نعم</option>
-                </select>
-                <div id="wivesMissing-${id}" class="hidden-input" hidden> 
-                    <label class="hint">تاريخ الفقد</label>
-                    <input type="date" name="wife[${id}][missingDate]" placeholder="تاريخ الفقد">
-                </div>
-            </div>
-            <div class="form-group half">
-                <label>هل أُسرت خلال الحرب؟</label>
-                <select name="wives[${id}][prisoner]" onchange="toggleField(this, 'wivesPrison-${id}')">
-                    <option value="no">لا</option>
-                    <option value="yes">نعم</option>
-                </select>
-                <div id="wivesPrison-${id}" class="hidden-input" hidden> 
-                    <label>تاريخ الاسر</label>
-                    <input type="date" name="wives[${id}][prisonDate]" placeholder="تاريخ الأسر">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>إرفاق صورة الهوية</label>
-            <label class="hint">- الهوية الأصلية تشمل السليب بشكل مفرود أو الهوية بدل فاقد (وجه الأول + الوجه الثاني)</label>
-            <input type="file" required name="wives[${id}][IdImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)">
-            <input type="text" hidden id="driveUri" name="wives[${id}][IdImageDrive]">
-        </div>
-    `;*/
     const content = getWifeById(id);
     document.getElementById('wivesContainer').appendChild(createCard('wife', id, content, `بطاقة الزوجة (${wifeCounter})`));
 }
@@ -451,7 +352,7 @@ function getWifeById(id){
             <div id="wives[${id}][diseaseDetails]" class="hidden-input"  hidden >
                 <label><b>ادخل بيانات مرض زوجتك:-<b></label>
                 <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
-                <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
+                <label>إرفاق صورة عن التقرير الطبي:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
                 <input type="text" hidden id="driveUri" name="wives[${id}][diseaseImageDrive]">
@@ -519,106 +420,6 @@ function addChild() {
     }
     childCounter++;
     const id = generateId();
-    /*
-    const content = `
-        <div class="form-row">
-            <div class="form-group half">
-                <label>الاسم الرباعي</label>
-                <input type="text" name="children[${id}][name]" required>
-            </div>
-            <div class="form-group half">
-                <label>رقم الهوية</label>
-                <input type="text" name="children[${id}][id]" required inputmode="numeric" maxlength="9" onchange="checkRegex(this, 'id')">
-            </div>
-        </div>
-        <div class="form-row">
-             <div class="form-group half">
-                <label>الجنس</label>
-                <select name="children[${id}][gender]" required>
-                    <option value="male">ذكر</option>
-                    <option value="female">أنثى</option>
-                </select>
-            </div>
-            <div class="form-group half">
-                <label>تاريخ الميلاد</label>
-                <input type="date" name="children[${id}][dob]" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>اسم الأم (رباعي)</label>
-            <input type="text" name="children[${id}][motherName]" required>
-        </div>
-        
-        <div class="form-group">
-            <label>هل يعاني ابنك/بنتك من أمراض؟</label>
-            <select name="children[${id}][sick]" onchange="toggleField(this, 'childDiseaseDesc-${id}')">
-                <option value="no">لا</option>
-                <option value="yes">نعم</option>
-            </select>
-            <div id="childDiseaseDesc-${id}" class="hidden-input" hidden >
-                <label><b>ادخل بيانات مرض ابنك/بنتك:-</b></label>
-                <input type="text" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة">
-                <div class="form-group">
-                    <label>إرفاق صورة عن التقرير الطبي للمرض:</label>
-                    <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
-                    <input type="file" name="children[${id}][diseaseImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
-                    <input type="text" hidden id="driveUri" name="children[${id}][diseaseImageDrive]">
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>هل تعرض لإصابة/إعاقة نتيجة الحرب؟</label>
-            <select name="children[${id}][injured]" onchange="toggleField(this, 'childInjury-${id}')">
-                <option value="no">لا</option>
-                <option value="yes">نعم</option>
-            </select>
-            <div id="childInjury-${id}" class="hidden-input" hidden >
-                <label><b>ادخل بيانات اصابة ابنك/بنتك في الحرب:-</b></label>
-                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
-                <label class="hint">تاريخ الإصابة:</label>
-                <input type="date" name="children[${id}][injuryDate]">
-                <label>إرفاق صورة عن التقرير الطبي للإصابة:</label>
-                <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
-                <input type="file" name="children[${id}][injuryImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
-                <input type="text" hidden id="driveUri" name="children[${id}][injuryImageDrive]">
-            </div>
-        </div>
-
-        <div class="form-row">
-             <div class="form-group half">
-                <label>هل ابنك/بنتك من مفقودين الحرب?</label>
-                <select name="children[${id}][missing]" onchange="toggleField(this, 'childMissing-${id}')">
-                    <option value="no">لا</option>
-                    <option value="yes">نعم</option>
-                </select>
-                <div id="childMissing-${id}" class="hidden-input" hidden> 
-                    <label class="hint">تاريخ الفقد</label>
-                    <input type="date" name="children[${id}][missingDate]" placeholder="تاريخ الفقد">
-                </div>
-            </div>
-            <div class="form-group half">
-                <label>هل أسر خلال الحرب؟</label>
-                <select name="children[${id}][prisoner]" onchange="toggleField(this, 'childPrison-${id}')">
-                    <option value="no">لا</option>
-                    <option value="yes">نعم</option>
-                </select>
-                <input type="date" class="childPrison-${id} hidden-input" name="children[${id}][prisonDate]" placeholder="تاريخ الأسر" hidden >
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>المرحلة التعليمية الحالية</label>
-            <select name="children[${id}][education]">
-                <option value="kg">روضة</option>
-                <option value="primary">ابتدائي</option>
-                <option value="middle">إعدادي</option>
-                <option value="high">ثانوي</option>
-                <option value="university">جامعة</option>
-                <option value="none">بدون / دون سن الدراسة</option>
-            </select>
-        </div>
-    `;*/
     const content = getChildById(id);
     document.getElementById('childrenContainer').appendChild(createCard('child', id, content, `ابن/ابنة (${childCounter})`));
 }
@@ -660,6 +461,7 @@ function getChildById(id){
                 <option value="yes">نعم</option>
             </select>
             <div id="childDiseaseDesc-${id}" class="hidden-input" hidden >
+                <lable><b>ادخل بيانات مرض ابنك/بنتك</b><lable>
                 <input type="text" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة">
                 <div class="form-group">
                     <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
@@ -701,7 +503,7 @@ function getChildById(id){
                 </div>
             </div>
             <div class="form-group half">
-                <label>هل أسر خلال الحرب؟</label>
+                <label>هل أسر ابنك/بنتك خلال الحرب؟</label>
                 <select name="children[${id}][prisoner]" onchange="toggleField(this, 'childPrison-${id}')">
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
