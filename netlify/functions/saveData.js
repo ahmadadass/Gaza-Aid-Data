@@ -120,7 +120,7 @@ exports.handler = async (event) => {
         row.push(wives[i]?.injured || "");
         row.push(wives[i]?.injuryDesc || "");
         row.push(wives[i]?.injuryDate || "");
-        row.push(wives[i]?.injuryImage || "")
+        row.push(wives[i]?.injuryImageDrive || "");
         row.push(wives[i]?.missing || "");
         row.push(wives[i]?.missingDate || "")
         row.push(wives[i]?.prisoner || "");
@@ -143,6 +143,7 @@ exports.handler = async (event) => {
         row.push(children[i]?.injured || "");
         row.push(children[i]?.injuryDesc || "");
         row.push(children[i]?.injuryDate || "");
+        row.push(children[i]?.injuryImageDrive || "");
         row.push(children[i]?.missing || "");
         row.push(children[i]?.prisoner || "");
         row.push(children[i]?.prisonDate || "");

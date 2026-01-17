@@ -105,15 +105,17 @@ function validateStep(step) {
 
     inputs.forEach(input => {
         if (input.offsetParent === null) return; // Ignore hidden fields
-        
+         const formGroup = input.closest(".form-group"); 
+          const nameElement = formGroup?.querySelector(".fileName");
+  const file = input.files?.[0];
         // Check file inputs
-        if (input.type === 'file' && input.files?.[0]?.name != null ) {
+        if (input.type === 'file' && (input.files?.[0]?.name != null || input.closest(".form-group")?.querySelector(".fileName") != null)) {
             // يمكن جعلها اختيارية إذا أردت، حالياً نتجاوز التحقق للملفات لتسهيل التجربة
             console.log("type file input.file[0].name:",input.files?.[0]?.name);
             return; 
         }
 
-        if (!input.value.trim() || !input.checkValidity() || (input.type === 'file' && input.files?.[0]?.name == null)) {
+        if (!input.value.trim() || !input.checkValidity() || (input.type === 'file' && (input.files?.[0]?.name == null || input.closest(".form-group")?.querySelector(".fileName") == null))) {
             input.style.borderColor = 'red';
             valid = false;
         } else {
@@ -447,11 +449,12 @@ function getWifeById(id){
             </select>
 
             <div id="wives[${id}][diseaseDetails]" class="hidden-input"  hidden >
+                <label><b>ادخل بيانات مرض زوجتك:-<b></label>
+                <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
                 <label><b>إرفاق صورة عن التقرير الطبي<b>:</label>
                 <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</label>
                 <input type="file" name="wives[${id}][diseaseImage]" placeholder="ارفاق صورة" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)>
                 <input type="text" hidden id="driveUri" name="wives[${id}][diseaseImageDrive]">
-                <input type="text" name="wives[${id}][diseaseDetails]" placeholder="تفاصيل المرض بوضوح">
             </div>
         </div>
 
@@ -553,12 +556,13 @@ function addChild() {
                 <option value="yes">نعم</option>
             </select>
             <div id="childDiseaseDesc-${id}" class="hidden-input" hidden >
+                <label><b>ادخل بيانات مرض ابنك/بنتك:-</b></label>
                 <input type="text" name="children[${id}][diseaseDetails]" placeholder="تفاصيل المرض بدقة">
                 <div class="form-group">
-                    <label>إرفاق صورة عن التقرير الطبي <b>للمرض</b>:</label>
+                    <label>إرفاق صورة عن التقرير الطبي للمرض:</label>
                     <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
                     <input type="file" name="children[${id}][diseaseImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
-                    <input type="text" hidden id="driveUri" name="children[${id}][injuryImageDrive]">
+                    <input type="text" hidden id="driveUri" name="children[${id}][diseaseImageDrive]">
                 </div>
             </div>
         </div>
@@ -570,9 +574,14 @@ function addChild() {
                 <option value="yes">نعم</option>
             </select>
             <div id="childInjury-${id}" class="hidden-input" hidden >
+                <label><b>ادخل بيانات اصابة ابنك/بنتك في الحرب:-</b></label>
+                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
                 <label class="hint">تاريخ الإصابة:</label>
                 <input type="date" name="children[${id}][injuryDate]">
-                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
+                <label>إرفاق صورة عن التقرير الطبي للإصابة:</label>
+                <label>ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
+                <input type="file" name="children[${id}][injuryImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
+                <input type="text" hidden id="driveUri" name="children[${id}][injuryImageDrive]">
             </div>
         </div>
 
@@ -668,9 +677,14 @@ function getChildById(id){
                 <option value="yes">نعم</option>
             </select>
             <div id="childInjury-${id}" class="hidden-input" hidden >
+                <label><b>ادخل بيانات اصابة ابنك/بنتك في الحرب:-</b></label>
+                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
                 <label class="hint">تاريخ الإصابة:</label>
                 <input type="date" name="children[${id}][injuryDate]">
-                <input type="text" name="children[${id}][injuryDesc]" placeholder="طبيعة الإصابة/الإعاقة">
+                <label>إرفاق صورة عن التقرير الطبي للإصابة:</label>
+                <label class="hint">ويُشترط أن يكون التقرير صادرًا عن جهة طبية معتمدة.</lable>
+                <input type="file" name="children[${id}][injuryImage]" accept="image/*" data-drive-upload="1" data-folder-id="1J4wu6uddMEHZeF1j5dRBQxCkPSK4okYF" onchange="uploadphoto(this)"">
+                <input type="text" hidden id="driveUri" name="children[${id}][injuryImageDrive]">
             </div>
         </div>
 
@@ -1356,9 +1370,11 @@ async function uploadphoto(input) {
 
     } catch (err) {
         console.error(err);
-        alert("Upload failed.");
+        alert("فشل رفع الملف ارجاء التاكد من الاتصال بالانتر نت.");
 
+        input.value = "";
         // Prompts user consent the first time; may be silent later
+        
         tokenClient.requestAccessToken({ prompt: "consent" });
     } finally {
         // Allow selecting the same file again to re-trigger change
